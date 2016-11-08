@@ -41,7 +41,7 @@
         <% i = 0  %>
         <%total_amount=0%>
         <% @incomes.each_with_index do |income,i|%>
-        <%if income.finance_transaction_category.is_income? %>
+        <%if income.finance_transaction_category %>
           <tr>
             <td><%= i+1 %></td>
             <td><%= income.title%></td>

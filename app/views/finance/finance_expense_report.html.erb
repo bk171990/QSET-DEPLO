@@ -42,7 +42,7 @@
         </tr>
         <%total_amount=0%>
         <% @expenses.each_with_index do |expense,i|%>
-        <%unless expense.finance_transaction_category.is_income? %>
+        <%unless expense.finance_transaction_category %>
             <tr>
               <td><%= i+1 %></td>
               <td><%= expense.title%></td>
