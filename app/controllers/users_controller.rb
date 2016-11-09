@@ -2,8 +2,10 @@
 class UsersController < ApplicationController
   def index
     authorize! :read, User
+    if current_user.id == 1
     @users = User.all
   end
+end
 
   # create new object of User
   # this method is used when user Sign_up for system

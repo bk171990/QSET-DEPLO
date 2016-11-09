@@ -95,8 +95,10 @@ class Student < ActiveRecord::Base
   # and create archived student
   def archived_student
     student_attributes = attributes
+    update_attributes(status_description: status)
     student_attributes['student_id'] = id
-    ArchivedStudent.create(student_attributes)
+    archived_student = ArchivedStudent.create(student_attributes)
+    archived_student
   end
 
   # return full name  by concating first_name,last_name
