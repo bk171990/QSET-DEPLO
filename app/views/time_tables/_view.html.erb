@@ -1,4 +1,3 @@
-
 <%= form_for :batch, url:{action:'select',format:@time,t:@time1},method: :get,remote:true,html:{id: "batch_form"} do |f| %>
 		<b> Select a Batch:</b>
       <%=f.select :id,collect_time_batch,{prompt:'Select a Batch'},{onchange:"class_batch_fun();",class: "form-control",style:"width:250px"} %>  
