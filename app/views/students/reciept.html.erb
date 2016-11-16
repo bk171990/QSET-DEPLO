@@ -51,9 +51,9 @@
           <td>Student Category</td>
           <td>:</td>
           <% unless @student.category.nil? %>
-            <td><%= @student.category.name %></td>
+            <td><%= @student.category %></td>
           <%else%>
-            <td><%= @student.category.name %></td>
+            <td><%= @student.category %></td>
           <%end%>  
         </tr>
         <tr>
