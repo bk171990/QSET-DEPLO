@@ -16,3 +16,4 @@ class EmployeeSaleryStructure < ActiveRecord::Base
     end
   end
 end
+

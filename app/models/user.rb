@@ -32,7 +32,7 @@ class User < ActiveRecord::Base
   def create_general_setting
     role = 'Admin'
     role = 'SuperAdmin' if id == 1
-    gs = GeneralSetting.create(school_or_college_name: 'Axenic School')
+    gs = GeneralSetting.create(school_or_college_name: 'School ERP')
     update(general_setting_id: gs.id, role: role)
   end
 

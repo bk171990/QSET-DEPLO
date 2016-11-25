@@ -34,9 +34,9 @@
 									<%= link_to 'View',view_employee_payslip_finance_index_path(id:p.employee.id,date:@date),class: "btn btn-primary-link btn-xs"%>
 								</td>
 		          </tr>
-		          <%employees+=i%>
-							<%total_salary+=p.amount.to_f%>
-							<% approved_salary+=p.amount.to_f if p.is_approved?%>
+		          <%employees += i%>
+							<%total_salary += p.amount.to_f%>
+							<% approved_salary += p.amount.to_f if p.is_approved?%>
 		        <% end %>
 		        <tr class="tr-head">
 							<th>Total employees</th>

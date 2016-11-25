@@ -1,10 +1,67 @@
+<div id="content-header">
+  <%= image_tag("/images/HR/show_hr.png") %>
+  <h1><%= t('employee_text') %></h1>
+  <h3><%= t('employee_payslip') %></h3>
+  <div id="app-back-button">
+    <%= link_to_function image_tag("/images/buttons/back.png",:border => 0), "history.back()" %>
+  </div>
+</div>
+<div id="page-yield">
+  <ul class="item-list">
+    <li class="heading"><%= @monthly_payslips.first.active_or_archived_employee.full_name %></li>
+    <li class="heading"><%= t('payslip_generated_on') %> <%= params[:salary_date] %> <span class="themed_text">(<%= t('status') %>: <%=  @monthly_payslips.first.status_as_text %>)</span></li>
+  </ul>
+  <ul class="item-list">
+    <li class="heading1"><%= t('salary') %></li>
+    <% @monthly_payslips.each do |mp| %>
+      <% unless mp.payroll_category.blank? %>
+        <% unless mp.payroll_category.is_deduction == true %>
+          <li class="list<%=cycle('odd', 'even')%>">
+            <div class="item-name"><%= mp.payroll_category.name  %> </div>
+            <div class="item-edit"><span class="currency-type"><%= @currency_type %></span> <%="%.2f" %mp.amount.to_f  %></div>
+          </li>
+        <% end %>
+      <% end %>
+    <% end %>
+    <% unless @individual_payslips.empty? %>
+      <% @individual_payslips.each do |pc| %>
+        <%if  pc.is_deduction == false %>
+          <li class="list<%=cycle('odd', 'even')%>">
+            <div class="item-name"><%= pc.name %></div>
+            <div class="item-edit"><span class="currency-type"><%= @currency_type %></span> <%="%.2f" %pc.amount %></div>
+          </li>
+        <% end %>
+      <% end %>
+    <% end %>
+    <li class="list<%=cycle('odd', 'even')%>">
+      <div class="item-name"><b><%= t('total_salary') %></b></div>
+      <div class="item-edit"><b><span class="currency-type"><%= @currency_type %></span> <%="%.2f" %@salary[:net_non_deductionable_amount]  %></b></div>
+    </li>
+  </ul>
 
-<%= form_for :view_payslip, url:{action:'view_payslip_profile',format:@emp.id},remote:true,html:{id: "user_form"} do |f|%>
-<div class="row">
-	<div class="col-md-10 col-md-offset-2">
-		<b>Select Month:</b>
-
-		<%= f.select :id,  @salary_dates.all.collect {|b| [b.salary_date.strftime("%B %Y")]},{prompt:"Select a Month"},{onchange:"$('#user_form').submit();",class:"form-control",style: "width:250px"}%>
-		<%end%>
-	</div>
+  <ul class="item-list">
+    <li class="heading1"><%= t('deductions') %></li>
+    <% @monthly_payslips.each do |mp| %>
+    <% unless mp.payroll_category.blank? %>
+      <% unless mp.payroll_category.is_deduction == false %>
+        <li class="list<%=cycle('odd', 'even')%>">
+          <div class="item-name"><%= mp.payroll_category.name  %></div>
+          <div class="item-edit"><span class="currency-type"><%= @currency_type %></span> <%="%.2f" %mp.amount.to_f %></div>
+        </li>
+      <% end %>
+      <% end %>
+    <% end %>
+    <% unless @individual_payslips.empty? %>
+      <% @individual_payslips.each do |pc| %>
+        <%if  pc.is_deduction == true %>
+          <li class="list<%=cycle('odd', 'even')%>">
+            <div class="item-name"><%= pc.name %></div>
+            <div class="item-edit"><span class="currency-type"><%= @currency_type %></span> <%="%.2f" % pc.amount %></div>
+          </li>
+        <% end %>
+      <% end %>
+    <% end %>
+    <li class="list<%=cycle('odd', 'even')%>">
+      <div class="item-name"><b><%= t('total_deduction') %></b></div>
+      <div class="item-edit"><span class="currency-type"><b><%= @currency_type %></b></span> <b>
 </div>

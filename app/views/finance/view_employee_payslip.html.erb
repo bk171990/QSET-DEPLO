@@ -55,7 +55,7 @@
       <tr class="tr-head"><th colspan="2"><%= t('deductions') %></th></tr>
         <% @structures.each do |mp| %>
           <% unless mp.payroll_category.blank? %>
-            <% unless mp.payroll_category.is_deduction == false %>
+            <% unless mp.payroll_category.is_deduction == true %>
       <tr>
         <td class="col-3"><%= mp.payroll_category.name  %></td>
         <td><%="%.2f" %mp.amount.to_f %><%= " Rs"%></td>
