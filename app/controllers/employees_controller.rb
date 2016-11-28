@@ -724,7 +724,7 @@ class EmployeesController < ApplicationController
     @independent_categories = PayrollCategory.all
     @amount = params[:amount]
     @payroll_category = params[:id]
-    @salary = Employee.emp(@employee, @payroll_category, @amount, @salary_date)
+    @salary = Employee.emp(@employee, @payroll_category, @amount)
     @employee.update_payroll(@payroll_category, @amount, @salary_date)
     authorize! :update, @employee
   end
