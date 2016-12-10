@@ -435,7 +435,7 @@ class StudentsController < ApplicationController
       redirect_to email_students_path(@student)
     else
       @student = Student.shod(params[:student_id])
-      @student.mail(subject, recipient, message)
+      @student.student_email(subject, recipient, message)
       flash[:notice] = t('sent_email')
       redirect_to email_students_path(@student)
     end
