@@ -161,7 +161,7 @@ class ExamGroupsController < ApplicationController
   # This action is subpart of the publish_action.
   # It displays the flash message and update the record.
   def publish_res(flag)
-    if flag == true
+    if flag == false
       flash[:alert] = 'Exam results cannot be published'
     else
       @exam_group.update(result_published: true)
