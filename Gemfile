@@ -54,6 +54,9 @@ gem 'momentjs-rails', '>= 2.9.0'
 gem 'jquery-validation-rails', '~> 1.13.1'
 gem 'yard'
 
+gem 'figaro'
+gem 'puma'
+
 group :development, :test do
   gem 'pry-byebug'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
@@ -64,6 +67,12 @@ end
 group :production do
   gem 'rails_12factor'
   gem 'unicorn'
+  gem 'capistrano'
+  gem 'capistrano3-puma'
+  gem 'capistrano-rails', require: false
+  gem 'capistrano-bundler', require: false
+  gem 'capistrano-rvm'
+
   # gem 'pg'
 end
 
