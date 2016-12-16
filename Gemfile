@@ -42,7 +42,6 @@ gem 'jquery-datatables-rails', '~> 2.2.3'
 gem 'will_paginate'
 
 gem 'capistrano-rails'
-gem  'capistrano'
 
 gem 'capistrano-passenger'
 gem 'groupdate', '~> 2.1.1'
