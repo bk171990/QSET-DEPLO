@@ -4,9 +4,6 @@
 # is considered to be the first unless any hosts have the primary
 # property set.  Don't declare `role :all`, it's a meta role.
 
-role :app, %w(ec2-user@54.68.34.130)
-role :web, %w(ec2-user@54.68.34.130)
-role :db,  %w(ec2-user@54.68.34.130)
 
 # Extended Server Syntax
 # ======================
@@ -14,7 +11,14 @@ role :db,  %w(ec2-user@54.68.34.130)
 # server list. The second argument is a, or duck-types, Hash and is
 # used to set extended properties on the server.
 
-server '54.68.34.130', user: 'ec2-user', roles: %w(web app)
+ 
+# server "user", roles: %{web app db}, ssh_options: {
+#    user: "deploy",
+#    forward_agent: true,
+ #   auth_methods: %w(123456789)
+#}
+
+
 
 # Custom SSH Options
 # ==================
@@ -23,10 +27,10 @@ server '54.68.34.130', user: 'ec2-user', roles: %w(web app)
 #
 # Global options
 # --------------
-set :ssh_options, forward_agent: true
-set :ssh_options, auth_methods: %w(password)
-set :ssh_options, user: 'Rahul'
-set :ssh_options, password: 'axenic@123'
+# set :ssh_options, forward_agent: true
+# set :ssh_options, auth_methods: %w(password)
+# set :ssh_options, user: 'bhushan.j.kamble@gmail.com'
+# set :ssh_options, password: 'Bhushan@17'
 #
 # And/or per server (overrides global)
 # ------------------------------------
@@ -40,3 +44,6 @@ set :ssh_options, password: 'axenic@123'
 #     auth_methods: %w(publickey password)
 #     # password: 'please use keys'
 #   }
+
+
+server '54.244.191.130', user: 'bk', port: 22, roles: %w{web app db}

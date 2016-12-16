@@ -41,8 +41,6 @@ gem 'html5_validators'
 gem 'jquery-datatables-rails', '~> 2.2.3'
 gem 'will_paginate'
 
-gem 'capistrano-rails'
-gem  'capistrano'
 
 gem 'capistrano-passenger'
 gem 'groupdate', '~> 2.1.1'
@@ -54,16 +52,28 @@ gem 'momentjs-rails', '>= 2.9.0'
 gem 'jquery-validation-rails', '~> 1.13.1'
 gem 'yard'
 
+gem 'figaro'
+
+gem 'sass', '~> 3.4.23'
+
 group :development, :test do
   gem 'pry-byebug'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'brakeman'
+  gem 'capistrano3-puma'
+  gem 'capistrano-rails', require: false
+  gem 'capistrano-bundler', require: false
+  gem 'rvm-capistrano'
 end
 
 group :production do
   gem 'rails_12factor'
   gem 'unicorn'
+  gem 'puma'
+  gem 'net-ssh'
+
+
   # gem 'pg'
 end
 
