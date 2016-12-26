@@ -14,6 +14,8 @@ module Educulture
     config.assets.paths << Rails.root.join('vendor', 'assets', 'fonts')
     config.assets.paths << Rails.root.join('vendor', 'assets', 'images')
     config.active_record.raise_in_transactional_callbacks = true
-    config.secret_key_base = '6342d15d9735f56d2eef499af672f3dfe76b5eedcab930dd0fbebe46a78081525e30313c7dca07d5933033e4b03ed5fec34718f57f3fcf7e3863838095643cb1'	# this key might change for another m/c; can't hardcode in production
+    config.secret_key_base = 
+'8e78f06f4c3ef4be3f1fb8ac1a7908acf9dce19b6bf75321c7ed22c16e30494e876367185b8d25f36e95ea92e341048c4774c0cb9d6eb452f4c7c63c37de0707'
+	# this key might change for another m/c; can't hardcode in production
   end
 end
