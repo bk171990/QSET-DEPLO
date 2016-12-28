@@ -1,21 +1,28 @@
 # config valid only for current version of Capistrano
-lock '3.3.5'
+lock '3.7.1'
 
-set :application, 'SchoolERP'
-set :repo_url, 'https://git@bitbucket.org/DhanshreeK/school.git' # Edit this to match your 
+set :application, 'school'
+set :repo_url, 'ssh://git@bitbucket.org/DhanshreeK/school.git' # Edit this to match your 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
 
 # Default deploy_to directory is /var/www/my_app_name
-set :branch, 'master'
-set :scm_username, 'dhanshree.j.kamble@gmail.com'
-set :deploy_to, '/home/bk/school'
+set :branch, fetch( :branch, 'master' )
+# set :scm_username, 'dhanshree.j.kamble@gmail.com'
+# set :deploy_to, 'home/school'
+ set :use_sudo, true
+# set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system')
+# set :linked_files, %w{config/database.yml config/secrets.yml}
+# set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
+set :deploy_via, :remote_cache
+
+
 
 # Default value for :scm is :git
-set :scm, :git
+ set :scm, :git
 
 # Default value for :format is :pretty
-set :format, :pretty
+ set :format, :pretty
 
 # Default value for :log_level is :debug
 # set :log_level, :debug
@@ -33,7 +40,7 @@ set :format, :pretty
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
 
 # Default value for keep_releases is 5
-# set :keep_releases, 5
+ set :keep_releases, 5
 
 set :puma_rackup, -> { File.join(current_path, 'config.ru') }
 set :puma_state, "#{shared_path}/tmp/pids/puma.state"
