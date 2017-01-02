@@ -1,41 +1,37 @@
 # config valid only for current version of Capistrano
 lock '3.7.1'
 
-set :application, 'school'
+set :application, 'SchoolERP'
 set :repo_url, 'ssh://git@bitbucket.org/DhanshreeK/school.git' # Edit this to match your 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
 
 # Default deploy_to directory is /var/www/my_app_name
-set :branch, fetch( :branch, 'master' )
-# set :scm_username, 'dhanshree.j.kamble@gmail.com'
-# set :deploy_to, 'home/school'
- set :use_sudo, true
-# set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system')
-# set :linked_files, %w{config/database.yml config/secrets.yml}
-# set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
-set :deploy_via, :remote_cache
+set :branch, 'master'
+set :scm_username, 'dhanshree.j.kamble@gmail.com'
+set :deploy_to, '/var/www/school'
+# set :bundle_gemfile, 'vendor/bundle'
+set :bundle_flags, '--quiet'
 
-
-
-# Default value for :scm is :git
- set :scm, :git
+# default_envt value for :scm is :git
+set :scm, :git
 
 # Default value for :format is :pretty
- set :format, :pretty
+set :format, :pretty
 
 # Default value for :log_level is :debug
 # set :log_level, :debug
 
 # Default value for :pty is false
-# set :pty, true
+ set :pty, true
 
 # Default value for :linked_files is []
-# set :linked_files, fetch(:linked_files, []).push('config/database.yml')
+ set :linked_files, fetch(:linked_files, []).push('config/database.yml')
 
 # Default value for linked_dirs is []
-# set :linked_dirs, fetch(:linked_dirs, []).push('bin', 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system')
+  set :linked_dirs, fetch(:linked_dirs, []).push('bin', 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system')
 
+set :rvm_ruby_version, '2.3.3'
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
 
