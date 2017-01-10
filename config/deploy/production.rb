@@ -14,7 +14,7 @@
 # server list. The second argument is a, or duck-types, Hash and is
 # used to set extended properties on the server.
 
-server '35.166.198.253', user: 'ubuntu', roles: %w(web app)
+server '35.162.34.37', user: 'ubuntu', roles: %w(web app)
 
 # Custom SSH Options
 # ==================
@@ -23,7 +23,7 @@ server '35.166.198.253', user: 'ubuntu', roles: %w(web app)
 #
 # Global options
 # --------------
-# set :ssh_options, forward_agent: true
+ set :ssh_options, forward_agent: true
 # set :ssh_options, auth_methods: %w(password)
 # set :ssh_options, user: 'Rahul'
 # set :ssh_options, password: 'axenic@123'
