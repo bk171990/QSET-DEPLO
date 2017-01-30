@@ -11,6 +11,7 @@ gem 'uglifier'
 gem 'coffee-rails'
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 gem 'therubyracer',  platforms: :ruby
+gem "execjs"
 gem 'paperclip'
 gem 'imagemagick-binaries'
 gem 'aws-sdk'
