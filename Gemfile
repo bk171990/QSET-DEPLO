@@ -10,7 +10,7 @@ gem 'uglifier'
 # Use CoffeeScript for .js.coffee assets and views
 gem 'coffee-rails'
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-# gem 'therubyracer',  platforms: :ruby
+gem 'therubyracer',  platforms: :ruby
 gem 'paperclip'
 gem 'imagemagick-binaries'
 gem 'aws-sdk'
