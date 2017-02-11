@@ -40,41 +40,51 @@ Note:&nbsp;&nbsp;<font color="red">Fields marked with * must be filled</font>
              <div class="row">
               <div class="col-md-3">
                 <div class="form-group">
-                 <b>First Name:</b>
-                 <span style="color:red">*</span>
-                 <%=f.text_field :first_name,placeholder: "First Name", class: "form-control"%>
-               </div>
-             </div>
-             <div class="col-md-3">
-              <div class="form-group">
-                <b>Middle Name:</b>
-                <%=f.text_field :middle_name, :required=>false ,placeholder: "Middle Name", class: "form-control"%>
-              </div>
-            </div>
-            <div class="col-md-3">
-             <div class="form-group">
-               <b>Last Name:</b>
-               <span style="color:red">*</span>
-               <%=f.text_field :last_name,placeholder: "Last Name",class: "form-control"%>
-             </div>
-           </div>
-         </div>
-         <div class="row">
-          <div class="col-md-4">
-           <div class="form-group">
-             <b>Course and Batch:</b>
-             <span style="color:red">*</span>
-             <%=f.select :batch_id, @batches.collect {|b| [b.course.course_name+" "+b.course.section_name+" - "+b.name,b.id]}, {prompt:true}, {class: "form-control"}%>
-           </div>
-         </div>
-         <div class="col-md-4 col-sm-offset-1">
-           <div class="form-group">
-             <b>Date of Birth:</b>
-             <span style="color:red">*</span>
-             <%=f.date_field :date_of_birth , class: "datepicker form-control"%>
-           </div>
-         </div>
-       </div>
+            <b>First Name:</b>
+                      <span style="color:red">*</span>
+                      <%=f.text_field :first_name,placeholder: "First Name", class: "form-control"%>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <b>Middle Name:</b>
+                      <%=f.text_field :middle_name, :required=>false ,placeholder:"Middle Name", class: "form-control"%>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <b>Last Name:</b>
+                      <span style="color:red">*</span>
+                      <%=f.text_field :last_name,placeholder: "Last Name",class: "form-control"%>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <b>Course and Batch:</b>
+                      <span style="color:red">*</span>
+                      <%=f.select :batch_id,collect_course,{prompt:true}, {class: "form-control"}%>
+                      
+                    </div>
+                  </div>
+                  
+                   <div class="col-md-3 ">
+                    <div class="form-group">
+                      <b>Roll no:</b>
+                      <span style="color:red">*</span>
+                      <%=f.text_field :class_roll_no,placeholder: "class_roll_no", class: "form-control"%>
+                    </div>
+                  </div>
+                  
+         <div class="col-md-3">
+                    <div class="form-group">
+                      <b>Date of Birth:</b>
+                      <span style="color:red">*</span>
+                      <%=f.text_field :date_of_birth , class: "form-control datepicker"%>
+                    </div>
+                  </div>
+                </div>
        <div class="row">
         <div class="col-md-4">
          <div class="form-group">
@@ -116,9 +126,9 @@ Note:&nbsp;&nbsp;<font color="red">Fields marked with * must be filled</font>
    <div class="col-sm-4 col-sm-offset-1">
     <div class="form-group">
      <b>Category:</b>
-     <span style="color:red">*</span>
-     <%=f.select :category_id, Category.all.collect{|c| [c.name,c.id]},{prompt:true},{class: "form-control"}%>
-   </div>
+                      <span style="color:red">*</span>
+                      <%=f.select :category_id,["SC","OPEN","ST","NT","OBC"],{prompt:"Select a Category"},{class: "form-control"}%>
+                    </div>
  </div>
 </div>
 <div class="row">

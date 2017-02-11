@@ -4,8 +4,10 @@
   <li>Dashboard</li>
   </ul>
 </div>
+
 <div id="flash"><%= render 'layouts/messages'%></div>        
 <br/>
+
   <% if current_user.role == 'SuperAdmin' %>
       <%= render 'dash' %>
   <% elsif current_user.role == 'Admin' %>
@@ -15,3 +17,13 @@
   <% else %>
       <%= render 'dash3' %>
   <% end %>
+
+
+<div class="pagination">
+  <span class="previous_page disabled">&#8592; Previous</span>
+  <em class="current">1</em>
+  <a rel="next" href="/activity?page=2">2</a>
+  <a href="/activity?page=3">3</a>
+  <a href="/activity?page=4">4</a>
+  <a class="next_page" rel="next" href="/activity?page=2">Next &#8594;</a>
+</div>

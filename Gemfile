@@ -27,9 +27,11 @@ gem 'jquery-rails'
 gem 'jbuilder'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', group: :doc
-
+gem 'json', '~> 1.8.1'
 gem 'mysql2'
 gem 'roo'
+
+gem 'will_paginate', '~> 3.0'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 gem 'passenger'
@@ -40,7 +42,7 @@ gem 'chartkick'
 gem 'yaml_db'
 gem 'html5_validators'
 gem 'jquery-datatables-rails', '~> 2.2.3'
-gem 'will_paginate'
+
 
 gem 'capistrano-rails'
 gem  'capistrano'

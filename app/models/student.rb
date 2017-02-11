@@ -46,8 +46,8 @@ class Student < ActiveRecord::Base
                        length: { in: 1..30 }, allow_blank: true
   validates :religion, format: { with: /\A[a-z A-Z]+\z/, message: 'only allows letters' },
                        length: { in: 1..20 }, allow_blank: true
-  validates :address_line1, length: { in: 1..30 }, allow_blank: true
-  validates :address_line2, length: { in: 1..20 }, allow_blank: true
+  validates :address_line1, length: { in: 1..50 }, allow_blank: true
+  validates :address_line2, length: { in: 1..50 }, allow_blank: true
   validates :city, format: { with: /\A[a-z A-Z]+\z/, message: 'only allows letters' },
                    length: { in: 1..30 }, allow_blank: true
   validates :state, format: { with: /\A[a-z A-Z]+\z/, message: 'only allows letters' },

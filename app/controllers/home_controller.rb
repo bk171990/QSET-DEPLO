@@ -11,6 +11,7 @@ class HomeController < ApplicationController
   def dashboard
     @student = current_user.student
     @acts ||= UserActivity.order(created_at: :desc) if current_user.id == 1
+
   end
 
   # this method is used for record  user activity
