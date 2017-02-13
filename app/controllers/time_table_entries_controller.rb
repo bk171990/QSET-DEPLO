@@ -89,7 +89,7 @@ class TimeTableEntriesController < ApplicationController
     @class_timing = @batch.class_timings.is_break
     @subjects = @batch.subjects.all
     @time = @delete_time.time_table.id
-    redirect_to dashboard_home_index_path
+    redirect_to edit_timetable_time_tables_path
   end
 
   # get all bathces from databases,and perform authorization
