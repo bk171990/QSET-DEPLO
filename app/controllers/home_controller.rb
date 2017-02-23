@@ -11,6 +11,7 @@ class HomeController < ApplicationController
   def dashboard
     @student = current_user.student
     @acts ||= UserActivity.order(created_at: :desc) if current_user.id == 1
+    @acts = UserActivity.all.paginate(page: params[:page], per_page: 30) 
 
   end
 
