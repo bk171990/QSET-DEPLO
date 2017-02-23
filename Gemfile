@@ -39,7 +39,7 @@ gem 'chartkick'
 gem 'yaml_db'
 gem 'html5_validators'
 gem 'jquery-datatables-rails', '~> 2.2.3'
-gem 'will_paginate'
+gem 'will_paginate', '~> 3.1.0'
 
 
 gem 'capistrano-passenger'
