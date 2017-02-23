@@ -5,6 +5,12 @@ class StudentsController < ApplicationController
   # Fetch the all student records for display on page.
   def index
     @students ||= Student.list
+      @batches ||= Batch.all
+        respond_to do |format|
+        format.html
+        format.xls 
+        format.csv { send_data @students.to_csv }
+      end
     authorize! :create, Student
   end
 
@@ -154,8 +160,17 @@ class StudentsController < ApplicationController
 
   # View the all students for selected batch.
   def view_all
-    @batches ||= Batch.includes(:course).all
+    @students = Student.all
+    @batches ||= Batch.all
+     
     authorize! :read, @batches.first
+  end
+  
+
+  # This action will import data from csc and xls
+  def import
+    Student.import(params[:file])
+    redirect_to students_path, notice: "Students imported."
   end
 
   # This action execute when user select the batch from drop down list
@@ -208,6 +223,7 @@ class StudentsController < ApplicationController
   # Provide the various reports link for particular student.
   # like recent exam report, subject wise report, transcript report.
   def report
+    @students = Student.all
     @student = Student.shod(params[:format])
     @batch = @student.batch
     authorize! :read, @student
