@@ -98,7 +98,7 @@ class UsersController < ApplicationController
   def destroy
     @user = User.shod(params[:id])
     authorize! :delete, @user
-    @user.destroy
+    @user.delete
     flash[:user_delete] = t('user_delete')
     redirect_to users_path
   end

@@ -170,7 +170,6 @@ class StudentsController < ApplicationController
   # Profile consist a both the student and guardian details.
   def profile
     @student = Student.shod(params[:id])
-    @immediate_contact = Guardian.shod(@student.immediate_contact)
     authorize! :read, @student
   end
 
@@ -482,7 +481,7 @@ class StudentsController < ApplicationController
     @student = Student.shod(params[:id])
     authorize! :delete, @student
     @student.destroy
-    redirect_to home_dashboard_path
+    redirect_to students_path
   end
 
   # This action create the new object for transfer the student from
