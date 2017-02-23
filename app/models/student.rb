@@ -38,6 +38,8 @@ class Student < ActiveRecord::Base
   validates :batch_id, presence: true
   validates :nationality_id, presence: true
   validates :country_id, presence: true
+  validates :email, presence: true, uniqueness: true, format: \
+  { with: /\A[a-zA-Z0-9._-]+@([a-zA-Z0-9]+\.)+[a-zA-Z]{2,4}+\z/ }
   validates :middle_name, format: \
   { with: /\A[a-z A-Z]+\z/, message: 'only allows letters' }, length: \
   { in: 1..20 }, allow_blank: true
