@@ -1,4 +1,4 @@
-Rails.application.routes.draw do
+  Rails.application.routes.draw do
 
   root 'home#index'
   resources :placement_exams do
@@ -20,6 +20,10 @@ Rails.application.routes.draw do
 
     end
   end
+
+
+
+  
   resources :placement_news
 
   resources :options
@@ -128,6 +132,7 @@ Rails.application.routes.draw do
 
   resources :students do
     collection do
+      post :import
       get :admission1
       get :admission2
       get :admission2_1

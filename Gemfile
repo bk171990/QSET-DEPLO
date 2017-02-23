@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 # gem 'hirb', :require => nil
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails'
+gem 'batch_factory', :git => 'git://github.com/jumph4x/batch-factory.git'
 
 # Use SCSS for stylesheets
 gem 'sass-rails'
@@ -18,6 +19,7 @@ gem 'devise'
 gem 'cancan'
 gem 'pdfkit'
 gem 'wkhtmltopdf-binary'
+
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
