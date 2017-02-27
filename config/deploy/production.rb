@@ -14,7 +14,7 @@
 # server list. The second argument is a, or duck-types, Hash and is
 # used to set extended properties on the server.
 
-server '35.167.238.78', user: 'ubuntu', roles: %w{app db web}
+server '52.35.8.254', user: 'deploy', roles: %w{app db web}
 
 # Custom SSH Options
 # ==================
