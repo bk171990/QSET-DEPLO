@@ -27,7 +27,7 @@
 
             <font color="blue"><b><%= present.employee.full_name %></b></font>
             &nbsp;&nbsp;&nbsp;&nbsp;
-            <%=link_to image_tag("uploadify-cancel.png",width:"4%"),delete_time_time_table_entries_path(@present), method: :delete, data:{ confirm: "Are you sure to delete"}%>
+            <%=link_to image_tag("uploadify-cancel.png",width:"4%"),delete_time_time_table_entries_path(present), method: :delete, data:{ confirm: "Are you sure to delete"}%>
             
             <%else%>
             <%=button_tag "Assign Here",{onclick:"

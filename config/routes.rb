@@ -403,6 +403,7 @@
       post :assign_time
       delete :delete_time
       post :create_time
+      delete :delete_attendence2
     end
   end
 
