@@ -2,7 +2,6 @@ source 'https://rubygems.org'
 # gem 'hirb', :require => nil
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails'
-gem 'batch_factory', :git => 'git://github.com/jumph4x/batch-factory.git'
 
 # Use SCSS for stylesheets
 gem 'sass-rails'

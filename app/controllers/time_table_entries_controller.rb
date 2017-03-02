@@ -83,7 +83,7 @@ class TimeTableEntriesController < ApplicationController
   # database,and perform authorization
   def delete_time
     authorize! :delete, @delete_time
-    @delete_time = TimeTableEntry.shod(params[:format]).take
+    @delete_time = TimeTableEntry.shod(params[:format])
     @delete_time.destroy
     @batch = @delete_time.batch
     @class_timing = @batch.class_timings.is_break
