@@ -1,0 +1,30 @@
+
+  <div class="row">
+   <div class="box col-md-2"></div>
+    <div class="box col-md-6">
+    <div class="box-inner">
+      <div class="box-header well">
+        <h2>ADD REPORTS</h2>
+      </div>
+  <br>
+      <div class="box-content">
+      <fieldset>
+  <%= form_for :report,url:{controller: 'reports', action: 'create_report'} do |f| %>
+    <p>
+     <b>Name:</b>
+      <%= f.text_field :name, class: "form-control", style: "width: 300px", placeholder: ""  %>
+    </p>
+   
+    <p>
+     <b>Model:</b>
+        <%= f.select :model,["Student Admission","Guardian Admission"],{prompt:'Select a Model'},{onchange:"$('#user_form2').submit();",class: "form-control",style:"width:300px"} %>
+    </p>
+   
+    <p>
+    <%= f.submit "Save",class: "btn btn-success" %>
+    </p>
+  <% end %>
+  </div>
+  </div>
+  </div>
+  </div>

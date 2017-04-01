@@ -857,6 +857,16 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.datetime "updated_at"
   end
 
+  create_table "messages", force: :cascade do |t|
+    t.text     "body",       limit: 65535
+    t.integer  "student_id", limit: 4
+    t.string   "numbers",    limit: 255
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+  end
+
+  add_index "messages", ["student_id"], name: "index_messages_on_student_id", using: :btree
+
   create_table "monthly_payslips", force: :cascade do |t|
     t.date     "salary_date"
     t.integer  "employee_id",         limit: 4
@@ -1022,11 +1032,35 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
 
   add_index "ranking_levels", ["course_id"], name: "index_ranking_levels_on_course_id", using: :btree
 
+  create_table "reports", force: :cascade do |t|
+    t.string   "name",        limit: 255
+    t.string   "model",       limit: 255
+    t.integer  "student_id",  limit: 4
+    t.integer  "guardian_id", limit: 4
+    t.integer  "user_id",     limit: 4
+    t.integer  "employee_id", limit: 4
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
+  add_index "reports", ["employee_id"], name: "index_reports_on_employee_id", using: :btree
+  add_index "reports", ["guardian_id"], name: "index_reports_on_guardian_id", using: :btree
+  add_index "reports", ["student_id"], name: "index_reports_on_student_id", using: :btree
+  add_index "reports", ["user_id"], name: "index_reports_on_user_id", using: :btree
+
   create_table "results", force: :cascade do |t|
     t.string   "name",       limit: 255
     t.float    "percentage", limit: 24
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "sms_logs", force: :cascade do |t|
+    t.string   "mobile",           limit: 255
+    t.string   "gateway_response", limit: 255
+    t.string   "sms_message_id",   limit: 255
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
   end
 
   create_table "student_answer_sheets", force: :cascade do |t|
@@ -1292,6 +1326,8 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.string   "authentication_token",   limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "message",                limit: 255
+    t.string   "numbers",                limit: 255
   end
 
   add_index "users", ["authentication_token"], name: "index_users_on_authentication_token", unique: true, using: :btree
@@ -1326,9 +1362,14 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
   add_foreign_key "attendences", "students"
   add_foreign_key "attendences", "subjects"
   add_foreign_key "attendences", "time_table_entries"
+  add_foreign_key "messages", "students"
   add_foreign_key "privilege_users", "privilege_tags"
   add_foreign_key "privilege_users", "privileges"
   add_foreign_key "privilege_users", "users"
+  add_foreign_key "reports", "employees"
+  add_foreign_key "reports", "guardians"
+  add_foreign_key "reports", "students"
+  add_foreign_key "reports", "users"
   add_foreign_key "student_logs", "batches"
   add_foreign_key "student_logs", "exam_groups"
   add_foreign_key "student_logs", "students"

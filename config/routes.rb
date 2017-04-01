@@ -20,10 +20,19 @@
 
     end
   end
-
-
-
   
+  resources :reports do
+    collection do 
+      get 'report_index'
+      get 'new_report'
+      post 'create_report'
+    end
+    member do 
+      get :import_form
+      post :import 
+    end
+  end
+
   resources :placement_news
 
   resources :options

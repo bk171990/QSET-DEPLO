@@ -167,11 +167,6 @@ class StudentsController < ApplicationController
   end
   
 
-  # This action will import data from csc and xls
-  def import
-    Student.import(params[:file])
-    redirect_to students_path, notice: "Students imported."
-  end
 
   # This action execute when user select the batch from drop down list
   # and provide the selected batch student.
