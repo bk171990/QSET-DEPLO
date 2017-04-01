@@ -1,0 +1,49 @@
+<div>
+  <ul class="breadcrumb">
+    <li><%= link_to 'Home',dashboard_home_index_path %></li>
+    <li>Import</li>
+  </ul>
+</div><div id="flash"><%= render 'layouts/messages'%></div>
+
+
+<div class = "container">
+<div class = "col-md-8"></div>
+<div class = "col-md-2">
+
+<%= link_to "Add New",new_report_reports_path, class: 'btn btn-primary-link btn-xs'%>
+</div>
+</div>
+  <div class="box col-md-12">
+    <div class="box-inner">
+      <div class="box-header well"></div>
+      <div class="box-content">
+    
+       <div class="table-responsive">
+  <table class="table table-bordered">
+             <th>Sl no.</th>
+              <th>Name</th>
+              <th>Model</th>
+              <th>Option for Select</th>
+              <th></th>
+           
+            <tbody>
+              <% @reports.each_with_index do |report,i| %>
+                <tr>
+                  <td><%= i+1 %></td>
+                  <td><%=  report.name %></td>
+                  <td><%= report.model %></td>
+                  <td><%= link_to 'IMPORT' , import_form_report_path(report)%></td>
+                    <td><%= link_to 'DESTROY', report_path(report),
+              method: :delete,
+              data: { confirm: 'Are you sure?' } %></td>
+                </tr>
+            </tbody>
+          <%end%>
+        </table>
+      </div>
+    </div>
+
+</div>
+
+
+    
