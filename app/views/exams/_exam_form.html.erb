@@ -75,8 +75,8 @@
                 <%else%>
                   <td></td><td></td>
                 <%end%>
-                <td ><%= exam.text_field :start_time ,class: "form-control datetimepicker1" %></td>
-                <td ><%= exam.text_field :end_time,class: "form-control datetimepicker1" %></td>
+                <td ><%= exam.date_field :start_time ,class: "form-control datetimepicker1" %></td>
+                <td ><%= exam.date_field :end_time,class: "form-control datetimepicker1" %></td>
                 <td><%= check_box_tag "no_create[]",subject.id,false, class: "exam_no_check" %></td>
               </tr>
             </tbody>
@@ -87,9 +87,9 @@
   </div>
   <div class="row">
     <div class="col-md-offset-5">
-    <%= f.submit 'create', class: "btn btn-primary" %>
+    <%= f.submit 'create', class: "btn btn-primary", data: {disable_with: "Creating..."} %>
   </div></div>
 </fieldset>
 <%end%>
 
-
+ 
