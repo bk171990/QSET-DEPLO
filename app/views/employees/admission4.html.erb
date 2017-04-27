@@ -19,6 +19,7 @@
     </div>
    <div class="box-content">
  <table id="datatable" class="table table-striped responsive">
+ <%= link_to "View Profile",profile_employees_path(@employee.id), class: "btn btn-primary-link btn-xs"%>
 
 <%= form_for :advance_search, url:{action:'search',format:@employee.id}, method: :get,remote:true,html:{id: "user_form"} do |f|%>
     <tbody>   
