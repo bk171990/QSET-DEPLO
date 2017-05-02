@@ -36,7 +36,7 @@
       <% @students.each_with_index do |student,i| %>
         <tr>
           <td><%= i+1 %></td>
-          <td><%= student.first_name+' '+student.last_name  %></td>
+          <td><%=  student.first_name.to_s + " " + student.last_name.to_s %></td>
           <td><%= student.admission_no %></td>
           <% if student.status_description %>
           <td><%= link_to 'View Profile', archived_profile_student_path(student) %></td>
