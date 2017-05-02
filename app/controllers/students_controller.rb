@@ -161,13 +161,10 @@ class StudentsController < ApplicationController
   # View the all students for selected batch.
   def view_all
     @students = Student.all
-    @batches ||= Batch.all
-     
+    @batches ||= Batch.all   
     authorize! :read, @batches.first
   end
   
-
-
   # This action execute when user select the batch from drop down list
   # and provide the selected batch student.
   def select

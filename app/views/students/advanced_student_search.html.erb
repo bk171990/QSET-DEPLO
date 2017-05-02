@@ -55,7 +55,11 @@
                 <%=  student.first_name + " " + student.last_name %>
               </td>
               <td class="col-3">
-                <%= link_to 'View Profile' ,profile_student_path(student)%>
+               <% if student.status_description %>
+                 <td><%= link_to 'View Profile', archived_profile_student_path(student) %></td>
+               <% else %>
+                 <td><%= link_to 'View Profile',profile_student_path(student) %></td>
+               <% end %>
               </td>
             </tr>
           </tbody>
