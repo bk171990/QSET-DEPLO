@@ -34,6 +34,12 @@ class Student < ActiveRecord::Base
   { with: /\A[a-z A-Z]+\z/, message: 'only allows letters' }
   validates_length_of :last_name, minimum: 1, maximum: 20
 
+  validates :phone1, numericality: { only_integer: true }, length: \
+  { minimum: 6, maximum: 11 }, allow_blank: true
+  
+  validates :phone2, numericality: { only_integer: true }, length: \
+  { minimum: 6, maximum: 11 }, allow_blank: true
+
   validates :date_of_birth, presence: true
   validates :batch_id, presence: true
   validates :nationality_id, presence: true
