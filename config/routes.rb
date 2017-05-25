@@ -17,7 +17,6 @@
       get :display_result
       post :qualify_student
       get :qualified_student
-
     end
   end
   
@@ -32,6 +31,17 @@
       post :import 
     end
   end
+
+  resources :assignments do
+    collection do
+      get :select_subject,:select_batch,:select,:student_index,:new_assignment
+    end
+    member do
+      get :student_show
+  end
+end
+
+ resources :assignment_attachments
 
   resources :placement_news
 

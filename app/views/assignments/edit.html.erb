@@ -1,0 +1,81 @@
+<div>
+  <ul class="breadcrumb">
+    <li><%= link_to 'Home',dashboard_home_index_path %></li>
+     <li>Assignment for Students</li>
+  </ul>
+</div>
+Note:&nbsp;&nbsp;<font color="red">Fields marked with * must be filled</font>
+<div id="flash"><%= render 'layouts/messages'%></div>
+<div class="row">
+  <div class="box col-md-12">
+    <div class="box-inner">
+      <div class="box-header well">
+        <h2>Assignment</h2>
+      </div>
+<br>
+<br>
+<%= form_for :assignment,url:{controller: 'assignments', action: 'update',format: @student},method: :patch do |f| %>
+
+<div class="row">
+  <div class="col-sm-2"></div>
+    <div class="col-sm-10">
+      <div class="row">
+        <div class="col-sm-4 ">
+          <div class="form-group">
+
+           <b>Select a Batch:</b>
+          <%= f.select :batch_id, Batch.all.collect {|b| [b.course.course_name+" "+b.course.section_name+" - "+b.name,b.id]},{prompt:true},{onchange:"$('#course_form').submit();",class:"form-control",style: "width: 300px"}%>
+          </div>
+        </div>
+
+        <div class="col-sm-4 col-sm-offset-1">
+          <div class="form-group">
+               <b>Subject:</b>
+               <%= f.text_field :assignment_subject, class: "form-control", style: "width: 300px", placeholder: ""  %>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+  <div class="col-md-4">
+    <div class="form-group">
+       <b>Assignment Name:</b>
+      <%= f.text_field :title, class: "form-control", style: "width: 300px", placeholder: ""  %>
+  </div>
+</div>
+ <div class="col-md-4 col-sm-offset-1">
+   <div class="form-group">
+     <b>Due Date:</b>
+      <%= f.date_field :due_date,value: Date.today + 7 , class: "form-control", style: "width: 300px", placeholder: ""  %>
+   </div>
+  </div>
+</div>
+
+  
+  <div class="row">
+    <div class="col-md-4">
+      <div class="form-group">
+      <b>Content: <span style="color:red">*</span></b>
+        <%=f.text_area :content,style: 'width:350px;height:200px', placeholder: "News Content", class: "form-control"%>
+    </div>
+  </div>
+     
+
+  
+ <div class="row">
+  <div class="col-md-8">
+    <div class="form-group">
+       <center>
+          <%= f.submit "Update New Assignment",class: "btn btn-success" %>
+      </center>
+   </div>
+  </div>
+  
+  </fieldset>
+<% end %>
+</div>
+</div>
+</div>
+</div>
+

@@ -25,6 +25,7 @@
                 </p>
               <%end%>
             </div>
+
             <div class="col-md-4">
               <h4>Subject wise results</h4>
               <% @batch.subjects.includes(:elective_group).all.each do |s|%>
@@ -49,6 +50,16 @@
             <h4>Detailed Reports</h4>
             <p><%=link_to 'Current year report',attendance_report_students_path(@student.id)%></p>
           </div>
+
+
+            <div class="col-md-4">
+              <h4>Assignment</h4>
+              <% @batches.assignments.all.each do |eg|%>
+                <p>
+                  <%=link_to eg.title,student_show_assignment_path(id:eg.id,student_id:@student.id) %>
+                </p>
+              <%end%>
+            </div>
         </fieldset>
       </div>
     </div>

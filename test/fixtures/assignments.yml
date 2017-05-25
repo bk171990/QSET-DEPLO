@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  content: MyString
+  file: MyString
+  file_file_name: MyString
+  due_date: 2017-05-12
+  subject_id: 
+  batch_id: 
+  student_id: 
+
+two:
+  title: MyString
+  content: MyString
+  file: MyString
+  file_file_name: MyString
+  due_date: 2017-05-12
+  subject_id: 
+  batch_id: 
+  student_id: 

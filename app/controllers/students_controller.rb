@@ -217,6 +217,9 @@ class StudentsController < ApplicationController
     @students = Student.all
     @student = Student.shod(params[:format])
     @batch = @student.batch
+    @assignment = Assignment.shod(params[:format])
+    @batches = @assignment.batch
+    @assignments = Assignment.all
     authorize! :read, @student
   end
 

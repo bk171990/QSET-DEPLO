@@ -2,7 +2,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_action :authenticate_user!
-  before_filter :set_current_user
+  before_action :set_current_user
   rescue_from CanCan::AccessDenied do |_exception|
     redirect_to root_url, alert: t('authorize')
   end

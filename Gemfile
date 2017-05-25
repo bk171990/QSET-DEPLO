@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 # gem 'hirb', :require => nil
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails'
+gem 'rails', '>=5.0.0.rc2', '< 5.1'
 
 # Use SCSS for stylesheets
 gem 'sass-rails'
@@ -18,6 +18,7 @@ gem 'devise'
 gem 'cancan'
 gem 'pdfkit'
 gem 'wkhtmltopdf-binary'
+gem 'carrierwave'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
