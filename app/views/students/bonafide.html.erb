@@ -1,0 +1,54 @@
+   <div style="width:800px; height:600px; padding:20px; text-align:center; border: 10px solid #1F618D">
+<div style="width:750px; height:550px; padding:20px; text-align:center; border: 5px solid #1F618D">
+    <div id="heading">
+      <div id="head">
+        <%= @general_setting.school_or_college_name%>
+      </div>  
+        <div id="head_info">
+          <%= @general_setting.school_or_college_address%><br/><br/>
+          <%= @general_setting.school_or_college_phone_no%>
+        </div>
+    </div>  
+
+      <hr>
+    <div class = "center">
+    <center><h2>Bonafide/Domacile Certificate</h2></center>
+     <table cellpadding="5" cellspacing="5" width="700">
+      This certificate is to certify Mr./Miss <b><u><%= @student.stud_full_name %></u></b> is/was a bonafide student of this <br>
+      school studying in <b><u>Course : <%= @student.batch.course.course_name %></u> </b>
+      <b> Batch : <%= @student.batch.name %> </b> He/She was admitted in school
+      <br> in on  <b><u><%= @student.admission_date%></u></b> His/Her General Register No is  <b><u><%= @student.admission_no %></u></b> His/Her Date of Birth as per the 
+      <br> school  record is <b><u><%= @student.date_of_birth %></u> </b>
+      The above Institute is in the state of <b><u>Maharashtra</u></b>
+<br/><h3></h3><br/>
+</table>
+    <table cellpadding="5" cellspacing="5" width="700">
+
+    
+         The certificate is issued for claiming the student is studying in my Institute. I/we certify that
+above information are true to the best of my/our knowledge.</th></tr>  <tr>
+             
+       </</th></tr> 
+       </table>
+       </div>
+      <br/>
+
+<br>
+      <div class = "pull-left">
+<table cellpadding="8" cellspacing="8" width="700">
+     ------------------------------------------ <br>
+      Signature of the Principle/Head of the Institute
+ (With stamp/seal)
+      </div>
+</th></tr> 
+</div>
+    </table>
+
+<br>
+     <table cellpadding="5" cellspacing="5" width="700">
+<b>It is mandatory to carry the original Bonafide Student Certificate at the time of
+online examination.
+Note: Entry shall not be permissible without original Bonafide Student Certificate.</b></table>
+</body>
+</html>
+</div></div>

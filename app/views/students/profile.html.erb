@@ -15,6 +15,22 @@
       <%= link_to "Delete", remove_students_path(@student), class: "btn btn-primary-link btn-xs" %>
       <%= link_to 'PDF Report',student_profile_student_path(@student,format:"pdf"),class: "btn btn-primary-link btn-xs" %>
       <%= link_to 'Admission Reciept',reciept_students_path(@student),class: "btn btn-primary-link btn-xs" %>
+        &nbsp;
+       <div class="dropdown pull-right">
+   <%= link_to 'Certificate','#',class: "btn dropdown-toggle btn-primary-link btn-xs", id: "dropdownMenu1", :"data-toggle"=>"dropdown"%>
+   <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+    <li role="presentation">
+
+<%= link_to 'Print Bonafide',bonafide_students_path(@student,format:"pdf")%>
+   </li>
+   <li role="presentation">
+     
+     <%=link_to "Participation Certificate",certificate_students_path(@student,format:"pdf")%>
+   </li>
+  
+</ul>
+</div>
+
     </div>
   </div>
 </div>

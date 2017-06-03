@@ -181,6 +181,22 @@ class StudentsController < ApplicationController
   end
 
   # Provide the data for generate the pdf for student profile.
+  def bonafide
+    @student = Student.where(params[:id]).take
+    @batch||= Batch.includes(:course).all
+    @general_setting = GeneralSetting.first
+    render 'bonafide', layout: false
+  end
+
+  def certificate
+    @student = Student.where(params[:id]).take
+    @batch||= Batch.includes(:course).all
+    @general_setting = GeneralSetting.first
+    render 'certificate', layout: false
+  end
+
+
+  # Provide the data for generate the pdf for student profile.
   def student_profile
     @student = Student.shod(params[:id])
     @immediate_contact = Guardian.shod(@student.immediate_contact)

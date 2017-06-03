@@ -151,6 +151,8 @@ end
 
   resources :students do
     collection do
+      get :bonafide
+      get :certificate
       post :import
       get :admission1
       get :admission2
