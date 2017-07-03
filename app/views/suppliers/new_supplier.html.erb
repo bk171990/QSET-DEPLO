@@ -1,0 +1,68 @@
+<div>
+  <ul class="breadcrumb">
+    <li><%= link_to 'Home',dashboard_home_index_path %></li>
+    <li><%= link_to 'Inventory Management',main_page_inventory_store_items_path %></li>
+    <li>Add Supplier Deatils</li>
+  </ul>
+</div>
+Note:&nbsp;&nbsp;<font color="red">Fields marked with * must be filled</font>
+<div id="flash"><%= render 'layouts/messages'%></div>
+<div class="row">
+  <div class="box col-md-12">
+    <div class="box-inner">
+      <div class="box-header well">
+        <h2>Add supplier Details</h2>
+      </div>
+  <div class="box-content">
+   <%= form_for @supplier, url:{controller: 'suppliers',action:'create_new_supplier'} do |c|%>
+   <fieldset>
+  
+          <div class="form-group">
+            <div class="col-md-3"><b>Organization Name:</b><span style="color:red">*</span></div>
+              <%=c.text_field :organization_name, placeholder: "Name", class: "form-control",style:"width:250px"%>
+          </div>
+
+          <div class="form-group">
+            <div class="col-md-3"><b>Conatct No:</b><span style="color:red">*</span></div>
+              <%=c.text_field :mobile_no, placeholder: "Name", class: "form-control",style:"width:250px"%>
+          </div>
+          
+          <div class="form-group">
+            <div class="col-md-3"><b>Email Address:</b></div>
+              <%=c.text_field :email, placeholder: "Email Address", class: "form-control",style:"width:250px"%>
+          </div>
+
+          <div class="form-group">
+            <div class="col-md-3"><b>First Name:</b><span style="color:red">*</span></div>
+              <%=c.text_field :first_name, placeholder: "First Name", class: "form-control",style:"width:250px"%>
+          </div>
+   
+          <div class="form-group">
+            <div class="col-md-3"><b>Last Name:</b><span style="color:red">*</span></div>
+              <%=c.text_field :last_name, placeholder: "Last Name", class: "form-control",style:"width:250px"%>
+          </div>
+
+          <div class="form-group">
+            <div class="col-md-3"><b>Address Street1:</b><span style="color:red">*</span></div>
+              <%=c.text_field :address_street1, placeholder: "Address", class: "form-control",style:"width:250px"%>
+          </div>
+            
+          <div class="form-group">
+            <div class="col-md-3"><b>Address Street2:</b></div>
+              <%=c.text_field :address_street2, placeholder: "Address", class: "form-control",style:"width:250px"%>
+          </div>
+
+          <div class="form-group">
+            <div class="col-md-3"><b>Postal Zip code:</b></div>
+              <%=c.text_field :postal_zip_code, placeholder: "Zip code", class: "form-control",style:"width:250px"%>
+          </div>        
+
+           <div class="col-sm-4 col-sm-offset-4"> 
+             <div class="form-actions">               
+               <%= c.submit 'Save', class: "btn btn-primary"%>
+             </div>
+           </div>
+       
+      </fieldset>
+<%end%>  
+ 

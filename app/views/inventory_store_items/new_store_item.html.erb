@@ -1,0 +1,87 @@
+<div>
+  <ul class="breadcrumb">
+    <li><%= link_to 'Home',dashboard_home_index_path %></li>
+    <li><%= link_to 'Inventory Management',main_page_inventory_store_items_path %></li>
+    <li>Add Details</li>
+  </ul>
+</div>
+Note:&nbsp;&nbsp;<font color="red">Fields marked with * must be filled</font>
+<div id="flash"><%= render 'layouts/messages'%></div>
+<div class="row">
+  <div class="box col-md-12">
+    <div class="box-inner">
+      <div class="box-header well">
+        <h2>Fill Up Item Details</h2>
+      </div>
+ <div class="box-content" style="overflow-y: scroll; height:auto">
+  <%= form_for @storeitem, url:{controller: 'inventory_store_items',action:'create_new_store_item'} do |c|%>
+  
+  <fieldset>
+
+  <div class="form-group">
+     <div class="col-md-3"><b>Batch and Course:</b><span style="color:red">*</span></div>
+        <%=c.select :batch_id,Batch.all.collect{|b| [b.full_name, b.id] },{prompt:true},class: "form-control",style:"width:250px"%>
+  </div>
+
+  <div class="form-group">
+     <div class="col-md-3"><b>Supplier:</b><span style="color:red">*</span></div>
+        <%=c.select :supplier_id,Supplier.all.collect{|b| [b.supplier_name, b.id] },{prompt:true},class: "form-control",style:"width:250px"%>
+  </div>
+
+  <div class="form-group">
+    <div class="col-md-3"><b>Item Purchase Date:</b></div>
+      <%=c.text_field :date,:value => Time.now.strftime('%Y-%m-%d'),class: " form-control",style:"width:250px",readonly:true%>
+  </div>
+
+
+
+  <div class="form-group">
+    <div class="col-md-3"><b>Item Name:</b><span style="color:red">*</span></div>
+      <%= c.text_field :item_name, class: "form-control", style:"width:250px",id: "item_name" %>
+  </div>
+
+  <div class="form-group">
+    <div class="col-md-3"><b>Description:</b></div>
+      <%= c.text_area :category, class: "form-control", style:"width:250px", id: "category" %>
+  </div>
+
+  <div class="form-group">
+    <div class="col-md-3"><b>Quantity:</b><span style="color:red">*</span></div>
+      <%= c.text_field :quantity, class: "form-control", style:"width:250px", id: "quantity" %>
+  </div>
+
+  <div class="form-group">
+    <div class="col-md-3"><b>Price:</b></div>
+      <%= c.text_field :unit_price, class: "form-control", style:"width:250px",id: "unit_price" %>
+  </div>
+
+  <div class="form-group">
+    <div class="col-md-3"><b>Total:</b></div>
+      <%= c.text_field :total,  class: "form-control", style:"width:250px", id: "total",readonly:true %>
+  </div>
+
+  <br>
+
+  <div class="col-sm-4 col-sm-offset-4"> 
+    <div class="form-actions"> 
+      <%= c.submit 'Save', class: "btn btn-primary"%>
+  </div>
+
+  
+</div>
+</div> 
+</fieldset>
+<%end%>  
+
+ 
+
+<script type='text/javascript'>
+ $(document).on("keyup", "#quantity, #unit_price", function() {
+  var price = $("#unit_price").val();
+  var quantity = $("#quantity").val();
+  $("#total").val($('#unit_price').val() * $('#quantity').val());
+});
+</script>
+
+
+    

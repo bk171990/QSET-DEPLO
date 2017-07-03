@@ -1,0 +1,62 @@
+<div>
+  <ul class="breadcrumb">
+    <li><%= link_to 'Home',dashboard_home_index_path %></li>
+    <li><%= link_to 'Inventory Management',main_page_inventory_store_items_path %></li>
+    <li>View Supplier Details</li>
+  </ul>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="pull-right">
+       <%= button_to 'New',{ :controller => "suppliers",:action => "new_supplier" }, :method => :get, class: "btn btn-primary-link btn-xs" %>
+    </div>
+  </div>
+</div>
+
+<br>
+
+<div class="box-inner">
+ <div class="box-header well" data-original-title="">
+ <h2>List Of Suppliers</h2>
+ </div>
+
+<div class="box-content" style="overflow-x: auto;">
+  <table id="datatable" class="table table-striped table-bordered responsive">
+   <thead>
+    <tr>
+      <th>Sr.No.</th>
+      <th>Organization Name</th>
+      <th>Contact No</th>
+      <th>Email</th>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Address Street1</th>
+      <th>Address Street2</th>
+      <th>Postal Zipcode</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+ <tbody>
+   <% @suppliers.each_with_index do |s,i| %>
+      <tr class="tr-<%= cycle('odd', 'even') %>">
+       <td align="center"><%= i+1 %>
+        <td><%= s.organization_name%></td>  
+        <td><%= s.mobile_no%></td>  
+        <td><%= s.email %></td>
+        <td><%= s.first_name %></td>
+        <td><%= s.last_name%></td>
+        <td><%= s.address_street1%></td>
+        <td><%= s.address_street2%></td>
+        <td><%= s.postal_zip_code%></td>
+
+        <td><div class="label-success label label-default">
+         <i class="glyphicon glyphicon-pencil icon-white"></i> <%= link_to 'Edit',edit_supplier_supplier_path(s),class: "a-action"%></td>
+
+         <td><div class="label-danger label label-default">
+           <i class="glyphicon glyphicon-trash icon-white"></i> <%= link_to 'Delete',destroy_supplier_supplier_path(s),method: :delete, data: { confirm: "Are you sure to delete ?" },class: "a-action"%></td>
+      </tr>
+   <% end %>
+  </tbody>
+</table>

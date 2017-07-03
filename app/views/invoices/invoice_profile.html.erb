@@ -1,0 +1,76 @@
+<div>
+  <ul class="breadcrumb">
+    <li><%= link_to 'Home',dashboard_home_index_path %></li>
+    <li><%= link_to 'Student Details',students_path %></li>
+    <li><%= link_to 'Profile'%></li>
+    <li>Items Details</li>
+  </ul>
+</div><div id="flash"><%= render 'layouts/messages'%></div>
+
+<hr>
+<div class="row">
+  <div class="box-inner">
+    <div class="box-content">
+      <fieldset>
+        <div class="col-md-6">
+          <h3><%=@invoices.invoice_no %></h3>
+          <h4><b>Invoice Date:</b> <%=@invoices.invoice_date %></h4>
+          <h4><b>Course and Batch Name:</b> <%=@invoices.batch.course.course_name.capitalize+" "+@invoices.batch.course.section_name.capitalize+" "+@invoices.batch.name.capitalize%></h4>
+        </div>
+
+        <div class="col-md-6">
+         <ul>
+          <h3>Invoices/Item</h3>
+          <% @invoice_items.each do |a| %>
+          <li>&nbsp;<a href="#item-details-id-<%= a.id %>"><%= a.item_name %></a>(<%= a.category %>)</li>
+          <%end%>
+        </ul>
+        <% @invoice_items.each do |p| %> 
+        <a name="item-details-id-<%= p.id %>"> </a></div>
+      </fieldset>
+    </div>
+  </div>
+</div>   
+<div id="new_profile_info_top">
+  <div class="row">
+    <div class="box col-md-8">
+      <div class="box-inner">
+        <div class="box-content">  
+          <fieldset>
+           <div class="col-md-6">
+            <table id="datatable" class="table"> 
+              <tr>
+               <th> Item Name:</th>
+               <td ><b><%=p.item_name %></b> (<%= p.category %>)</td>     
+             </tr>
+             <tr>
+               <th>Quantity:</th>
+               <td ><%=p.quantity %></td>        
+             </tr>
+           </table>
+         </div>
+         <div class="col-md-6">
+           <table id="datatable" class="table table-bordered responsive">
+             <tr>
+               <th>Price:</th>
+               <td ><%=p.unit_price %></td> 
+             </tr>
+           <tr>
+            <th></th>
+            <td></td>
+          </tr>    
+          <tr >
+            <td><%= link_to 'Return', return_order_invoices_path(p),class: "btn btn-primary-link btn-xs" %>
+           </td>        
+         </tr>
+       </table>
+     </div>
+   </fieldset>
+ </div>
+ <br/><br/>
+ <% end %>
+</div>
+</div>
+</div>
+</div>
+

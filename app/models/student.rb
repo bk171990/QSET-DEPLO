@@ -1,6 +1,6 @@
 class Student < ActiveRecord::Base
   include Activity
-   belongs_to :country
+  belongs_to :country
   belongs_to :batch
   belongs_to :category
   belongs_to :nationality, class_name: 'Country'

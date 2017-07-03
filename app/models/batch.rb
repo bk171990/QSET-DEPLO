@@ -7,8 +7,12 @@ class Batch < ActiveRecord::Base
   validate :end_date_cannot_be_less_than_start_date
   belongs_to :course
   has_many :students
+  has_many :inventory_store_items
+  has_many :suppliers
   has_many :class_timings
   has_many :archived_students
+  has_many :claims
+  has_many :archived_items
   has_many :grading_levels
   has_many :elective_groups
   has_many :subjects
@@ -20,6 +24,7 @@ class Batch < ActiveRecord::Base
   has_and_belongs_to_many :online_exams
   has_many :finance_fee_collections
   has_many :student_informations
+  has_many :invoices
   scope :shod, ->(id) { where(id: id).take }
 
   # Collect the subjects which are selected for exams.
@@ -96,9 +101,16 @@ class Batch < ActiveRecord::Base
 
   # This action find the exam groupes record who's result published
   # status is true.
+
   def result_published
     exam_groups.where(result_published: true)
   end
+
+  def claim_published
+    claims.where(claim_published: true)
+  end
+
+
 
   # this method is used to graduate student
   # student are moved from Student to ArchivedStudent

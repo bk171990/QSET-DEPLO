@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style type="text/css">
+#heading {
+        width:100%;
+        margin: 0 auto;
+      }
+#head {
+        height: 100px;
+        width: 700px;
+        text-align: center;
+        font-size: 30px;
+        border-color: black;
+      }
+#head_info {
+        text-align: center;
+        font-size: 15px;
+      }
+#table {
+    width:100%;
+}
+#table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 5px;
+    text-align: left;
+}
+table#t01 tr:nth-child(even) {
+    background-color: #eee;
+}
+table#t01 tr:nth-child(odd) {
+   background-color:#fff;
+}
+table#t01 th {
+    background-color: black;
+    color: white;
+}
+
+</style>
+</head>
+<body>
+    <div id="heading">
+      <div id="head">
+        <b><u><%= @general_setting.school_or_college_name%></u></b><br/>
+      </div>  
+      <div id="head_info">
+          <%= @general_setting.school_or_college_address%><br/>
+          <%= @general_setting.school_or_college_phone_no%>
+      </div>
+    </div>  
+      <hr>
+      
+<div class="box-inner">
+ <div class="box-header well" data-original-title="">
+<br/><h4><center><u>REPORT OF OTHER CLAIMS</u></center></h4><br/>
+ </div>
+
+<div class="box-content">
+  <table id="t01" class="table table-striped table-bordered responsive">
+   <thead>
+    <tr>
+          <th>Sl no</th>
+          <th>Course and Batch</th>
+          <th>Claim Date</th>
+          <th>Claim Name</th>
+        </tr>
+        <% @claims.each_with_index do |s,i|%>
+            <tr>
+              <td><%= i+1 %></td>
+              <td><%= s.batch.course.course_name.capitalize+" "+s.batch.course.section_name.capitalize+" "+s.batch.name.capitalize if s.batch%></td>
+              <td><%=s.purchase_date%></td>
+              <td><b><u><%= s.claim_item%></u></b> <b><u>(<u><%=s.claim_quantity%></u>)</u></b></td>
+            </tr>
+       
+        <%end%>
+      </table>
+      <br/><br/>
+    </div>
+  </body>
+</html>
+

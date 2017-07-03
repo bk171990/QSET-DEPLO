@@ -1,6 +1,7 @@
 # Employee model
 class Employee < ActiveRecord::Base
   include Activity
+  has_many :indents
   belongs_to :employee_category
   belongs_to :employee_position
   belongs_to :employee_grade

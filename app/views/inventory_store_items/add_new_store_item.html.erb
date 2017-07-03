@@ -1,0 +1,32 @@
+
+<div>
+  <ul class="breadcrumb">
+    <li><%= link_to 'Home',dashboard_home_index_path %></li>
+    <li><%=link_to 'Inventory Management',main_page_inventory_store_items_path%></li>
+    <li><b>View Paticular Batch-Wise Items</b></li>
+  </ul>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="pull-right">
+      <%= link_to 'New','/inventory_store_items/new_store_item', class: "btn btn-primary-link btn-xs" %>
+      <%= link_to 'View All','/inventory_store_items/index_store_item', class: "btn btn-primary-link btn-xs" %>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-1"></div>
+  <div class="col-md-10">
+    <%= form_for :batch, url:{action:'select'},method: :get,remote:true,html:{id: "batch_form_this"} do |f| %>
+    <b>Select a Batch:</b>
+      <%= f.select :id, @batches.collect {|b| [b.course.course_name+" "+b.course.section_name+" - "+b.name,b.id]},{prompt:true},{onchange:"$('#batch_form_this').submit();",class: "form-control",style:"width:300px"}%>
+    <% end %>
+  </div>
+</div>
+<div id="student_view_all">
+</div>
+
+
+

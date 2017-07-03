@@ -21,8 +21,99 @@
     end
   end
 
+  resources :claims do
+    collection do
+     get :index
+     get :approved_index
+     post :create
+     get :claim_main_page
+     get :view_all
+     get :select_batch
+     get :select_approved_batch
+     get :approved_claim
+     get :publish_result
+     get :publish_claim
+     get :employee_claim
+     get :view_all_claim
+     get :view_remainingqty
+     get :advanced_search
+     get :advanced_claim_search
+     get :other_claim
+     get :select_claim_other
+    end
+    member do
+     get :show_claim
+     get :show_other_claim
+     get :approved_claim
+     get :report_other_claim
+     get :edit
+     patch :update
+     delete :destroy
+    end
+  end
 
 
+resources :inventory_store_items do
+  collection do 
+    get :new_store_item
+    get :view_all_item
+    get :add_new_store_item
+    post :create_new_store_item
+    get :index_store_item
+    get :add_store_item
+    get :search_store_item
+    get :search_item
+    post :create
+    get :select
+    get :viewAll
+    post :archived_item_create
+    post :invoice_list
+    get :new_invoice
+    get :view_return_order
+    get :return_report
+    get :main_page
+    get :load_item_data
+  end
+  member do
+    get :return_order
+    get :view_particular_order
+    get :archived_item
+    get :show
+    get :edit_store_item
+    patch :update_store_item
+    delete :destroy_store_item
+  end
+end
+
+resources :suppliers do
+  collection do 
+    get :new_supplier
+    get :index_supplier
+    post :create_new_supplier
+  end
+  member do
+    get :edit_supplier
+    patch :update_supplier
+    delete :destroy_supplier
+  end
+end
+
+resources :invoices do
+  collection do 
+    get :new_invoice
+    post :create
+    post :invoice_list
+    get :invoice_report
+  end
+end
+
+resources :reports do
+  collection do
+    get :sale_report
+    get :item_wise_report
+    post :create_itemwise_report
+  end
+end
   
   resources :placement_news
 
@@ -316,7 +407,6 @@
       patch :update_exam_score
       get :select
       get :connect_exam
-
       get :publish_exam
       get :publish_result
       get :previous_exam_data

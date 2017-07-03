@@ -1,0 +1,27 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  inventory_store_id: 
+  issued_to: MyString
+  student_id: 
+  guardian_id: 
+  employee_id: 
+  inventory_store_item_id: 
+  total: MyString
+  sub_total: MyString
+  tax: MyString
+  is_paid: false
+  date: MyString
+
+two:
+  inventory_store_id: 
+  issued_to: MyString
+  student_id: 
+  guardian_id: 
+  employee_id: 
+  inventory_store_item_id: 
+  total: MyString
+  sub_total: MyString
+  tax: MyString
+  is_paid: false
+  date: MyString

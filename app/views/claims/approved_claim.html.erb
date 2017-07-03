@@ -1,0 +1,55 @@
+<div>
+  <ul class="breadcrumb">
+    <li><%= link_to 'Home',dashboard_home_index_path %></li>
+    <li><%= link_to 'Claim',claim_main_page_claims_path%></li>
+    <li><%= link_to 'Inventory Management',main_page_inventory_store_items_path%></li>
+    <li> Claim List</li>
+  </ul>
+</div>
+
+<hr>
+
+<div class="row">
+  <div class="col-md-1"></div>
+  <div class="col-md-12">
+    <div class="box-inner">
+      <div class="box-header well">
+        <h2>Claim</h2>
+      </div>
+
+   <div class="box-content" style="overflow-y: auto;height: 230px;width: 100%;">
+     <table id="datatable" class="table table-striped table-bordered responsive">
+          <thead>
+            <th>Claim Date</th>
+            <th>Course and Batch</th>
+            <th>Item Name</th>
+            <th>Other</th>
+            <th>Quantity</th>
+            <th>comment</th>
+            <th>Action</th>
+          </thead>
+            <tbody>
+              <% @claims.each do |eg|%>
+                <tr>
+                  <td><%= eg.purchase_date%></td>
+                  <td><%= eg.batch.course.course_name.capitalize+" "+eg.batch.course.section_name.capitalize+" "+eg.batch.name.capitalize%></td>
+                  <td><%= eg.inventory_store_item.item_name if eg.inventory_store_item%></td>
+                  <td><%= eg.claim_item%></td>
+                  <td><%= eg.claim_quantity%></td>
+                  <td><%= eg.comment%></td>
+
+                  <td>
+                   <% unless eg.result_published? %>
+                     <%= link_to 'Approved',publish_result_claims_path(eg), class: "btn btn-primary-link btn-sm" %>
+     
+                   <% end %>
+                  </td>
+                </tr>
+              <%end%>
+            </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,53 @@
+<div>
+  <ul class="breadcrumb">
+    <li><%= link_to 'Home',dashboard_home_index_path %></li>
+    <li><%= link_to 'Inventory Management',main_page_inventory_store_items_path%></li>
+        <li><%= link_to 'Claim',claim_main_page_claims_path%></li>
+    <li> View Batch-Wise Claim List</li>
+  </ul>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="pull-right">
+      <%= link_to 'Pdf Report',report_other_claim_claim_path(format:"pdf"),class: "btn btn-primary-link btn-xs",target: '_blank'%>
+    </div>
+  </div>
+</div>
+
+<br>
+
+<div class="row">
+  <div class="box col-md-12">
+  <div class="box-inner">
+    <div class="box-header well">
+      <h2>Claim Details</h2>
+    </div>
+  <div class="box-content" style="overflow-y: auto;height: 230px;width: 100%;">
+  <% if @claims.empty? %>
+ <h4 align="center">No Record Found </h4>
+   <% else %>
+  <table id="datatable" class="table table-striped table-bordered responsive">
+          <thead>
+            <th>Sr.No</th>
+            <th>Course and Batch</th>
+            <th>Claim Date</th>
+            <th>Claim Name</th>
+          </thead>
+            <tbody>
+              <% @claims.each_with_index do |s,i|%>
+              <tr>
+                <td><%=i +1%></td>
+                <td><%= s.batch.course.course_name.capitalize+" "+s.batch.course.section_name.capitalize+" "+s.batch.name.capitalize if s.batch%></td>
+                <td><%=s.purchase_date%></td>
+                <td><b><u><%= s.claim_item%></u></b> With Quantity<b><u>(<u><%=s.claim_quantity%></u>)</u></b></td>
+              </tr>
+              <%end%>
+            </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<%end%>
+

@@ -1,0 +1,67 @@
+<div>
+  <ul class="breadcrumb">
+    <li><%= link_to 'Home',dashboard_home_index_path %></li>
+    <li><%= link_to 'Inventory Management',main_page_inventory_store_items_path%></li>
+    <li>View All Return Orders</li>
+  </ul>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="pull-right">
+      <%= link_to 'Pdf Report',return_report_inventory_store_items_path(format:"pdf"),class: "btn btn-primary-link btn-xs",target: '_blank'%>
+    </div>
+  </div>
+</div>
+<br>
+<div class="box-inner">
+ <div class="box-header well" data-original-title="">
+ <h2>View All Return Orders</h2>
+ </div>
+
+
+
+<div class="box-content" style="overflow-y: scroll;width: 100%">
+<table id="datatable" class="table table-striped table-bordered responsive">
+  <tr class="tr-head">
+   <thead>
+    <tr>
+      
+      <th>Sr.No</th>
+      <th>Batch and Course</th>
+      <th>Item Name</th>
+      <th>Description</th>
+      <th>Actual Quantity</th>
+      <th>Return Quantity</th>
+      <th>Price</th>
+      <th>Actual Total</th>
+      <th>Grand Total</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+ <tbody>
+
+   <% @archived_items.each_with_index do |s,i| %>
+      <tr>
+        <td><%= i+1 %></td>
+        <td><%= s.batch.course.course_name.capitalize+" "+s.batch.course.section_name.capitalize+" "+s.batch.name.capitalize if s.batch%></td>
+        <td><%= s.item_name%></td>
+        <td><%= s.category%></td>
+        <td><%= s.quantity%></td>
+        <td><%= s.return_qty%></td>
+        <td><%= s.unit_price%></td>
+        <td><%= s.total%></td>  
+
+        <%return_qty=0%>
+        <% return_qty = s.total.to_f - s.return_quantity.to_f%>
+        <% @archived_item = ArchivedItem.shod(params[:id])%>
+        <% s.update(return_total: return_qty)%>  
+        <td><%= s.return_total%></td>
+       
+      </tr>
+   
+ 
+<% end %>
+  </tbody>
+</table>

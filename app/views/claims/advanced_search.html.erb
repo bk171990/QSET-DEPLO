@@ -1,0 +1,35 @@
+ <div>
+  <ul class="breadcrumb">
+    <li><%= link_to 'Home',dashboard_home_index_path %></li>
+	<li><%= link_to 'Claim Details',students_path %></li>
+	<li>Advance Search</li>
+	</ul>
+</div><div id="flash"><%= render 'layouts/messages'%></div>
+<br/><br/>
+<div class="row">
+	<div class="col-md-1"></div>
+	<div class="box col-md-10">
+		<div class="box-inner">
+			<div class="box-header well" data-original-title="">
+		</div>
+			<div class="box-content">
+				<%=form_for :search ,url:{action:'advanced_claim_search'},method: :get do |f| %>
+				<fieldset>
+				        <div class="col-sm-6">
+						<div class="form-group">
+							<b>Claim Name:</b>
+							<%=f.text_field :claim_name, placeholder:'Claim Name', class: "form-control"%>
+						</div>
+
+						<div class="form-group">
+							<b>Batch Name:</b>
+							<div id="batch_view"><%=select :batch,:id,Batch.all.collect {|b| [b.name,b.id]},{prompt:true},{class:"form-control"}%>
+							</div>
+						</div>
+  <div align="center"><%= f.submit 'Search', class: "btn btn-primary"%></div>
+					<%end%>	
+				</fieldset>
+			</div>
+		</div>
+	</div>
+</div>

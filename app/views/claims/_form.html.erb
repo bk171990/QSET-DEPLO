@@ -1,0 +1,67 @@
+ <div class="row">
+  <div class="col-md-3"></div>
+   <div class="box col-md-6">
+     <%= form_for [@batch,@claim] ,url:{contoller: 'claims',action:'create',format: @batch.id} do |c|%>
+     <div class="errors"><ul class="errors"></ul></div>
+     <fieldset>
+       <div class="form-group">
+         <div class="col-md-3"><b>Purchase Date:</b></div>
+           <%=c.text_field :purchase_date,:value => Time.now.strftime('%Y-%m-%d'),class: "form-control",style:"width:250px",readonly:true%>
+       </div>                    
+      
+       <input onclick="document.getElementById('custom').disabled = true; document.getElementById('charstype').disabled = false;" type="radio" name="type" value="customurl"><b>Item Name:</b>
+         
+       <div class="form-group">
+         <div class="col-md-3"></div>
+           <%=c.select :inventory_store_item_id,@batch.inventory_store_items.collect{|b| [b.item_name, b.id] },{prompt:true},placeholder: "Item Name",id: "charstype",disabled:true,class: "form-control",style:"width:250px"%>
+       </div> 
+
+       <div class="form-group">
+         <div class="col-md-3"><b>Quantity</b></div>
+         <%=text_field_tag 'remainig_qty', '0.00', disabled: true%>           
+       </div>
+
+       <input onclick="document.getElementById('custom').disabled = false; document.getElementById('charstype').disabled = true;" type="radio" name="type" checked="checked"><b>Other</b>
+       <br>
+       
+       <div class="form-group">
+         <div class="col-md-3"></div>
+           <%=c.text_field :claim_item,id: "custom", placeholder: "Other", class: "form-control",style:"width:250px"%>
+       <div>
+       <br>
+
+       <div class="form-group">
+         <div class="col-md-3"><b>Quantity</b></div>
+           <%=c.text_field :claim_quantity, placeholder: "Quantity", class: "form-control",style:"width:250px"%>
+       </div>
+
+       <div class="form-group">
+         <div class="col-md-3"><b>Comments</b></div>
+           <%=c.text_area :comment, placeholder: "Comment", class: "form-control",style:"width:250px"%>
+       </div>
+   
+       <div class="row">
+         <center><%= c.submit 'Submit', class: "btn btn-primary"%></center>
+       </div>
+     </fieldset>
+    <%end%>  
+   </div>
+  </div> 
+
+  <script type='text/javascript'>
+  $('#charstype').on('change', function() {
+   var charstype;
+   inventoryStoreItemId = $(this).val();
+   $.ajax({
+     url: '/inventory_store_items/load_item_data',
+     type: 'GET',
+     data: {charstype: inventoryStoreItemId },
+     dataType: 'json'
+   }).success(function(data) {
+     console.log(data);
+     $('#remainig_qty').val(data[0]);
+        
+  });
+ });
+</script>
+

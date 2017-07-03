@@ -128,6 +128,10 @@ function exam_group(){
 	$('#exam_form').submit();
 }
 
+function claim_group() {
+  $('#claim_form').submit();
+}
+
 function batchevent(){
 	$('#batch_form').submit();
 }

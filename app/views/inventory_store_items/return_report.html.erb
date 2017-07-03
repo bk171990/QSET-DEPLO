@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style type="text/css">
+      #heading {
+        width:100%;
+        margin: 0 auto;
+      }
+      #head {
+        height: 100px;
+        width: 700px;
+        text-align: center;
+        font-size: 40px;
+        border-color: black;
+      }
+      #head_info {
+        text-align: center;
+        font-size: 15px;
+      }
+
+    </style>
+  </head>
+  <body>
+    <div id="heading">
+      <div id="head">
+        <b><u><%= @general_setting.school_or_college_name%></u></b><br/>
+      </div>  
+      <div id="head_info">
+          <%= @general_setting.school_or_college_address%><br/>
+          <%= @general_setting.school_or_college_phone_no%>
+      </div>
+    </div>  
+      <hr>
+      <br/><h3><center>Return Report</center></h3><br/>
+      <table cellpadding="5" cellspacing="5" width="700">
+        <tr bgcolor="99CCFF">
+          <th>Sl no</th>
+          <th>Batch and Course</th>
+          <th>Item Name</th>
+          <th>Description</th>
+          <th>Return Quantity</th>
+          <th>Price</th>
+          <th>Actual Total</th> 
+          <th>Remaning Total</th>
+        </tr>
+        <%total_amount=0%>
+        <% @archived_items.each_with_index do |s,i|%>
+            <tr>
+              <td><%= i+1 %></td>
+              <td><%= s.batch.course.course_name.capitalize+" "+s.batch.course.section_name.capitalize+" "+s.batch.name.capitalize if s.batch%></td>
+              <td><%= s.item_name%></td>
+              <td><%= s.category %></td>
+              <td><%= s.quantity %></td>
+              <td><%= s.unit_price %></td>
+              <td align="right"><%=s.total%></td>
+              <td><%= s.return_total %></td>
+            </tr>
+       
+        <%end%>
+      </table>
+      <br/><br/>
+    </div>
+  </body>
+</html>
+

@@ -1,0 +1,58 @@
+<div>
+	<ul class="breadcrumb">
+		<li><%= link_to 'Home',dashboard_home_index_path %></li>
+		<li><%= link_to 'Inventory Management',main_page_inventory_store_items_path%></li>
+		<li><%= link_to 'View Invoice',new_invoice_invoices_path %></li>
+		<li>View Monthly Invoice Reports</li>
+	</ul>
+</div>
+<div id="flash"><%= render 'layouts/messages'%></div>
+<div class="row">
+	<div class="col-md-12">
+		<div class="pull-right">
+			<%= link_to 'Pdf Report',invoice_report_invoices_path(start_date:@start_date,end_date:@end_date,format:"pdf"),class: "btn btn-primary-link btn-xs",target: '_blank'%>
+		</div>
+	</div>
+</div>
+<hr>
+<div class="row">
+	<div class="box col-md-12">
+		<div class="box-inner">
+			<div class="box-header well">
+				<h2>List of Invoices</h2>
+			</div>
+			<div class="box-content">
+				
+<div class="box-content" style="overflow-x: auto;height: 230px;width: 100%;">
+  <table id="datatable" class="table table-striped table-bordered responsive">
+					<thead>
+						<tr>
+						  <th>Sr.No</th>
+						  <th>Batch and Course</th>
+						  <th>Item Name</th>
+						  <th>Description</th> 
+                          <th>Quantity</th>
+                          <th>Price</th>
+                          <th>Total</th> 
+					    </tr>
+					</thead>
+			<tbody>
+				<% @storeitems.each_with_index do |i,e|%>
+			      <tr>
+			       <td><%=e+1%></td>
+			        <td><%= i.batch.course.course_name.capitalize+" "+i.batch.course.section_name.capitalize+" "+i.batch.name.capitalize if i.batch%></td>
+				    <td><%= i.item_name%></td>
+				    <td><%= i.category %></td>
+                    <td><%= i.quantity %></td>
+                    <td><%= i.unit_price %></td>
+                    <td><%= i.total%></td>
+				  </tr>
+				<%end%>  
+			</tbody>
+			</table>
+					
+					
+				</div>
+			</div>
+		</div>
+	</div>

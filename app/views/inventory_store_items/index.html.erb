@@ -1,0 +1,49 @@
+<div>
+  <ul class="breadcrumb">
+    <li><%= link_to 'Home',dashboard_home_index_path %></li>
+    <li><%= link_to 'Inventory Management',main_page_inventory_store_items_path %></li>
+    <li>Click Here To Return Particular Items</li>
+  </ul>
+</div>
+
+<div class="box-inner">
+ <div class="box-header well" data-original-title="">
+ <h2>Return Items</h2>
+ </div>
+
+<div class="box-content" style="overflow-y: auto;height: 230px;width: 100%;">
+  <table id="datatable" class="table table-striped table-bordered responsive">
+  <tr class="tr-head">
+   <thead>
+    <tr>
+      
+      <th>Sr.No</th>
+      <th>Batch and Course</th>
+      <th>Purchase Date</th>
+      <th>Item Name</th>
+      <th>Description</th>
+      <th>Quantity</th>
+      <th>Price</th>
+      <th>Total</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+ <tbody>
+   <% @storeitems.each_with_index do |s,i| %>
+      <tr>
+        <td><%= i+1 %></td> 
+
+        <td><%= s.batch.course.course_name.capitalize+" "+s.batch.course.section_name.capitalize+" "+s.batch.name.capitalize if s.batch%></td>
+        <td><%= s.date%></td>
+        <td><%= s.item_name %></td>
+        <td><%= s.category %></td>
+        <td><%= s.quantity %></td>
+        <td><%= s.unit_price %></td>
+        <td><%= s.total%></td>
+        <td><%= link_to 'Return Item', return_order_inventory_store_item_path(s), class: "btn btn-success btn-sm", disabled: s.archived_items.present? && s.archived_items.last.return_qty.present? %></td>
+
+      </tr>
+   <% end %>
+  </tbody>
+</table>

@@ -1,0 +1,38 @@
+<div class="row">
+  <div class="box col-md-12">
+    <div class="box-inner">
+      <div class="box-header well">
+        <h2></h2>
+      </div>
+<div class="box-content" style="overflow-y: scroll; height:auto">
+<% if @storeitems.empty? %>
+  <h4 align="center">No Record Found </h4>
+<% else %>
+  <table class="datatable table table-striped table-bordered responsive">
+    <thead>
+     <tr>
+      <th>Sr. No.</th>
+      <th>Item Name</th>
+      <th>Description</th>
+      <th>Quantity</th>
+      <th>Remaining Qty</th>
+      <th>Price(Rs)</th>
+      <th>Total</th>
+      <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @storeitems.each_with_index do |s,i| %>
+        <tr>
+          <td><%= i+1 %></td>
+          <td><%= s.item_name  %></td>
+          <td><%= s.category %></td>
+          <td><%= s.quantity%>
+          <td><%=s.remainig_qty%></td>
+          <td><%= s.unit_price%>
+          <td><%= s.total%>
+        </tr>
+      <% end %>   
+    </tbody>
+  </table>
+<% end %>

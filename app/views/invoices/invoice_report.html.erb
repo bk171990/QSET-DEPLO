@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style type="text/css">
+      #heading {
+        width:100%;
+        margin: 0 auto;
+      }
+      #head {
+        height: 100px;
+        width: 700px;
+        text-align: center;
+        font-size: 40px;
+        border-color: black;
+      }
+      #head_info {
+        text-align: center;
+        font-size: 15px;
+      }
+
+    </style>
+  </head>
+  <body>
+    <div id="heading">
+      <div id="head">
+        <b><u><%= @general_setting.school_or_college_name%></u></b>
+      </div>  
+      <div id="head_info">
+          <u><%= @general_setting.school_or_college_address%></u><br/>
+          <u><%= @general_setting.school_or_college_phone_no%></u>
+      </div>
+    </div>  
+      <hr>
+      <br/><h3><center><u>Invoice Report</u></center></h3><br/>
+      <table cellpadding="5" cellspacing="5" width="700">
+        <tr bgcolor="99CCFF">
+          <th>Sl no</th>
+          <th>Batch and Course</th>
+          <th>Item Name</th>
+          <th>Description</th>
+          <th>Quantity</th>
+          <th>Price</th>
+          <th>Total</th> 
+        </tr>
+        <%total_amount=0%>
+        <% @storeitems.each_with_index do |s,i|%>
+            <tr>
+              <td><center><%= i+1 %></center></td>
+              <td><center><%= s.batch.course.course_name.capitalize+" "+s.batch.course.section_name.capitalize+" "+s.batch.name.capitalize if s.batch%></center></td>
+              <td><center><%= s.item_name%></center></td>
+              <td><center><%= s.category %></center></td>
+              <td><center><%= s.quantity %></center></td>
+              <td><center><%= s.unit_price %></center></td>
+              <td><center><%=s.total%></center></td>
+            </tr>
+       <% total_amount+= s.total.to_f%>
+        <%end%>
+        <tr align="right">
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th><b>Total:<%= total_amount%></b></th>
+        </tr>
+      </table>
+      <br/><br/>
+    </div>
+  </body>
+</html>
+

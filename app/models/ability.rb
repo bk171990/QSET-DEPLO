@@ -12,8 +12,9 @@ class Ability
     elsif user.role == 'Admin'
       can [:read, :create, :update], :all
     elsif user.role == 'Employee'
-      can :read, [TimeTable, Employee, ArchivedEmployee, Newscast, Comment]
+      can :read, [TimeTable, Employee, ArchivedEmployee, Newscast, Comment, Claim]
       can [:read, :create, :update], [ExamGroup, Exam, ExamScore, Event]
+      can [:destroy], [Claim]
       p = user.privileges.collect { |i|[i.name, i.privilege_tag.name_tag] }
       p.each do |i|
         can [i[0].to_sym], (Object.const_get i[1])

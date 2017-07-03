@@ -1,0 +1,70 @@
+<div>
+  <ul class="breadcrumb">
+    <li><%= link_to 'Home',dashboard_home_index_path %></li>
+    <li><%= link_to 'Return Order Details',inventory_store_items_path %></li>
+    <li>Return Item</li>
+  </ul>
+</div><div id="flash"><%= render 'layouts/messages'%></div>
+<div class="box col-md-12">
+  <div class="box-inner">
+   <div class="box-content">
+    <h2><b><u>Item Details</u></b></h2>
+    <br>
+    <h4><u>YOU ORDERED</u></h4>
+      <h4>Batch and Course: <%= @storeitem.batch.course.course_name.capitalize+" "+@storeitem.batch.course.section_name.capitalize+" "+@storeitem.batch.name.capitalize if @storeitem.batch%></h4>
+      <h4>Item Name: <%=@storeitem.item_name%></h4>
+      <h4>Total Quantity: <%=@storeitem.quantity%></h4>
+      <h4>price: <%=@storeitem.unit_price%></h4>
+      <h4>Total price: <%=@storeitem.total%></h4>
+
+    </div><hr>
+
+
+ <%= form_for @archived_item,url:{action: 'archived_item_create',format:@storeitem.id} do |c| %>
+
+  <div class="row">
+    <div class="col-md-9"></div>
+      <div class="col-md-9">
+        <h3><center><b><u>Easy Return</center></u></b></h3>
+      </div>
+  </div> 
+
+  <h4>1. Reason for Return</h4>
+
+  <div class ="control-group">
+    <div class="col-md-3"><b>I'm not happy with</b><span style="color:red">*</span></div>
+      <div class ="control-group">
+        <%=c.select(:option, options_for_select([['Quality','Quality'],['Missing Items','Missing Items'], ['Defective Product','Defective Product'],['Damage Product','Damage Product']]),{prompt: "Select Issue"})%>
+      </div>
+  </div>
+  <br><br>
+
+     <div class="form-group">
+    <div class="col-md-3"><b>Return Quantity</b><span style="color:red">*</span></div>
+      <%=c.text_field :return_qty, placeholder: "return Qty", class: "form-control",style:"width:250px"%>
+  </div>
+ <br><br>
+
+  <div class="form-group">
+    <div class="col-md-3"><b>Comments</b></div>
+      <%=c.text_area :status_description, placeholder: "Comment", class: "form-control",style:"width:250px"%>
+  </div>
+ <br><br>
+
+ <div class="col-sm-4 col-sm-offset-3l"> 
+    <div class="form-actions">               
+      <%= c.submit 'Return', class: "btn btn-primary"%>
+    </div>
+  </div>
+  <br><br>
+  <%end%>
+
+   
+
+  </div>
+</div>
+</div>
+
+</div>
+</div>
+</div>

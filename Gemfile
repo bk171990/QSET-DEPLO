@@ -2,6 +2,10 @@ source 'https://rubygems.org'
 # gem 'hirb', :require => nil
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails'
+gem 'strong-parameters'
+gem "nested_form"
+gem 'rack'
+gem 'rubocop', require: false  
 
 # Use SCSS for stylesheets
 gem 'sass-rails'
@@ -10,7 +14,7 @@ gem 'uglifier'
 # Use CoffeeScript for .js.coffee assets and views
 gem 'coffee-rails'
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-# gem 'therubyracer',  platforms: :ruby
+gem 'therubyracer',  platforms: :ruby
 gem 'paperclip'
 gem 'imagemagick-binaries'
 gem 'aws-sdk'
@@ -18,7 +22,6 @@ gem 'devise'
 gem 'cancan'
 gem 'pdfkit'
 gem 'wkhtmltopdf-binary'
-
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
@@ -40,8 +43,10 @@ gem 'chartkick'
 gem 'yaml_db'
 gem 'html5_validators'
 gem 'jquery-datatables-rails', '~> 2.2.3'
-gem 'will_paginate', '~> 3.1.0'
+gem 'will_paginate'
 
+gem 'capistrano-rails'
+gem  'capistrano'
 
 gem 'capistrano-passenger'
 gem 'groupdate', '~> 2.1.1'
@@ -57,11 +62,12 @@ gem 'figaro'
 gem 'puma'
 gem 'sass', '~> 3.4.23'
 
+
 group :development, :test do
   gem 'pry-byebug'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-  # gem 'spring'
-  # gem 'brakeman'
+  gem 'spring'
+  gem 'brakeman'
   gem 'capistrano3-puma'
   gem 'capistrano-rails', require: false
   gem 'capistrano-bundler', require: false
@@ -71,11 +77,8 @@ end
 group :production do
   gem 'rails_12factor'
   gem 'unicorn'
- 
-  gem 'net-ssh'
-
-
   # gem 'pg'
+  gem 'net-ssh'
 end
 
 group :test do

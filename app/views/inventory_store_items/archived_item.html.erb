@@ -1,0 +1,56 @@
+<div>
+  <ul class="breadcrumb">
+    <li><%= link_to 'Home',dashboard_home_index_path %></li>
+    <li><%= link_to 'Inventory Management',main_page_inventory_store_items_path%></li>
+    <li><%= link_to 'View All Return Orders',view_return_order_inventory_store_items_path%></li>
+    <li>Return Items</li>
+  </ul>
+</div>
+
+<div id="flash"><%= render 'layouts/messages'%></div>
+ <div class="box col-md-12">
+  <div class="box-inner">
+   <div class="box-content">
+    
+    <h4><u><b>RETURN ORDERED</b></u></h4>
+     
+      <h4><b>Item Name:</b> <%=@archived_item.item_name%></h4>
+      <h4><b>Quantity: </b><%=@archived_item.quantity%></h4>
+      <h4><b>Price:</b> <%=@archived_item.unit_price%></h4>
+      <h4><b>Actual Price:</b> <%=@archived_item.total%></h4>
+      <h4><b><u>Reason for Return</u></b></h4>
+    <br>
+
+  <div class ="control-group">
+    <div class="col-md-3"><b>1. Return Reason</b></div>
+      <div class ="control-group">
+        <%=@archived_item.option%>
+      </div>
+  </div>
+  <br><br>
+
+  <div class="form-group">
+    <div class="col-md-3"><b>2. Comments</b></div>
+      <%=@archived_item.status_description%>
+  </div>
+  <br><br>
+
+
+ <%return_qty=0%>
+ <% return_qty = @archived_item.return_qty.to_f * @archived_item.unit_price.to_f%>
+ <% @archived_item = ArchivedItem.shod(params[:id])%>
+ <% @archived_item.update(return_quantity: return_qty)%>
+    
+  <div class="row">
+  <div class="col-md-9"></div>
+    <div class="col-md-9">
+    <div class="pull-right">
+      <h4><b>Here is the Return Item Quantity <%=@archived_item.return_qty%>(<u><%=@archived_item.item_name%></u>) With Its Total Price : <%= return_qty%></b>
+    </div>
+  </div>
+</div> 
+
+
+  </div>
+</div>
+</div>

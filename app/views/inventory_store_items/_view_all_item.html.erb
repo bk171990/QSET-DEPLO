@@ -1,0 +1,44 @@
+<div class="box-inner">
+ <div class="box-header well" data-original-title="">
+ <h2>List Of Items</h2>
+ </div>
+
+<div class="box-content" style="overflow-y: scroll; height:auto">
+<table id="datatable" class="table table-striped table-bordered responsive">
+  <tr class="tr-head">
+   <thead>
+    <tr>
+      
+      <th>Sr.No</th>
+      <th>Item Name</th>
+      <th>Store Name</th>
+      <th>Item Category</th>
+      <th>Batch No</th>
+      <th>Quantity</th>
+      <th>Unit Price</th>
+      <th>Tax</th>
+      
+    
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+ <tbody>
+   <% @stores.each_with_index do |s,i| %>
+      <tr>
+        <td><%= i+1 %></td>  
+        <td><%= s.item_name %></td>
+        <td><%= @stores.name %></td>
+        <td><%=@itemcats.name%>
+        <td><%= s.batch_no %></td>
+        <td><%= s.quantity %></td>
+        <td><%= s.unit_price %></td>
+        <td><%= s.tax %></td>
+        
+         <td><%= link_to 'Edit',edit_store_item_inventory_store_item_path(s), class: "btn btn-success btn-sm" %></td>
+        <td><%= link_to 'Destroy', destroy_store_item_inventory_store_item_path(s), method: :delete, data: { confirm: 'Are you sure?' },class: "btn btn-danger btn-sm" %></td>
+         
+      </tr>
+   <% end %>
+  </tbody>
+</table>

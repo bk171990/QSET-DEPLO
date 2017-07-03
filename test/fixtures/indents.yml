@@ -1,0 +1,25 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  indent_no: MyString
+  expected_date: 2017-04-03
+  description: MyString
+  required: MyString
+  pending: MyString
+  available: MyString
+  issued_qty: MyString
+  issued_type: MyString
+  inventory_store_item_id: 
+  inventory_store_id: 
+
+two:
+  indent_no: MyString
+  expected_date: 2017-04-03
+  description: MyString
+  required: MyString
+  pending: MyString
+  available: MyString
+  issued_qty: MyString
+  issued_type: MyString
+  inventory_store_item_id: 
+  inventory_store_id: 

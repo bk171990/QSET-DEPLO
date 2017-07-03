@@ -1,0 +1,49 @@
+<div class="row">
+  <div class="box col-md-12">
+    <div class="box-inner">
+      <div class="box-header well">
+        <h2></h2>
+      </div>
+<div class="box-content" style="overflow-y: scroll; height:auto">
+<% if @claims.empty? %>
+  <h4 align="center">No Record Found </h4>
+<% else %>
+  <table class="datatable table table-striped table-bordered responsive">
+    <thead>
+     <tr>
+      <th>Sr.No.</th>
+     <th>Batch and Course</th>
+     <th>Purchase Date</th>
+     <th>Item Name</th>
+     <th>Quantity</th>
+     <th>Comment</th>
+     <th>Claim Status</th>
+      <th></th>
+      </tr>
+    </thead>
+    <tbody>
+  <%claims=1%>
+       <%@claims.each_with_index do |s,i| %>
+    <tr class="tr-<%= cycle('odd', 'even') %>">
+       <td align="center"><%= i+1 %></td>
+       <td><%= s.batch.course.course_name.capitalize+" "+s.batch.course.section_name.capitalize+" "+s.batch.name.capitalize%></td>
+       <td><%= s.purchase_date%></td>
+       <td><%= s.claim_item%></td>
+       <td><%= s.claim_quantity%></td>
+       <td><%= s.comment%></td>
+    </tr>
+        <%claims+=i%>
+  <% end %>
+
+      <tr class="center">
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th>Total Claim: <%=claims%></th>        
+      </tr>   
+    </tbody>
+  </table>
+<% end %>

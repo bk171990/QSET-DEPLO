@@ -1,0 +1,24 @@
+<div>
+  <ul class="breadcrumb">
+    <li><%= link_to 'Home',dashboard_home_index_path %></li>
+    <li>Claim </li>
+  </ul>
+</div>
+<div id="flash"><%= render 'layouts/messages'%></div>
+
+<div class="row">
+  <div class="col-md-1"></div>
+  <div class="col-md-5">
+  <%= form_for :course, url:{controller: 'claims',action:'select_approved_batch'},method: :get,remote:true,html:{id: "claim_form"}  do |f| %>
+   <b>Select Course:</b>
+  <%= f.select :id, courses, {prompt:true},{onchange:"claim_group();",class: "form-control",style: "width:300px"}%>
+  <% end %>
+  </div>
+</div>
+<br/><br/>
+<div class="row">
+  <div class="col-md-1"></div>
+  <div class="col-md-5">
+    <div id="claim_approved_div"></div>
+  </div>
+</div>
