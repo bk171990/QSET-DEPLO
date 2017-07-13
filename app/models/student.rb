@@ -3,6 +3,7 @@ class Student < ActiveRecord::Base
   belongs_to :country
   belongs_to :batch
   belongs_to :category
+  belongs_to :school
   belongs_to :nationality, class_name: 'Country'
   has_one :student_previous_data
   has_many :student_previous_subject_marks
@@ -26,13 +27,8 @@ class Student < ActiveRecord::Base
   validates :email, presence: true, format: \
   { with: /\A[a-zA-Z0-9._-]+@([a-zA-Z0-9]+\.)+[a-zA-Z]{2,4}+\z/ }
 
-  validates :first_name, presence: true, format: \
-  { with: /\A[a-z A-Z]+\z/, message: 'only allows letters' }
-  validates_length_of :first_name, minimum: 1, maximum: 20
-
-  validates :last_name, presence: true, format: \
-  { with: /\A[a-z A-Z]+\z/, message: 'only allows letters' }
-  validates_length_of :last_name, minimum: 1, maximum: 20
+  validates :first_name, presence: true
+  validates :last_name, presence: true
 
   validates :phone1, numericality: { only_integer: true }, length: \
   { minimum: 6, maximum: 11 }, allow_blank: true

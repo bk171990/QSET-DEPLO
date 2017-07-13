@@ -8,6 +8,7 @@ class User < ActiveRecord::Base
   has_many :comments
   has_many :employees, dependent: :destroy
   belongs_to :student
+  belongs_to :school
   belongs_to :user_employees
   belongs_to :user_students
   belongs_to :general_setting
@@ -80,6 +81,12 @@ class User < ActiveRecord::Base
   def create_user_student(admission_no, email)
     admission_no.each do |admission_no|
       UserStudent.create(email: email, admission_no: admission_no)
+    end
+  end
+
+  def create_user_school(password, username)
+    password.each do |password|
+      UserSchool.create(username: username, password: password)
     end
   end
 

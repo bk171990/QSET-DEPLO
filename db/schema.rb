@@ -473,6 +473,7 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.string   "image_content_type",     limit: 255
     t.integer  "image_file_size",        limit: 4
     t.datetime "image_updated_at"
+    t.integer  "school_id",              limit: 4
   end
 
   add_index "employees", ["country_id"], name: "index_employees_on_country_id", using: :btree
@@ -480,6 +481,7 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
   add_index "employees", ["employee_department_id"], name: "index_employees_on_employee_department_id", using: :btree
   add_index "employees", ["employee_grade_id"], name: "index_employees_on_employee_grade_id", using: :btree
   add_index "employees", ["employee_position_id"], name: "index_employees_on_employee_position_id", using: :btree
+  add_index "employees", ["school_id"], name: "index_employees_on_school_id", using: :btree
 
   create_table "events", force: :cascade do |t|
     t.string   "title",       limit: 255
@@ -841,6 +843,17 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
 
   add_index "individual_payslip_categories", ["employee_id"], name: "index_individual_payslip_categories_on_employee_id", using: :btree
 
+  create_table "inventory_store_items", force: :cascade do |t|
+    t.string   "item_name",  limit: 255
+    t.string   "code",       limit: 255
+    t.string   "quantity",   limit: 255
+    t.string   "unit_price", limit: 255
+    t.string   "tax",        limit: 255
+    t.string   "batch_no",   limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
   create_table "languages", force: :cascade do |t|
     t.string   "name",       limit: 255
     t.datetime "created_at"
@@ -856,16 +869,6 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  create_table "messages", force: :cascade do |t|
-    t.text     "body",       limit: 65535
-    t.integer  "student_id", limit: 4
-    t.string   "numbers",    limit: 255
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
-  end
-
-  add_index "messages", ["student_id"], name: "index_messages_on_student_id", using: :btree
 
   create_table "monthly_payslips", force: :cascade do |t|
     t.date     "salary_date"
@@ -1055,12 +1058,16 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.datetime "updated_at"
   end
 
-  create_table "sms_logs", force: :cascade do |t|
-    t.string   "mobile",           limit: 255
-    t.string   "gateway_response", limit: 255
-    t.string   "sms_message_id",   limit: 255
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
+  create_table "schools", force: :cascade do |t|
+    t.string   "name",         limit: 255
+    t.string   "username",     limit: 255
+    t.string   "password",     limit: 255
+    t.string   "contact",      limit: 255
+    t.string   "email",        limit: 255
+    t.string   "address",      limit: 255
+    t.string   "organization", limit: 255
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
   end
 
   create_table "student_answer_sheets", force: :cascade do |t|
@@ -1215,10 +1222,12 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.string   "image_content_type", limit: 255
     t.integer  "image_file_size",    limit: 4
     t.datetime "image_updated_at"
+    t.integer  "school_id",          limit: 4
   end
 
   add_index "students", ["batch_id"], name: "index_students_on_batch_id", using: :btree
   add_index "students", ["category_id"], name: "index_students_on_category_id", using: :btree
+  add_index "students", ["school_id"], name: "index_students_on_school_id", using: :btree
 
   create_table "subjects", force: :cascade do |t|
     t.string   "name",               limit: 255
@@ -1234,6 +1243,20 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
 
   add_index "subjects", ["batch_id"], name: "index_subjects_on_batch_id", using: :btree
   add_index "subjects", ["elective_group_id"], name: "index_subjects_on_elective_group_id", using: :btree
+
+  create_table "suppliers", force: :cascade do |t|
+    t.string   "supplier_name",    limit: 255
+    t.string   "contact_no",       limit: 255
+    t.string   "address",          limit: 255
+    t.string   "pin_no",           limit: 255
+    t.string   "region",           limit: 255
+    t.string   "help_desk",        limit: 255
+    t.integer  "supplier_type_id", limit: 4
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+  end
+
+  add_index "suppliers", ["supplier_type_id"], name: "index_suppliers_on_supplier_type_id", using: :btree
 
   create_table "time_table_entries", force: :cascade do |t|
     t.integer  "batch_id",        limit: 4
@@ -1290,6 +1313,14 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
   add_index "user_privileges", ["privilege_id"], name: "index_user_privileges_on_privilege_id", using: :btree
   add_index "user_privileges", ["user_id"], name: "index_user_privileges_on_user_id", using: :btree
 
+  create_table "user_schools", force: :cascade do |t|
+    t.integer "school_id", limit: 4
+    t.integer "user_id",   limit: 4
+  end
+
+  add_index "user_schools", ["school_id"], name: "index_user_schools_on_school_id", using: :btree
+  add_index "user_schools", ["user_id"], name: "index_user_schools_on_user_id", using: :btree
+
   create_table "user_students", force: :cascade do |t|
     t.integer "user_id",    limit: 4
     t.integer "student_id", limit: 4
@@ -1326,8 +1357,7 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.string   "authentication_token",   limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "message",                limit: 255
-    t.string   "numbers",                limit: 255
+    t.integer  "school_id",              limit: 4
   end
 
   add_index "users", ["authentication_token"], name: "index_users_on_authentication_token", unique: true, using: :btree
@@ -1335,6 +1365,7 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["general_setting_id"], name: "index_users_on_general_setting_id", using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+  add_index "users", ["school_id"], name: "index_users_on_school_id", using: :btree
   add_index "users", ["unlock_token"], name: "index_users_on_unlock_token", unique: true, using: :btree
 
   create_table "weekdays", force: :cascade do |t|
@@ -1362,7 +1393,7 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
   add_foreign_key "attendences", "students"
   add_foreign_key "attendences", "subjects"
   add_foreign_key "attendences", "time_table_entries"
-  add_foreign_key "messages", "students"
+  add_foreign_key "employees", "schools"
   add_foreign_key "privilege_users", "privilege_tags"
   add_foreign_key "privilege_users", "privileges"
   add_foreign_key "privilege_users", "users"
@@ -1374,10 +1405,14 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
   add_foreign_key "student_logs", "exam_groups"
   add_foreign_key "student_logs", "students"
   add_foreign_key "student_logs", "subjects"
+  add_foreign_key "students", "schools"
   add_foreign_key "user_employees", "employees"
   add_foreign_key "user_employees", "users"
   add_foreign_key "user_privileges", "privileges"
   add_foreign_key "user_privileges", "users"
+  add_foreign_key "user_schools", "schools"
+  add_foreign_key "user_schools", "users"
   add_foreign_key "user_students", "students"
   add_foreign_key "user_students", "users"
+  add_foreign_key "users", "schools"
 end

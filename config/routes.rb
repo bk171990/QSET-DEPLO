@@ -20,6 +20,8 @@
 
     end
   end
+
+  resources :schools
   
   resources :reports do
     collection do 

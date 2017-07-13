@@ -4,13 +4,8 @@ class StudentsController < ApplicationController
 
   # Fetch the all student records for display on page.
   def index
-    @students ||= Student.list
-      @batches ||= Batch.all
-        respond_to do |format|
-        format.html
-        format.xls 
-        format.csv { send_data @students.to_csv }
-      end
+    @school = User.current.school
+    @schools = @school.students
     authorize! :create, Student
   end
 
@@ -36,6 +31,8 @@ class StudentsController < ApplicationController
     temp_email = params['student']['email']
     downcase_email = temp_email.downcase
     @student.email = downcase_email
+    @school = User.current.school
+    @student.update!(:school => @school)
     if @student.save
       flash[:notice] = t('student_admission1')
       redirect_to admission2_students_path(@student)
