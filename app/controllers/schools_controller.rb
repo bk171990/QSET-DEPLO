@@ -1,4 +1,5 @@
 class SchoolsController < ApplicationController
+	#initialize a new school
 	def new
 		@school = School.new
 		@school.password = School.set_password
@@ -25,10 +26,10 @@ class SchoolsController < ApplicationController
 	def update	
 		@school = School.find(params[:id])
 		if @school.update(school_params)
-		redirect_to schools_path
-	 else
-		render 'edit'
-	 end
+		   redirect_to schools_path
+	  else
+		   render 'edit'
+	  end
 	end
 
 	def destroy

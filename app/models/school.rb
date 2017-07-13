@@ -1,6 +1,8 @@
 class School < ActiveRecord::Base
 	after_save :create_user_account
   has_many :students
+  has_many :batches
+  has_many :courses
   has_one :user
   scope :shod, ->(id) { where(id: id).take }
 
@@ -29,6 +31,4 @@ class School < ActiveRecord::Base
                                1
                              end)
   end
-
-
 end

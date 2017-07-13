@@ -200,9 +200,11 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.boolean  "is_deleted",              default: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "school_id",   limit: 4
   end
 
   add_index "batches", ["course_id"], name: "index_batches_on_course_id", using: :btree
+  add_index "batches", ["school_id"], name: "index_batches_on_school_id", using: :btree
 
   create_table "batches_finance_fee_categories", force: :cascade do |t|
     t.integer  "finance_fee_category_id", limit: 4
@@ -285,7 +287,10 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.boolean  "is_deleted",               default: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "school_id",    limit: 4
   end
+
+  add_index "courses", ["school_id"], name: "index_courses_on_school_id", using: :btree
 
   create_table "elective_groups", force: :cascade do |t|
     t.string   "name",       limit: 255
@@ -1393,6 +1398,8 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
   add_foreign_key "attendences", "students"
   add_foreign_key "attendences", "subjects"
   add_foreign_key "attendences", "time_table_entries"
+  add_foreign_key "batches", "schools"
+  add_foreign_key "courses", "schools"
   add_foreign_key "employees", "schools"
   add_foreign_key "privilege_users", "privilege_tags"
   add_foreign_key "privilege_users", "privileges"

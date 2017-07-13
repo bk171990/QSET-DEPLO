@@ -157,7 +157,8 @@ class StudentsController < ApplicationController
 
   # View the all students for selected batch.
   def view_all
-    @students = Student.all
+    @school = User.current.school
+    @students = @school.students
     @batches ||= Batch.all   
     authorize! :read, @batches.first
   end
@@ -166,8 +167,8 @@ class StudentsController < ApplicationController
   # and provide the selected batch student.
   def select
     @batch = Batch.shod(params[:batch][:id])
-    @students ||= @batch.students
-    authorize! :read, @students.first
+    @school = User.current.school
+    @students = @school.students
   end
 
   # Display the student profile after admission successfully.

@@ -5,7 +5,8 @@ class CoursesController < ApplicationController
 
   # Get all Courses from database, and perform authorization
   def index
-    @courses ||= Course.all
+     @school = User.current.school
+     @courses = @school.courses
     authorize! :read, @courses.first
   end
 
@@ -23,6 +24,8 @@ class CoursesController < ApplicationController
   # create action is saving our new Course to the database.
   def create
     @course = Course.new(postparam)
+    @school = User.current.school
+    @course.update!(:school_id => @school.id)
     if @course.save
       flash[:notice] = t('course_created')
       redirect_to courses_path
