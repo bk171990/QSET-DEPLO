@@ -20,6 +20,15 @@
 
     end
   end
+
+  resources :iden_cards do
+    collection do
+      get :selected_batch
+    end
+    member do 
+      get :load_batch
+    end
+  end
   
   resources :reports do
     collection do 

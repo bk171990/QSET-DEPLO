@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<title>W3.CSS</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<body>
+
+<div class="box-inner">
+
+  <div class="w3-panel w3-card" style="width: 50%"><p>
+    <%for student in @students%>
+
+    <header class="w3-container w3-blue">
+      <h2><b><img src="school.png" alt="Avatar" style="width:10%"></b> <%= @general_setting.school_or_college_name%></h2>
+    </header>
+
+    <br>
+
+  <div class="row">
+      <div class="col-md-8">
+      <div id ="student">
+        <h5 align="left">Student ID : <font color="blue"><%= student.admission_no %></font> </h5>
+        <h5 align="left"> Student Name : <font color="blue"><%= student.first_name+ "-" +student.last_name %></font>  </h5>
+        <h5 align="left"> Father/Guardian : <font color="blue"></font> </h5>
+        <h5 align="left"> Class : <font color="blue"><%=student.batch.course.course_name.capitalize+" "+student.batch.course.section_name.capitalize+" "+student.batch.name.capitalize%></font></h5>
+        <h5 align="left"> Emergency Call : <font color="blue"></font> </h5>
+            
+      </div>
+    </div><br>
+          
+    <div class="card">
+      <img src="<%=student.image_file_name%>" alt="Avatar" style="width:20%">
+    </div>
+  </div><hr>
+  
+    <footer class="w3-container w3-blue">
+      <h5><%= @general_setting.school_or_college_name%>
+          <%= @general_setting.school_or_college_address%>
+          <%= @general_setting.school_or_college_phone_no%>
+      </h5>
+    </footer>
+  </div>
+
+  <%end%>
+ </div>
+</body>
+</html>
+
+
+
+  
+

@@ -1,0 +1,2 @@
+module IdenCardsHelper
+end

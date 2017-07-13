@@ -45,6 +45,10 @@ module StudentsHelper
     @categories.collect { |c| [c.name, c.id] }
   end
 
+  def collect_card_batch
+    @batches.collect {|c| [c.full_name,c.id]}
+  end
+
   def time
     Date.today.strftime('%Y-%m-%d')
   end

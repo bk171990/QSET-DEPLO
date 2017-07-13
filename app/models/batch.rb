@@ -7,6 +7,7 @@ class Batch < ActiveRecord::Base
   validate :end_date_cannot_be_less_than_start_date
   belongs_to :course
   has_many :students
+  has_many :iden_cards
   has_many :class_timings
   has_many :archived_students
   has_many :grading_levels
