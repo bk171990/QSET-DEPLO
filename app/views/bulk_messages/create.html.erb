@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<%for student in @students%>
+
+   
+        <h8 align="left">Student ID : <font color="brown"><%= student.admission_no %></font> </h8><br>
+        <h8 align="left">Student Name : <font color="brown"><%= student.first_name+ "-" +student.last_name %></font></h8><br>
+        <h8 align="left">Class : <font color="brown"><%=student.batch.course.course_name.capitalize+" "+student.batch.course.section_name.capitalize+" "+student.batch.name.capitalize%></font></h8><br>
+        <h8 align="left">Mobile Number: <font color="brown"><%=student.phone1%></font> </h8><br>
+      </div>
+    </div><br>
+  
+  <%end%>
+  
+
+
