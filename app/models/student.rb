@@ -13,6 +13,7 @@ class Student < ActiveRecord::Base
   has_many :student_scores
   has_many :finance_fee_collections, through: :finance_fees
   has_many :student_informations
+  has_many :bulk_emails
   
   has_attached_file :image,
   :url => "/assets/students/:basename.:extension",
@@ -22,6 +23,7 @@ class Student < ActiveRecord::Base
   ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
 
   validates :admission_no, presence: true
+  validates :phone1, presence: true
   validates :admission_date, presence: true
   validates :email, presence: true, format: \
   { with: /\A[a-zA-Z0-9._-]+@([a-zA-Z0-9]+\.)+[a-zA-Z]{2,4}+\z/ }

@@ -1,0 +1,11 @@
+<div class="row">
+      <div class="form-group">
+          <b>Message Body:</b>
+          <%= text_field_tag :body%>
+      </div>
+</div>
+
+<% @bulk_message.each do |opt|%>
+<%= label_tag "message_type#{opt}"%>
+<%= text_field :body, "message_type[#{opt}]", {class: "form-control", placeholder:"message_type#{opt}"} %>
+<%end%>

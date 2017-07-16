@@ -1,0 +1,9 @@
+<%unless @students.nil?%>
+  <% @students.each do |b|%>
+    <div>
+    <br>
+    <%= check_box_tag "student_ids[]", b.id,false,class: 'check_box'%>&nbsp;&nbsp;<b><%= b.first_name+"-"+b.last_name%></b>
+    </div>
+  <%end%>
+<%end%>
+</div>
