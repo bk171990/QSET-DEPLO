@@ -1,3 +1,4 @@
+ <%= link_to 'New Sms', new_bulk_message_path, class: "btn btn-primary-link btn-xs" %>
 <div class="row">
   <div class="box col-md-12">
     <div class="box-inner">
@@ -15,7 +16,7 @@
               <% @bulk_messages.each_with_index do |message,i| %>
                 <tr>
                   <td><%= i+1 %></td>
-                  <td><%= message.type %></td>
+                  <td><%= message.message_type %></td>
                   <td><%= message.body %></td>
                   <td><%= message.student.phone1 %></td>
                 </tr>

@@ -14,6 +14,7 @@ class BulkMessagesController < ApplicationController
         ids << student_id
         bulk_message = BulkMessage.find_or_initialize_by(student_id: student_id.to_i, batch_id: params[:bulk_message][:batch_id])
         bulk_message.body = params[:bulk_message][:body]
+        bulk_message.message_type = params[:bulk_message][:message_type]
         bulk_message.save
       end
     end
@@ -38,6 +39,6 @@ class BulkMessagesController < ApplicationController
 
 
 	def params_bulk_message
-		params.require(:bulk_message).permit!
+		params.require(:bulk_message).permit(:body,:message_type,:student_id,:batch_id)
 	end
 end

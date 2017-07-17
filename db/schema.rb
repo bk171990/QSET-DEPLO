@@ -252,12 +252,13 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
   add_index "batches_online_exams", ["online_exam_id"], name: "index_batches_online_exams_on_online_exam_id", using: :btree
 
   create_table "bulk_messages", force: :cascade do |t|
-    t.string   "type",       limit: 255
-    t.string   "body",       limit: 255
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
-    t.integer  "student_id", limit: 4
-    t.integer  "batch_id",   limit: 4
+    t.string   "type",         limit: 255
+    t.string   "body",         limit: 255
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.integer  "student_id",   limit: 4
+    t.integer  "batch_id",     limit: 4
+    t.string   "message_type", limit: 255
   end
 
   add_index "bulk_messages", ["batch_id"], name: "index_bulk_messages_on_batch_id", using: :btree

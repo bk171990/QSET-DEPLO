@@ -10,12 +10,24 @@
   <div class="box col-md-12">
     <div class="box-inner">
       <div class="box-header well">
-        <h2>Create ID-Cards</h2>
+        <h2>Create Bulk Message</h2>
       </div>
       <div class="box-content">
       <%= form_for :bulk_message ,url:{controller: 'bulk_messages',action: 'create'} do |f| %>
     <fieldset>
-     
+
+     <div class="col-md-4">
+           <div class="form-group">
+          <b>Select:</b> &nbsp;&nbsp; &nbsp;&nbsp;
+          <%= link_to "All",'#',{onclick:"$('.check_box').prop('checked',true);",remote:true,class: "btn btn-primary-link btn-xs"}%>&nbsp;&nbsp;
+          <%= link_to  "None",'#',{onclick:"$('.check_box').prop('checked',false);",remote:true,class: "btn btn-primary-link btn-xs"}%>
+        </div>
+
+        <div id="bulk_message_batch">
+          <%= render 'batch_list'%>
+        </div>
+
+      
     <div class="row">
       <div class="col-sm-1"></div>
       <div class="col-sm-4">
@@ -23,7 +35,7 @@
        <div class="form-group">
           <b>Message Type:</b>
           <span style="color:red">*</span>
-          <%= f.select :type,["Bulk messages","Bulk email","Both"],{prompt:'Select a Type'},{onchange:"$('#user_form2').submit();",class: "form-control",style:"width:300px"} %>
+          <%= f.select :message_type,["Bulk messages","Bulk email","Both"],{prompt:'Select a Type'},{onchange:"$('#user_form2').submit();",class: "form-control",style:"width:300px"} %>
 
         </div>
 
@@ -39,26 +51,26 @@
           <%= f.select :batch_id,Batch.includes(:course).all.collect{|b| [b.course.course_name+" "+b.course.section_name+" - "+b.name,b.id]}, {prompt:true}, {onclick:"var a={id:$('#bulk_message_batch_id').val()};$.get('selected_batch',a,function(response){});",:style =>"width: 300px",class: "form-control"} %>
           <br>
 
-           <div class="form-group">
-          <b>Select:</b> &nbsp;&nbsp; &nbsp;&nbsp;
-          <%= link_to "All",'#',{onclick:"$('.check_box').prop('checked',true);",remote:true,class: "btn btn-primary-link btn-xs"}%>&nbsp;&nbsp;
-          <%= link_to  "None",'#',{onclick:"$('.check_box').prop('checked',false);",remote:true,class: "btn btn-primary-link btn-xs"}%>
-        </div>
 
-        <div id="bulk_message_batch">
-          <%= render 'batch_list'%>
-        </div>
-  
-      </div>
     <div class="col-sm-2 col-sm-offset-2"> 
       <div class="form-actions">               
         <%= f.submit 'Send bulk_messages', class: "btn btn-primary"%>
       </div>
     </div>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+     
+      
   </fieldset>        
  <% end %>
 </div>
 </div>
 </div>
 </div>
-
+</div>
+      </div>
