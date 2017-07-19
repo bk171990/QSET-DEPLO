@@ -4,26 +4,26 @@ class PlacementExamsController < ApplicationController
 
   # this method used for get all placementexams and placementnews
   def index
-    @placement_exam = PlacementExam.all
-    @placement_news = PlacementNews.all
+    @placement_exam = User.current.school.placement_exams
+    @placement_news = User.current.school.placement_news
   end
 
   # this method used for get all company and placementnews
   def insert
-    @companies = Company.all
-    @placement_news = PlacementNews.all
+    @companies = User.current.school.companies
+    @placement_news = User.current.school.placement_news
   end
 
   # this method used for applay exam
   def apply_exam
-    @companies = Company.all
-    @placement_news = PlacementNews.all
+    @companies = User.current.school.companies
+    @placement_news = User.current.school.placement_news
   end
 
   # this method is used for create exam
   def create_exam
     @exam = PlacementExam.new
-    @company = Company.all
+    @company = User.current.school.companies
     @placement_exam = PlacementExam.new
   end
 
@@ -36,6 +36,8 @@ class PlacementExamsController < ApplicationController
     percentage = params[:percentages]
     if percentage.map(&:to_i).sum == 100
       @placement_exam = PlacementExam.new(placement_exam_params)
+      @school = User.current.school
+      @placement_exam.update!(:school_id => @school.id)
       @placement_exam.save
       i = 0
       question_type.each do |q|
@@ -71,7 +73,7 @@ class PlacementExamsController < ApplicationController
   end
   # this method used hold all placementexam
   def placement_tpo
-    @placement_exams = PlacementExam.all
+    @placement_exams = User.current.school.placement_exams
   end
 
   #this method used for display setting
@@ -92,6 +94,8 @@ class PlacementExamsController < ApplicationController
   # call save method on placement exams instance
   def create
     @placement_exam = PlacementExam.new(placement_exam_params)
+    @school = User.current.school
+    @placement_exam.update!(:school_id => @school.id)
     @placement_exam.save
   end
 
@@ -131,7 +135,7 @@ class PlacementExamsController < ApplicationController
 
   # this method is used to publish result 
   def publish_result
-    @placement_exam = PlacementExam.all
+    @placement_exam = User.current.school.placement_exams
   end
 
   # This method is used to display result

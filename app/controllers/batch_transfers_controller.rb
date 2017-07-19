@@ -20,7 +20,7 @@ class BatchTransfersController < ApplicationController
   # and perform authorization
   def transfer
     @batch = Batch.shod(params[:id])
-    @batchs ||= Batch.includes(:course).all
+    @batchs ||= @batches ||= User.current.school.batches
     @students ||= @batch.students
     authorize! :read, @batch
   end

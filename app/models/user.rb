@@ -10,6 +10,7 @@ class User < ActiveRecord::Base
   belongs_to :student
   belongs_to :school
   belongs_to :course
+  belongs_to :batch
   belongs_to :user_employees
   belongs_to :user_students
   belongs_to :general_setting

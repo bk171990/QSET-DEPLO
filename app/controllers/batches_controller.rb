@@ -5,7 +5,7 @@ class BatchesController < ApplicationController
 
   # get all courses from database,and perform authorization
   def index
-    @courses ||= Course.all
+    @courses ||= User.current.school.courses
     authorize! :read, @courses.first
   end
 

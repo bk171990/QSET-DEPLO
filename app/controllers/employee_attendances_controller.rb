@@ -27,6 +27,8 @@ class EmployeeAttendancesController < ApplicationController
     @new_leave_type = EmployeeLeaveType.new
     @new_leave_type1 = EmployeeLeaveType.new(params_leave)
     @employee ||= Employee.all
+    @school = User.current.school
+    @new_leave_type1.update!(:school_id => @school.id)
     if @new_leave_type1.save
       @new_leave_type1.add_leave(@new_leave_type1, @employee)
       flash[:notice] = 'Employee Leave type created successfully!'
@@ -73,7 +75,7 @@ class EmployeeAttendancesController < ApplicationController
   # and created employee leaves for the employee which we created
   # after the employee leave type,and perform authorization
   def attendence_register
-    @deparments = EmployeeDepartment.all
+    @deparments = User.current.school.employee_departments
     @emp = Employee.att_reg
     Employee.att_leave(@emp)
     authorize! :create, @leave
@@ -189,7 +191,7 @@ class EmployeeAttendancesController < ApplicationController
   # find all EmployeeDeparments from database
   # and perform authorization
   def attendance_report
-    @deparments ||= EmployeeDepartment.all
+    @deparments ||= User.current.school.employee_departments
     authorize! :read, EmployeeAttendance
   end
 
@@ -233,7 +235,7 @@ class EmployeeAttendancesController < ApplicationController
 
   # get all EmployeeDepartmentfrom database
   def employee_leave_reset_by_department
-    @deparments ||= EmployeeDepartment.all
+    @deparments ||= User.current.school.employee_departments
   end
 
   # find EmployeeDepartment which we selected and get all

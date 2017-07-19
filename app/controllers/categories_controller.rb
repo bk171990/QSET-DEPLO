@@ -7,7 +7,7 @@ class CategoriesController < ApplicationController
   # and perform authorization
   def index
     @category = Category.new
-    @categorys ||= Category.all
+    @categorys ||= User.current.school.categories
     authorize! :create, @category
   end
 
@@ -15,8 +15,10 @@ class CategoriesController < ApplicationController
   # from private method category_params and
   # create action is saving our new Category to the database.
   def create
-    @categorys ||= Category.all
+    @categorys ||= User.current.school.categories
     @category = Category.new(category_params)
+    @school = User.current.school
+    @category.update!(:school_id => @school.id)
     if @category.save
       flash[:notice] = t('category_create')
       redirect_to categories_path

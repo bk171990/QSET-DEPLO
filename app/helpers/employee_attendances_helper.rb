@@ -50,7 +50,7 @@ module EmployeeAttendancesHelper
   end
 
   def emp_category_collect
-    EmployeeCategory.all.collect { |b| [b.name, b.id] }
+    EmployeeUser.current.school.categories.collect { |b| [b.name, b.id] }
   end
 
   def emp_position_collect

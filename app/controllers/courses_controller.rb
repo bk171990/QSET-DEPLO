@@ -27,6 +27,8 @@ class CoursesController < ApplicationController
     @school = User.current.school
     @course.update!(:school_id => @school.id)
     if @course.save
+      batches = @course.batches
+      batches.update_all(:school_id => @school.id)
       flash[:notice] = t('course_created')
       redirect_to courses_path
     else
@@ -163,6 +165,6 @@ class CoursesController < ApplicationController
   # this private methods tell us exactly which parameters are allowed
   # into our controller actions.
   def postparam
-    params.require(:course).permit(:course_name, :section_name, :code, :grading_type, batches_attributes: [:name, :start_date, :end_date])
+    params.require(:course).permit(:course_name, :section_name, :code, :grading_type, batches_attributes: [:name, :start_date, :end_date, :school_id])
   end
 end

@@ -4,8 +4,12 @@ class StudentsController < ApplicationController
 
   # Fetch the all student records for display on page.
   def index
-    @school = User.current.school
-    @schools = @school.students
+    if User.current.role == 'SuperAdmin'
+      @schools = Student.all
+    else      
+      @school = User.current.school
+      @schools = @school.students
+    end
     authorize! :create, Student
   end
 
@@ -17,9 +21,13 @@ class StudentsController < ApplicationController
     @student = Student.new
     @student.admission_no = Student.set_admission_no
     @student.class_roll_no = params[:student]
-    @batches ||= Batch.all.includes(:course)
+    if User.current.role == 'SuperAdmin'
+      @batches ||= @batches ||= User.current.school.batches
+    else
+      @batches ||= User.current.school.courses
+    end
     @countries ||= Country.all
-    @categories ||= Category.all
+    @categories ||= User.current.school.categories
     authorize! :create, @student
   end
 
@@ -27,7 +35,7 @@ class StudentsController < ApplicationController
   # record email id is convert into small case alphabet.
   def create
     @student = Student.new(student_params)
-    @batches ||= Batch.all.includes(:course)
+    @batches ||= User.current.school.batches.includes(:course)
     temp_email = params['student']['email']
     downcase_email = temp_email.downcase
     @student.email = downcase_email
@@ -38,7 +46,7 @@ class StudentsController < ApplicationController
       redirect_to admission2_students_path(@student)
     else
       @countries ||= Country.all
-      @categories ||= Category.all
+      @categories ||= User.current.school.categories
       render 'admission1'
     end
   end
@@ -75,7 +83,11 @@ class StudentsController < ApplicationController
   # Fetch the student record from database for edit.
   def edit
     @student = Student.shod(params[:id])
-    @batches ||= Batch.includes(:course).all
+    if User.current.role == 'SuperAdmin'
+      @batches ||= @batches ||= User.current.school.batches
+    else
+      @batches ||= User.current.school.courses
+    end
     authorize! :update, @student
   end
 
@@ -87,7 +99,7 @@ class StudentsController < ApplicationController
       flash[:notice] = t('student_update')
       redirect_to profile_student_path(@student)
     else
-      @batches ||= Batch.includes(:course).all
+      @batches ||= User.current.school.batches
       render 'edit'
     end
   end
@@ -157,9 +169,14 @@ class StudentsController < ApplicationController
 
   # View the all students for selected batch.
   def view_all
-    @school = User.current.school
-    @students = @school.students
-    @batches ||= Batch.all   
+    if User.current.role == 'SuperAdmin'
+      @batches ||= @batches ||= User.current.school.batches
+      @students = Student.all
+    else
+      @batches ||= User.current.school.courses
+      @school = User.current.school
+      @students = @school.students
+    end  
     authorize! :read, @batches.first
   end
   
@@ -167,8 +184,14 @@ class StudentsController < ApplicationController
   # and provide the selected batch student.
   def select
     @batch = Batch.shod(params[:batch][:id])
-    @school = User.current.school
-    @students = @school.students
+     if User.current.role == 'SuperAdmin'
+      @batches ||= @batches ||= User.current.school.batches
+      @students = Student.all
+    else
+      @batches ||= User.current.school.courses
+      @school = User.current.school
+      @students = @school.students
+    end  
   end
 
   # Display the student profile after admission successfully.
@@ -212,7 +235,11 @@ class StudentsController < ApplicationController
   # Provide the various reports link for particular student.
   # like recent exam report, subject wise report, transcript report.
   def report
-    @students = Student.all
+    if User.current.role == 'SuperAdmin'
+      @students = Student.all
+    else
+      @batches ||= User.current.school.students
+    end
     @student = Student.shod(params[:format])
     @batch = @student.batch
     authorize! :read, @student
@@ -363,7 +390,7 @@ class StudentsController < ApplicationController
   # This action generate the data for advance search drop down list
   # i.e. Select course and select batch.
   def advanced_search
-    @courses ||= Course.all
+    @courses ||= User.current.school.courses
     @batches ||= Course.first.batches unless Course.first.nil?
     authorize! :read, @student
   end

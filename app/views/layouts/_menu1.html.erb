@@ -11,6 +11,14 @@
             <span>Dashboard</span>
           </a>
         </li>
+         <li>
+           <%if User.current.role == 'SuperAdmin'%>
+          <a href="/schools">
+          <i class="glyphicon glyphicon-th-list"></i>
+            <span>Multi-School</span>
+          </a>      
+          <%end%>
+        </li>
         <li>
           <a href="/students/admission1">
           <i class="glyphicon glyphicon-edit"></i>
@@ -24,11 +32,13 @@
           </a>
         </li>
         <li>
+        <%if User.current.role == 'SuperAdmin'%>
           <a href="/users">
             <i class="glyphicon glyphicon-user"></i>
             <span>Manage Users</span>
           </a>
         </li>
+        <%end%>
         <li>
           <a href="/exams">
             <i class="glyphicon glyphicon-signal"></i>
@@ -87,7 +97,7 @@
          <li>
           <a href="/reports/report_index">
             <i class="glyphicon glyphicon-file"></i>
-            <span>Reports</span>
+            <span>Import</span>
           </a>
         </li>
 

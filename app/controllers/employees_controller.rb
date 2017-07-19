@@ -72,6 +72,8 @@ class EmployeesController < ApplicationController
   def add_category
     @employee_category_new = EmployeeCategory.new
     @employee_category = EmployeeCategory.new(category_params)
+    @school = User.current.school
+    @employee_category.update!(:school_id => @school.id)
     flash[:notice] = t('emp_category') if @employee_category.save
     emp_category
   end
@@ -114,6 +116,8 @@ class EmployeesController < ApplicationController
   def add_department
     @employee_department_new = EmployeeDepartment.new
     @employee_department = EmployeeDepartment.new(department_params)
+    @school = User.current.school
+    @employee_department.update!(:school_id => @school.id)
     flash[:notice] = t('add_emp_dept') if @employee_department.save
     emp_department
   end
@@ -156,6 +160,8 @@ class EmployeesController < ApplicationController
   def add_position
     @employee_position_new = EmployeePosition.new
     @employee_position = EmployeePosition.new(position_params)
+    @school = User.current.school
+    @employee_position.update!(:school_id => @school.id)
     flash[:notice] = t('add_pos') if @employee_position.save
     emp_position
   end
@@ -197,6 +203,8 @@ class EmployeesController < ApplicationController
   def add_bank_field
     @bank_field_new = BankField.new
     @bank_field = BankField.new(bank_field_params)
+    @school = User.current.school
+    @bank_field.update!(:school_id => @school.id)
     flash[:notice] = 'Bank field created Successfully' if @bank_field.save
     bank_field
   end
@@ -238,6 +246,8 @@ class EmployeesController < ApplicationController
   def add_payroll_category
     @payroll_category_new = PayrollCategory.new
     @payroll_category = PayrollCategory.new(payroll_category_params)
+    @school = User.current.school
+    @payroll_category.update!(:school_id => @school.id)
     flash[:notice] = t('add_pay') if @payroll_category.save
     pay_category
   end
@@ -305,6 +315,8 @@ class EmployeesController < ApplicationController
   def add_grade
     @employee_grade_new = EmployeeGrade.new
     @employee_grade = EmployeeGrade.new(grade_params)
+    @school = User.current.school
+    @employee_grade.update!(:school_id => @school.id)
     flash[:notice] = t('emp_grade') if @employee_grade.save
     emp_grade
   end
@@ -350,8 +362,10 @@ class EmployeesController < ApplicationController
   # using private method and call save method on instance of employee
   # if employee save then redirect to admission2 page or render same page again
   def create
-    @empdept = EmployeeDepartment.all
+    @empdept = User.current.school.employee_departments
     @employee = Employee.new(employee_params)
+    @school = User.current.school
+    @employee.update!(:school_id => @school.id)
     if @employee.save
       flash[:notice] = "Employee details added for #{@employee.first_name}"
       redirect_to admission2_employees_path(@employee)
@@ -384,7 +398,7 @@ class EmployeesController < ApplicationController
   # this method used for
   def admission3
     @employee = Employee.shod(params[:format])
-    @bank_fields ||= BankField.all
+    @bank_fields ||= User.current.school.bank_fields
     authorize! :update, @employee
   end
 
@@ -395,7 +409,7 @@ class EmployeesController < ApplicationController
 
   def admission3_create
     @employee = Employee.find(params[:format])
-    @bank_fields ||= BankField.all
+    @bank_fields ||= User.current.school.bank_fields
     if request.post?
       EmployeeBankDetail.bankdetails(@employee, params[:bank_details])
     end
@@ -530,7 +544,7 @@ class EmployeesController < ApplicationController
   # This method is used for subject assignment,
   # list all batches including courses
   def subject_assignment
-    @batches = Batch.includes(:course).all
+    @batches = User.current.school.batches
   end
 
   # This method is used for assigning subject,
@@ -598,7 +612,7 @@ class EmployeesController < ApplicationController
   # This method is used for search employee,
   # hold the list of all department
   def search_employee
-    @department ||= EmployeeDepartment.all
+    @department ||= User.current.school.employee_departments
   end
 
   # This method is used for search employee on various criteria
@@ -635,7 +649,7 @@ class EmployeesController < ApplicationController
 
   # This method used for getting list of all employee department
   def select_employee_department
-    @department ||= EmployeeDepartment.all
+    @department ||= User.current.school.employee_departments
   end
 
   # this method hold the list of all employees of selectd department
@@ -649,7 +663,7 @@ class EmployeesController < ApplicationController
   # then find all payroll categories belongs to that employee
   def monthly_payslip
     @employee = Employee.shod(params[:format])
-    @independent_categories ||= PayrollCategory.all
+    @independent_categories ||= User.current.school.payroll_categories
     authorize! :update, @employee
   end
 
@@ -660,7 +674,7 @@ class EmployeesController < ApplicationController
   # payslip calculation
   def one_click_payslip_generate
     salary_date = params[:payslip][:joining_date].to_date
-    @employees ||= Employee.all
+    @employees ||= User.current.school.employees
     already_created = MonthlyPayslip.all.pluck(:employee_id)
     @employees.one_click(@employees, already_created, salary_date)
     one_click_pay(salary_date)
@@ -697,6 +711,8 @@ class EmployeesController < ApplicationController
   # create payslip that contan logic of claucation of paylip
   def create_monthly_payslip2
     unless @salary_date.to_date < @employee.joining_date.to_date
+    @school = User.current.school
+    @employee.update!(:school_id => @school.id)
       flag = @employee.create_payslip(@employee, @salary_date)
       paysli(flag, @employee)
     end
@@ -721,7 +737,7 @@ class EmployeesController < ApplicationController
   def employee_structure
     @salary_date = params[:salery_date]
     @employee = Employee.find(params[:employee_id])
-    @independent_categories = PayrollCategory.all
+    @independent_categories = User.current.school.payroll_categories
     @amount = params[:amount]
     @payroll_category = params[:id]
     @salary = Employee.emp(@employee, @payroll_category, @amount)

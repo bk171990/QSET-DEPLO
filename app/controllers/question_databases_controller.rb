@@ -4,7 +4,7 @@ class QuestionDatabasesController < ApplicationController
   # this method for get all quesions  
   def new
     @que = QuestionDatabase.new
-    @ques = QuestionDatabase.all
+    @ques = User.current.school.question_databases
   end
 
   # this method used for edit questions
@@ -18,6 +18,8 @@ class QuestionDatabasesController < ApplicationController
     @ques = QuestionDatabase.all
     answer = params[:is_answer]
     @que = QuestionDatabase.new(question_type_params)
+    @school = User.current.school
+    @que.update!(:school_id => @school.id)
     if @que.save
       QuestionDatabase.create_que(params[:question][:option], @que, answer)
       redirect_to new_question_database_path

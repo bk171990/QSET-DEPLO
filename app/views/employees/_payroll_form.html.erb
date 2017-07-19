@@ -9,7 +9,7 @@
 		<td><%= c.text_field :percentage%></td></tr>
 
 		<tr><td><b>Percentage Of:</b></td>
-		<td><%= c.select :payroll_category_id,PayrollCategory.all.collect {|e| [e.name,e.id]},{prompt:true},:style =>"width: 175px"%></td></tr>
+		<td><%= c.select :payroll_category_id,PayrollUser.current.school.categories.collect {|e| [e.name,e.id]},{prompt:true},:style =>"width: 175px"%></td></tr>
 
 		<tr><td><b>Status:</b></td>
 		<td> <%= c.radio_button "status", "true", checked: "checked" %> <b>Active</b> 

@@ -5,7 +5,7 @@ class TimeTableEntriesController < ApplicationController
   def index
     @time = TimeTable.shod(params[:format])
     flash[:notice] = t('time_table') + "#{@time.start_date} - #{@time.end_date}"
-    @batches = Batch.includes(:course).all
+    @batches = User.current.school.batches
     authorize! :read, @time
   end
 

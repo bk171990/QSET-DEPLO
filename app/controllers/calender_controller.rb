@@ -25,7 +25,7 @@ class CalenderController < ApplicationController
   
   # get all Events from database
   def view_events
-    @events = Event.all
+    @events = User.current.school.events
   end
   
   # find Event which we selected

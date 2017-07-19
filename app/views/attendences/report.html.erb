@@ -16,7 +16,7 @@
   
   <b> Select a Batch: </b>
       
-      <%= f.select :id, Batch.includes(:course).all.collect {|b| [b.course.course_name+" "+b.course.section_name+" - "+b.name,b.id]},{prompt:true},{onchange:"$('#form_batch').submit();",class:"form-control",style: "width: 300px"}%>
+      <%= f.select :id,User.current.school.batches.collect {|b| [b.course.course_name+" "+b.course.section_name+" - "+b.name,b.id]},{prompt:true},{onchange:"$('#form_batch').submit();",class:"form-control",style: "width: 300px"}%>
      
   <% end %>
  

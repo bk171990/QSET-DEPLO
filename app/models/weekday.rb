@@ -2,6 +2,7 @@
 class Weekday < ActiveRecord::Base
   include Activity
   belongs_to :batch
+  belongs_to :course
   scope :shod, ->(id) { where(id: id).take }
   scope :day, -> \
   { %w(Sunday Monday Tuesday Wednesday Thursday Friday Saturday) }
@@ -14,7 +15,7 @@ class Weekday < ActiveRecord::Base
     present_weekdays = Weekday.where(batch_id: batch)
     present_weekdays.destroy_all unless present_weekdays.nil?
     weekdays.each  do |w|
-      Weekday.create(batch_id: batch, weekday: day[w.to_i])
+      Weekday.create(batch_id: batch, weekday: day[w.to_i],school_id:User.current.school.id)
     end
     Batch.shod(batch)
   end

@@ -1,6 +1,7 @@
 # Event model
 class Event < ActiveRecord::Base
   include Activity
+  has_one :school
   has_many :batch_events
   has_many :batches, through: :batch_events
   has_many :employee_department_events

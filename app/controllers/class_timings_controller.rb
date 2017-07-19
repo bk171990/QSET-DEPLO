@@ -3,7 +3,7 @@
 class ClassTimingsController < ApplicationController
   # Get all Batches from database, and perform authorization
   def index
-    @batches ||= Batch.includes(:course).all
+    @batches ||= User.current.school.batches
     authorize! :read, ClassTiming
   end
 
@@ -23,6 +23,8 @@ class ClassTimingsController < ApplicationController
     @batch = Batch.shod(params[:batch_id])
     @class_timings ||= @batch.class_timings.order('start_time ASC')
     @class_timing1 = @batch.class_timings.new(params_class)
+    @school = User.current.school
+    @class_timing1.update!(:school_id => @school.id)
     @class_timing1.save
     flash[:notice] = t('class_timing_create')
   end

@@ -9,14 +9,22 @@ class ExamSettingController < ApplicationController
   # @courses object store the all records of course from database.
   # This object is used in drop down list for select particular course.
   def new
-    @courses ||= Course.all
+    if User.current.role == 'SuperAdmin'
+      @courses ||= Course.all
+    else
+      @courses ||= User.current.school.courses
+    end
     authorize! :read, ClassDesignation
   end
 
   # @courses object store the all records of course from database.
   # This object is used in drop down list for select particular course.
   def newrank
-    @courses ||= Course.all
+     if User.current.role == 'SuperAdmin'
+      @courses ||= Course.all
+    else
+      @courses ||= User.current.school.courses
+    end
     authorize! :read, RankingLevel
   end
 
@@ -53,6 +61,8 @@ class ExamSettingController < ApplicationController
   # class designation record is saved using save method and
   # send a flash message.
   def create_flash
+    @school = User.current.school
+    @class_des1.update!(:school_id => @school.id)
     if @class_des1.save
       flash[:notice] = t('create_class')
     else
@@ -76,6 +86,8 @@ class ExamSettingController < ApplicationController
   # rank level record is saved using save method and
   # send a flash message.
   def createrank_flash
+    @school = User.current.school
+    @rank_lev1.update!(:school_id => @school.id)
     if @rank_lev1.save
       flash[:notice] = t('create_rank')
     else
@@ -218,7 +230,7 @@ class ExamSettingController < ApplicationController
   # designation record for specific course.
   def select
     @course = Course.shod(params[:course][:id])
-    @class_dess ||= @course.class_designations
+    @class_dess ||= User.current.school.class_designations
     authorize! :read, @class_dess.first
   end
 
@@ -227,7 +239,7 @@ class ExamSettingController < ApplicationController
   # level record for specific course.
   def selectrank
     @course = Course.shod(params[:course][:id])
-    @rank_levels = @course.ranking_levels.order('prioriy ASC')
+    @rank_levels = User.current.school.ranking_levels.order('prioriy ASC')
   end
 
   private

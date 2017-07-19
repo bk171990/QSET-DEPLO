@@ -5,7 +5,7 @@ class PlacementNewsController < ApplicationController
   # Get all placement news
   def index
     @placement_new = PlacementNews.new
-    @placement_news = PlacementNews.all
+    @placement_news = User.current.school.placement_news
   end
 
   # this method used for edit placement news
@@ -16,8 +16,10 @@ class PlacementNewsController < ApplicationController
   # create placementnews instance  and pass required params
   # from private method and call save method on placementnews instance
   def create
-    @placement_news = PlacementNews.all
+    @placement_news = User.current.school.placement_news
     @placement_new = PlacementNews.new(placement_news_params)
+    @school = User.current.school
+    @placement_new.update!(:school_id => @school.id)
     if @placement_new.save
       redirect_to placement_news_index_path
       flash[:notice] = t('placement_news_created')

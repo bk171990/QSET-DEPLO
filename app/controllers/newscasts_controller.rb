@@ -17,6 +17,8 @@ class NewscastsController < ApplicationController
   def create
     @newscast = Newscast.new(newscast_params)
     @newscast.user_id = current_user.id
+    @school = User.current.school
+    @newscast.update!(:school_id => @school.id)
     if @newscast.save
       redirect_to newscast_path(@newscast), notice: t('news_add')
     else
@@ -59,7 +61,7 @@ class NewscastsController < ApplicationController
 
   # this method used for display all newscast in desecnding order
   def display
-    @newscasts ||= Newscast.order(created_at: :desc).includes(:user)
+    @newscasts ||= User.current.school.newscasts
   end
 
   private

@@ -7,6 +7,7 @@ class Employee < ActiveRecord::Base
   belongs_to :employee_department
   belongs_to :nationality, class_name: 'Country'
   belongs_to :user
+  has_one :school
   belongs_to :reporting_manager, class_name: 'Employee'
   has_attached_file :image
   validates_attachment_content_type \

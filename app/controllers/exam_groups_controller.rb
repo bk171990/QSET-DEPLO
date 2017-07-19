@@ -3,7 +3,11 @@
 class ExamGroupsController < ApplicationController
   # This action display a starting page with drop down list of course.
   def index
-    @courses ||= Course.all
+    if User.current.role == 'SuperAdmin'
+      @courses||= Course.all
+    else
+      @courses||= User.current.school.courses
+    end
   end
 
   # In this action @batches object is store the batchse list
@@ -96,7 +100,11 @@ class ExamGroupsController < ApplicationController
 
   # This action provide @course object for generate the drop down list.
   def previous_exam_data
-    @courses ||= Course.all
+   if User.current.role == 'SuperAdmin'
+      @courses||= Course.all
+    else
+      @courses||= User.current.school.courses
+    end
   end
 
   # @batch object store the selected batch id by user.

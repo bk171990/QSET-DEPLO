@@ -4,7 +4,7 @@ class SubjectsController < ApplicationController
 
   # get all batches from database,and perform authorization
   def index
-    @batches ||= Batch.includes(:course)
+    @batches ||= User.current.school.batches
     authorize! :read, @batches.first
   end
 
@@ -66,6 +66,8 @@ class SubjectsController < ApplicationController
     @elective_group = ElectiveGroup.shod eg_id if eg_id
     @subject = @elective_group.subjects.new(subject_params) if eg_id
     @elective_subjects ||= @elective_group.subjects if eg_id
+    @school = User.current.school
+    @subject.update!(:school_id => @school.id)
     @subject.save
     @subject.update(batch_id: @batch.id) if eg_id
     flash[:notice] = t('elective_create') if eg_id

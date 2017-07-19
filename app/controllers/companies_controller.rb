@@ -5,7 +5,7 @@ class CompaniesController < ApplicationController
   # this method is used for hold the list of all companies
   def index
     @company = Company.new
-    @companies = Company.all
+    @companies = User.current.school.companies
   end
 
   # This method used for create companies,
@@ -14,6 +14,8 @@ class CompaniesController < ApplicationController
   def create
     @companies = Company.all
     @company = Company.new(company_params)
+    @school = User.current.school
+    @company.update!(:school_id => @school.id)
     if @company.save
       redirect_to companies_path
     else

@@ -36,7 +36,7 @@
 						</div>
 						<div class="form-group">
 							<b>Category:</b>
-							<%=f.select :category_id, Category.all.collect {|c| [c.name,c.id]},{prompt:true},{class:"form-control"} %>
+							<%=f.select :category_id, User.current.school.categories.collect {|c| [c.name,c.id]},{prompt:true},{class:"form-control"} %>
 						</div>
 						<div class="form-group">
 							<%=f.radio_button :gender,"All", :checked => "checked" %>&nbsp;<b>All</b>&nbsp;&nbsp;

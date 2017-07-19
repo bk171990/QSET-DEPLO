@@ -5,7 +5,11 @@ class GradingLevelsController < ApplicationController
 
   # find all batches from database,and perform authorization
   def index
-    @batches ||= Batch.includes(:course).all
+    if User.current.role == 'SuperAdmin'
+      @batches ||= @batches ||= User.current.school.batches
+    else
+      @batches ||= User.current.school.courses
+    end
     authorize! :read, @batches.first
   end
 
@@ -24,6 +28,8 @@ class GradingLevelsController < ApplicationController
   def create
     @grading_levels ||= @batch.grading_levels
     @grading_level1 = @batch.grading_levels.new(params_grade)
+    @school = User.current.school
+    @grading_level1.update!(:school_id => @school.id)
     @grading_level1.save
     flash[:notice] = t('grade_create')
   end
@@ -63,7 +69,11 @@ class GradingLevelsController < ApplicationController
   # get all grading_level of that batch, and perform authorization
   def select
     @batch = Batch.shod(params[:batch][:id])
-    @grading_levels ||= @batch.grading_levels
+    if User.current.role == 'SuperAdmin'
+      @grading_levels ||= @batch.grading_levels
+    else
+      @grading_levels ||=  User.current.school.grading_levels
+    end
     authorize! :read, @batch
   end
 

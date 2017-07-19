@@ -6,7 +6,7 @@ class EventsController < ApplicationController
   def new
     @event = Event.new
     @events = Event.all
-      @batches ||= Batch.all
+    @batches ||= User.current.school.batches
     @departments ||= EmployeeDepartment.all
     @start_date = params[:format]
     authorize! :create, @event
@@ -17,6 +17,8 @@ class EventsController < ApplicationController
   # create action is saving our new Event to the database.
   def create
     @event = Event.new(params_event)
+    @school = User.current.school
+    @event.update!(:school_id => @school.id)
     if @event.save
       @event.create_event(params[:batches],params[:departments])
       flash[:notice] = 'Event created successfully'
@@ -30,7 +32,7 @@ class EventsController < ApplicationController
   # get all batches from database
   def show
     @event = Event.shod(params[:id])
-    @batches ||= Batch.all
+    @batches ||= User.current.school.batches
     @departments ||= EmployeeDepartment.all
     authorize! :read, @event
   end

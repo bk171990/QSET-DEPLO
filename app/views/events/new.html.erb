@@ -48,7 +48,7 @@
       <div class="form-group">
 
       <b>Select Batch:</b>
-     <%=select_tag("batches[]",options_for_select(@batches.collect { |ff| [ff.name, ff.id] }),{:multiple=>true, :id => "batches"})%>
+     <%=select_tag("batches[]",options_for_select(@batches.collect { |ff| [ff.course.course_name+ "" + ff.course.section_name+ "" + ff.name, ff.id] }),{:multiple=>true, :id => "batches"})%>
 
       </div>
             

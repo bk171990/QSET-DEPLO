@@ -48,7 +48,7 @@
   <div class="box col-md-1"></div>
   <div class="box col-md-4">
       <%= form_for :batch, url:{action:'fees_list'},method: :get,remote:true,html:{id: 'form_batch'} do |f| %>
-       <%= f.select :id, collect_batch,
+       <%= f.select :id, @batches.collect {|b| [b.course.course_name+" "+b.course.section_name+" - "+b.name,b.id]},
         {prompt:'Select a batch'},{onchange:"$('#form_batch').submit();",class: "form-control",style:"width:350px"}%>       
       <%end%>
     </div>

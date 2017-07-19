@@ -3,7 +3,7 @@
     <div class="form-group">
       <b>Select Question Type:</b>
       <span style="color:red">*</span>
-      <%= select_tag("question_type[]",options_for_select(QuestionType.all.collect { |c| [c.que_type, c.id] }),class: "form-control" )%>
+      <%= select_tag("question_type[]",options_for_select(User.current.school.question_types.collect { |c| [c.que_type, c.id] }),class: "form-control" )%>
     </div>
   </div>
   <div class="col-sm-4 ">

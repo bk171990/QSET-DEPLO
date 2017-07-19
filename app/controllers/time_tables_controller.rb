@@ -3,12 +3,12 @@ class TimeTablesController < ApplicationController
   # get all employee from database and
   # assign employees to particular subject,and perform authorization
   def work_allotment
-    @employees ||= Employee.all
+    @employees ||= User.current.school.employees
     if request.post?
       @error_obj = EmployeeSubject.allot_work(params[:employee_subjects])
       flash[:notice] = t('work_allotment_update')
     end
-    @batches ||= Batch.all
+    @batches ||= User.current.school.batches
     @subjects = @batches.includes(:subjects).flatten
     authorize! :create, TimeTable
   end
@@ -29,6 +29,8 @@ class TimeTablesController < ApplicationController
       render 'new_timetable'
     else
       @time_table.save
+      @school = User.current.school
+      @time_table.update!(:school_id => @school.id)
       redirect_to time_table_entries_path(@time_table)
     end
   end
@@ -44,7 +46,7 @@ class TimeTablesController < ApplicationController
 
   # get all time table from database,and perform authorization
   def new
-    @timetables ||= TimeTable.all
+    @timetables ||= User.current.school.time_tables
     authorize! :read, TimeTableEntry
   end
 
@@ -113,7 +115,7 @@ class TimeTablesController < ApplicationController
 
   # get all timetable from database,and perform authorization
   def teachers_timetable
-    @timetables ||= TimeTable.all
+    @timetables ||= User.current.school.time_tables
     authorize! :read, TimeTableEntry
   end
 
@@ -131,7 +133,7 @@ class TimeTablesController < ApplicationController
   # get all timetable from database,and perform authorization
   def edit_timetable
     @courses ||= Batch.all
-    @timetables ||= TimeTable.all
+    @timetables ||= User.current.school.time_tables
     authorize! :update, @timetables.first
   end
 
