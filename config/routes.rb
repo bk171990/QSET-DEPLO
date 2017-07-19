@@ -21,9 +21,22 @@
     end
   end
 
+  resources :bulk_emails do
+    collection do
+     get :selected_batched
+    end
+    member do
+      get :load_batch
+    end
+  end
+
   resources :bulk_messages do 
      collection do
       get :selected_batch
+      get :selected_batched
+      get :selected_type
+      get :new_email
+      post :create_email
     end
     member do 
       get :load_batch

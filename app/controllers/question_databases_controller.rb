@@ -50,6 +50,7 @@ class QuestionDatabasesController < ApplicationController
 
   # this methods hold all options
   def option
+    binding.pry
     @option = params[:id].to_i
   end
 

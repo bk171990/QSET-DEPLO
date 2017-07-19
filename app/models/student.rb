@@ -13,6 +13,7 @@ class Student < ActiveRecord::Base
   has_many :student_scores
   has_many :finance_fee_collections, through: :finance_fees
   has_many :student_informations
+  has_many :bulk_emails
   
   has_attached_file :image,
   :url => "/assets/students/:basename.:extension",

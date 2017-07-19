@@ -2,16 +2,8 @@
 <div>
   <ul class="breadcrumb">
     <li><%= link_to 'Home',dashboard_home_index_path %></li>
-    <li>Create Bulk Messages</li>
+    <li>Create Bulk Email</li>
   </ul>
-</div>
-
-<div class="row">
-  <div class="col-md-12">
-    <div class="pull-right">
-      <%= link_to 'Back','/bulk_messages/show', class: "btn btn-primary-link btn-xs" %>
-    </div>
-  </div>
 </div>
 
 <div id="flash"><%= render 'layouts/messages'%></div>
@@ -19,10 +11,10 @@
   <div class="box col-md-12">
     <div class="box-inner">
       <div class="box-header well">
-        <h2>Create Bulk Message</h2>
+        <h2>Create Bulk Email</h2>
       </div>
       <div class="box-content">
-      <%= form_for :bulk_message ,url:{controller: 'bulk_messages',action: 'create'} do |f| %>
+      <%= form_for :bulk_email ,url:{controller: 'bulk_emails',action: 'create'} do |f| %>
     <fieldset>
 
      <div class="col-md-4">
@@ -32,8 +24,8 @@
           <%= link_to  "None",'#',{onclick:"$('.check_box').prop('checked',false);",remote:true,class: "btn btn-primary-link btn-xs"}%>
         </div>
 
-        <div id="bulk_message_batch">
-          <%= render 'batch_list'%>
+        <div id="bulk_email">
+          <%= render 'student_list'%>
         </div>
 
       
@@ -41,24 +33,28 @@
       <div class="col-sm-1"></div>
       <div class="col-sm-4">
 
-    
+       <div class="form-group">
+          <b>Email Subject:</b>
+          <span style="color:red">*</span>
+          <%= f.text_field :subject, placeholder: "Email Subject", class: "form-control",required:true, style:"width:250px"%>
+        </div>
 
         <div class="form-group">
-          <b>Message Body:</b>
+          <b>Email Body:</b>
           <span style="color:red">*</span>
-          <%= f.text_area :body, placeholder: "Message", class: "form-control",required:true, style:"width:250px"%>
+          <%= f.text_area :email_body, placeholder: "Email Body", class: "form-control",required:true, style:"width:250px"%>
         </div>
 
          <div class="form-group">
           <b>Select Batch:</b>
           <span style="color:red">*</span>
-          <%= f.select :batch_id,Batch.includes(:course).all.collect{|b| [b.course.course_name+" "+b.course.section_name+" - "+b.name,b.id]}, {prompt:true}, {onclick:"var a={id:$('#bulk_message_batch_id').val()};$.get('selected_batch',a,function(response){});",:style =>"width: 300px",class: "form-control"} %>
+          <%= f.select :batch_id,Batch.includes(:course).all.collect{|b| [b.course.course_name+" "+b.course.section_name+" - "+b.name,b.id]}, {prompt:true}, {onclick:"var a={id:$('#bulk_email_batch_id').val()};$.get('selected_batched',a,function(response){});",:style =>"width: 300px",class: "form-control"} %>
           <br>
 
 
     <div class="col-sm-2 col-sm-offset-2"> 
       <div class="form-actions">               
-        <%= f.submit 'Send bulk_messages', class: "btn btn-primary"%>
+        <%= f.submit 'Send bulk_email', class: "btn btn-primary"%>
       </div>
     </div>
 

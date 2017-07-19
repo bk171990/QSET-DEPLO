@@ -101,20 +101,20 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.string   "option",                  limit: 255
     t.string   "status_description",      limit: 255
     t.string   "return_qty",              limit: 255
+    t.string   "invoice_grand_total",     limit: 255
     t.string   "return_total",            limit: 255
     t.string   "remainig_qty",            limit: 255
     t.string   "return_quantity",         limit: 255
     t.integer  "supplier_id",             limit: 4
     t.integer  "batch_id",                limit: 4
-    t.integer  "invoice_id",              limit: 4
     t.integer  "inventory_store_item_id", limit: 4
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
+    t.string   "subtotal",                limit: 255
   end
 
   add_index "archived_items", ["batch_id"], name: "index_archived_items_on_batch_id", using: :btree
   add_index "archived_items", ["inventory_store_item_id"], name: "index_archived_items_on_inventory_store_item_id", using: :btree
-  add_index "archived_items", ["invoice_id"], name: "index_archived_items_on_invoice_id", using: :btree
   add_index "archived_items", ["supplier_id"], name: "index_archived_items_on_supplier_id", using: :btree
 
   create_table "archived_students", force: :cascade do |t|
@@ -251,14 +251,28 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
   add_index "batches_online_exams", ["batch_id"], name: "index_batches_online_exams_on_batch_id", using: :btree
   add_index "batches_online_exams", ["online_exam_id"], name: "index_batches_online_exams_on_online_exam_id", using: :btree
 
+  create_table "bulk_emails", force: :cascade do |t|
+    t.string   "subject",    limit: 255
+    t.string   "email_body", limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.integer  "student_id", limit: 4
+    t.integer  "batch_id",   limit: 4
+  end
+
+  add_index "bulk_emails", ["batch_id"], name: "index_bulk_emails_on_batch_id", using: :btree
+  add_index "bulk_emails", ["student_id"], name: "index_bulk_emails_on_student_id", using: :btree
+
   create_table "bulk_messages", force: :cascade do |t|
-    t.string   "type",         limit: 255
+    t.string   "message_type", limit: 255
     t.string   "body",         limit: 255
+    t.string   "email_body",   limit: 255
+    t.string   "email",        limit: 255
+    t.string   "subject",      limit: 255
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
     t.integer  "student_id",   limit: 4
     t.integer  "batch_id",     limit: 4
-    t.string   "message_type", limit: 255
   end
 
   add_index "bulk_messages", ["batch_id"], name: "index_bulk_messages_on_batch_id", using: :btree
@@ -272,21 +286,22 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
 
   create_table "claims", force: :cascade do |t|
     t.date     "purchase_date"
-    t.string   "claim_item",              limit: 255
-    t.string   "claim_quantity",          limit: 255
-    t.string   "comment",                 limit: 255
-    t.boolean  "is_published",                        default: false
-    t.boolean  "result_published",                    default: false
-    t.integer  "batch_id",                limit: 4
+    t.string   "claim_item",         limit: 255
+    t.string   "claim_quantity",     limit: 255
+    t.string   "comment",            limit: 255
+    t.boolean  "is_published",                   default: false
+    t.boolean  "result_published",               default: false
+    t.integer  "batch_id",           limit: 4
     t.boolean  "option1"
     t.boolean  "option2"
-    t.datetime "created_at",                                          null: false
-    t.datetime "updated_at",                                          null: false
-    t.integer  "inventory_store_item_id", limit: 4
+    t.string   "remaining_quantity", limit: 255
+    t.datetime "created_at",                                     null: false
+    t.datetime "updated_at",                                     null: false
+    t.integer  "supplier_id",        limit: 4
   end
 
   add_index "claims", ["batch_id"], name: "index_claims_on_batch_id", using: :btree
-  add_index "claims", ["inventory_store_item_id"], name: "index_claims_on_inventory_store_item_id", using: :btree
+  add_index "claims", ["supplier_id"], name: "index_claims_on_supplier_id", using: :btree
 
   create_table "class_designations", force: :cascade do |t|
     t.string   "name",       limit: 255
@@ -818,11 +833,6 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.string   "image_content_type",                limit: 255
     t.integer  "image_file_size",                   limit: 4
     t.datetime "image_updated_at"
-    t.string   "left",                              limit: 255
-    t.string   "right",                             limit: 255
-    t.string   "vertical",                          limit: 255
-    t.string   "horizontal",                        limit: 255
-    t.string   "format",                            limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -891,17 +901,6 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
   add_index "guardians", ["country_id"], name: "index_guardians_on_country_id", using: :btree
   add_index "guardians", ["student_id"], name: "index_guardians_on_student_id", using: :btree
 
-  create_table "iden_cards", force: :cascade do |t|
-    t.string   "description", limit: 255
-    t.integer  "student_id",  limit: 4
-    t.integer  "batch_id",    limit: 4
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
-  end
-
-  add_index "iden_cards", ["batch_id"], name: "index_iden_cards_on_batch_id", using: :btree
-  add_index "iden_cards", ["student_id"], name: "index_iden_cards_on_student_id", using: :btree
-
   create_table "individual_payslip_categories", force: :cascade do |t|
     t.integer  "employee_id",         limit: 4
     t.date     "salary_date"
@@ -915,50 +914,50 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
 
   add_index "individual_payslip_categories", ["employee_id"], name: "index_individual_payslip_categories_on_employee_id", using: :btree
 
-  create_table "inventory_indents", force: :cascade do |t|
-    t.string   "indent_no",            limit: 255
-    t.integer  "store_id",             limit: 4
-    t.string   "expected_date",        limit: 255
-    t.string   "description",          limit: 255
-    t.string   "required",             limit: 255
-    t.string   "pending",              limit: 255
-    t.string   "issued_qty",           limit: 255
-    t.string   "issued_type",          limit: 255
-    t.string   "reference",            limit: 255
-    t.string   "status",               limit: 255
-    t.integer  "reporting_manager_id", limit: 4
-    t.integer  "employee_id",          limit: 4
-    t.datetime "created_at",                       null: false
-    t.datetime "updated_at",                       null: false
-  end
-
-  add_index "inventory_indents", ["employee_id"], name: "index_inventory_indents_on_employee_id", using: :btree
-  add_index "inventory_indents", ["store_id"], name: "index_inventory_indents_on_store_id", using: :btree
-
   create_table "inventory_store_items", force: :cascade do |t|
-    t.string   "item_name",    limit: 255
-    t.string   "quantity",     limit: 255
-    t.string   "unit_price",   limit: 255
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
-    t.string   "total",        limit: 255
-    t.integer  "batch_id",     limit: 4
-    t.string   "mrp",          limit: 255
-    t.string   "category",     limit: 255
+    t.string   "item_name",           limit: 255
+    t.string   "code",                limit: 255
+    t.string   "quantity",            limit: 255
+    t.string   "unit_price",          limit: 255
+    t.string   "tax",                 limit: 255
+    t.string   "batch_no",            limit: 255
+    t.string   "invoice_grand_total", limit: 255
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.string   "total",               limit: 255
+    t.integer  "batch_id",            limit: 4
+    t.string   "category",            limit: 255
     t.date     "date"
-    t.integer  "supplier_id",  limit: 4
-    t.string   "remainig_qty", limit: 255
+    t.integer  "supplier_id",         limit: 4
   end
 
   add_index "inventory_store_items", ["batch_id"], name: "index_inventory_store_items_on_batch_id", using: :btree
   add_index "inventory_store_items", ["supplier_id"], name: "index_inventory_store_items_on_supplier_id", using: :btree
 
   create_table "invoices", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "issued_to",               limit: 255
+    t.integer  "student_id",              limit: 4
+    t.integer  "guardian_id",             limit: 4
+    t.integer  "employee_id",             limit: 4
+    t.integer  "inventory_store_item_id", limit: 4
+    t.string   "total",                   limit: 255
+    t.string   "sub_total",               limit: 255
+    t.string   "tax",                     limit: 255
+    t.boolean  "is_paid"
+    t.string   "date",                    limit: 255
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.integer  "batch_id",                limit: 4
+    t.date     "due_date"
     t.date     "start_date"
     t.date     "end_date"
   end
+
+  add_index "invoices", ["batch_id"], name: "index_invoices_on_batch_id", using: :btree
+  add_index "invoices", ["employee_id"], name: "index_invoices_on_employee_id", using: :btree
+  add_index "invoices", ["guardian_id"], name: "index_invoices_on_guardian_id", using: :btree
+  add_index "invoices", ["inventory_store_item_id"], name: "index_invoices_on_inventory_store_item_id", using: :btree
+  add_index "invoices", ["student_id"], name: "index_invoices_on_student_id", using: :btree
 
   create_table "languages", force: :cascade do |t|
     t.string   "name",       limit: 255
@@ -975,22 +974,6 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  create_table "messages", force: :cascade do |t|
-    t.string   "type",        limit: 255
-    t.string   "subject",     limit: 255
-    t.string   "email_body",  limit: 255
-    t.string   "sms_body",    limit: 255
-    t.integer  "employee_id", limit: 4
-    t.integer  "student_id",  limit: 4
-    t.integer  "batch_id",    limit: 4
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
-  end
-
-  add_index "messages", ["batch_id"], name: "index_messages_on_batch_id", using: :btree
-  add_index "messages", ["employee_id"], name: "index_messages_on_employee_id", using: :btree
-  add_index "messages", ["student_id"], name: "index_messages_on_student_id", using: :btree
 
   create_table "monthly_payslips", force: :cascade do |t|
     t.date     "salary_date"
@@ -1353,6 +1336,12 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
   add_index "subjects", ["elective_group_id"], name: "index_subjects_on_elective_group_id", using: :btree
 
   create_table "suppliers", force: :cascade do |t|
+    t.string   "supplier_name",     limit: 255
+    t.string   "contact_no",        limit: 255
+    t.string   "address",           limit: 255
+    t.string   "pin_no",            limit: 255
+    t.string   "region",            limit: 255
+    t.string   "help_desk",         limit: 255
     t.datetime "created_at",                    null: false
     t.datetime "updated_at",                    null: false
     t.string   "organization_name", limit: 255
@@ -1362,7 +1351,10 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.string   "mobile_no",         limit: 255
     t.string   "address_street1",   limit: 255
     t.string   "address_street2",   limit: 255
+    t.string   "city",              limit: 255
     t.string   "postal_zip_code",   limit: 255
+    t.string   "country",           limit: 255
+    t.string   "province_state",    limit: 255
   end
 
   create_table "time_table_entries", force: :cascade do |t|
@@ -1488,23 +1480,24 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
 
   add_foreign_key "archived_items", "batches"
   add_foreign_key "archived_items", "inventory_store_items"
-  add_foreign_key "archived_items", "invoices"
   add_foreign_key "archived_items", "suppliers"
   add_foreign_key "attendences", "batches"
   add_foreign_key "attendences", "students"
   add_foreign_key "attendences", "subjects"
   add_foreign_key "attendences", "time_table_entries"
+  add_foreign_key "bulk_emails", "batches"
+  add_foreign_key "bulk_emails", "students"
   add_foreign_key "bulk_messages", "batches"
   add_foreign_key "bulk_messages", "students"
   add_foreign_key "claims", "batches"
-  add_foreign_key "claims", "inventory_store_items"
-  add_foreign_key "iden_cards", "batches"
-  add_foreign_key "iden_cards", "students"
+  add_foreign_key "claims", "suppliers"
   add_foreign_key "inventory_store_items", "batches"
   add_foreign_key "inventory_store_items", "suppliers"
-  add_foreign_key "messages", "batches"
-  add_foreign_key "messages", "employees"
-  add_foreign_key "messages", "students"
+  add_foreign_key "invoices", "batches"
+  add_foreign_key "invoices", "employees"
+  add_foreign_key "invoices", "guardians"
+  add_foreign_key "invoices", "inventory_store_items"
+  add_foreign_key "invoices", "students"
   add_foreign_key "privilege_users", "privilege_tags"
   add_foreign_key "privilege_users", "privileges"
   add_foreign_key "privilege_users", "users"

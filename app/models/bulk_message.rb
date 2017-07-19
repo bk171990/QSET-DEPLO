@@ -2,6 +2,7 @@ class BulkMessage < ActiveRecord::Base
   belongs_to :student
   belongs_to :batch
   after_save :send_bulk_message
+  
 
   def send_bulk_message
   	require "rubygems"

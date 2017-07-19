@@ -86,8 +86,8 @@ config.action_mailer.delivery_method = :smtp
      :address              => "smtp.gmail.com",
      :port                 => 587,
      :domain               => 'localhost:3000',
-     :user_name            => 'dhanshree.j.kamble@gmail.com',
-     :password             => 'dhanulovesmomdad',
+     :user_name            => 'priyanka.j.babar@gmail.com',
+     :password             => 'priy@nk@09031993',
      :authentication       => "plain",
     :enable_starttls_auto => true
     }
