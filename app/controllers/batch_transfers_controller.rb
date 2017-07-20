@@ -4,7 +4,7 @@ class BatchTransfersController < ApplicationController
   # create new object of course,
   # and perform authorization
   def index
-    @courses ||= Course.all
+    @batches ||= User.current.school.courses
     @course = Course.new
     authorize! :read, @course
   end

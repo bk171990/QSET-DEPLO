@@ -8,6 +8,8 @@ class School < ActiveRecord::Base
   has_many :employees
   has_many :time_tables
   has_many :question_databases
+  has_many :employee_leave_types
+  has_many :employee_positions
   has_many :placement_news
   has_many :categories
   has_one :user
@@ -16,6 +18,7 @@ class School < ActiveRecord::Base
   has_many :companies
   has_many :finance_donations
   has_many :employee_departments
+  has_many :employee_grades
   has_many :placement_exams
   has_many :newscasts
   has_many :assets
@@ -31,7 +34,7 @@ class School < ActiveRecord::Base
   has_many :ranking_levels
   has_many :finance_transaction_triggers
   has_many :finance_transaction_categories
-  validates :first_name, presence: true
+  validates :name, presence: true
   scope :shod, ->(id) { where(id: id).take }
 
   def self.set_password

@@ -22,7 +22,7 @@ class StudentsController < ApplicationController
     @student.admission_no = Student.set_admission_no
     @student.class_roll_no = params[:student]
     if User.current.role == 'SuperAdmin'
-      @batches ||= @batches ||= User.current.school.batches
+      @batches ||= Batch.includes(:courses).all
     else
       @batches ||= User.current.school.courses
     end
@@ -35,7 +35,7 @@ class StudentsController < ApplicationController
   # record email id is convert into small case alphabet.
   def create
     @student = Student.new(student_params)
-    @batches ||= User.current.school.batches.includes(:course)
+    @batches ||= User.current.school.batches
     temp_email = params['student']['email']
     downcase_email = temp_email.downcase
     @student.email = downcase_email
@@ -84,7 +84,7 @@ class StudentsController < ApplicationController
   def edit
     @student = Student.shod(params[:id])
     if User.current.role == 'SuperAdmin'
-      @batches ||= @batches ||= User.current.school.batches
+      @batches ||= Batch.includes(:courses).all
     else
       @batches ||= User.current.school.courses
     end
@@ -170,7 +170,7 @@ class StudentsController < ApplicationController
   # View the all students for selected batch.
   def view_all
     if User.current.role == 'SuperAdmin'
-      @batches ||= @batches ||= User.current.school.batches
+      @batches ||= Batch.includes(:courses).all
       @students = Student.all
     else
       @batches ||= User.current.school.courses
@@ -185,7 +185,7 @@ class StudentsController < ApplicationController
   def select
     @batch = Batch.shod(params[:batch][:id])
      if User.current.role == 'SuperAdmin'
-      @batches ||= @batches ||= User.current.school.batches
+      @batches ||= @batches ||= Batch.includes(:courses).all
       @students = Student.all
     else
       @batches ||= User.current.school.courses
@@ -238,7 +238,7 @@ class StudentsController < ApplicationController
     if User.current.role == 'SuperAdmin'
       @students = Student.all
     else
-      @batches ||= User.current.school.students
+      @batches ||= Batch.includes(:courses).all
     end
     @student = Student.shod(params[:format])
     @batch = @student.batch

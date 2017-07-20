@@ -222,7 +222,7 @@ class ExamReportsController < ApplicationController
         @subjects = @batch.subjects.all
       else
         flash[:notice_arch] = 'Please select batch'
-        @courses = Course.all
+        @courses = User.current.school.courses
         @batches = Course.first.batches.all
         render 'archived_student_report'
       end
@@ -382,7 +382,7 @@ class ExamReportsController < ApplicationController
   # This action retrieve the courses from database to provide
   # the record for drop down list
   def student_ranking_per_course
-    @courses ||= Course.all
+    @batches ||= User.current.school.courses
     authorize! :read, ExamGroup
   end
 
@@ -402,7 +402,7 @@ class ExamReportsController < ApplicationController
   # and display the flash message.
   def generate_course_report
     flash[:alert] = t('course_rank_error')
-    @courses ||= Course.all
+    @batches ||= User.current.school.courses
     render 'student_ranking_per_course'
   end
 
@@ -418,7 +418,7 @@ class ExamReportsController < ApplicationController
 
   # This action provide the ranking list for whole school students.
   def student_ranking_per_school
-    @courses ||= Course.all
+    @batches ||= User.current.school.courses
     @students ||= Student.all
     @exam_groups ||= ExamGroup.result_published
     authorize! :read, @exam_groups.first
@@ -428,7 +428,7 @@ class ExamReportsController < ApplicationController
   # the information for generate pdf of school wise
   # ranking report.
   def school_wise_ranking_report
-    @courses ||= Course.all
+    @batches ||= User.current.school.courses
     @students ||= Student.all
     @exam_groups ||= ExamGroup.result_published
     @general_setting = GeneralSetting.first

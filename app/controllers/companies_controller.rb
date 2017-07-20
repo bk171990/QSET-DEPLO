@@ -12,7 +12,7 @@ class CompaniesController < ApplicationController
   # create company instance  and pass required params
   # from private method and call save method on company instance
   def create
-    @companies = Company.all
+    @companies ||= User.current.school.companies
     @company = Company.new(company_params)
     @school = User.current.school
     @company.update!(:school_id => @school.id)

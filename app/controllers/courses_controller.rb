@@ -151,7 +151,7 @@ class CoursesController < ApplicationController
   # and perform authorization
   def update
     @course.update(postparam)
-    @courses ||= Course.all
+    @batches ||= User.current.school.courses
     flash[:notice] = t('course_updated')
   end
 

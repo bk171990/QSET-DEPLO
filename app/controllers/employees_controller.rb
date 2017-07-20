@@ -351,7 +351,7 @@ class EmployeesController < ApplicationController
   # that caluclate admission no of employee ,perform authorization
   def admission1
     @employee = Employee.new
-    @empdept = EmployeeDepartment.all
+    @empdept = User.current.school.employee_departments
     @date = Time.zone.today.strftime('%Y%m%d')
     @employee.emp_no
     authorize! :create, @employee

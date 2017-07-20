@@ -236,6 +236,18 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
   add_index "batches_online_exams", ["batch_id"], name: "index_batches_online_exams_on_batch_id", using: :btree
   add_index "batches_online_exams", ["online_exam_id"], name: "index_batches_online_exams_on_online_exam_id", using: :btree
 
+  create_table "bulk_emails", force: :cascade do |t|
+    t.string   "subject",    limit: 255
+    t.string   "email_body", limit: 255
+    t.integer  "student_id", limit: 4
+    t.integer  "batch_id",   limit: 4
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  add_index "bulk_emails", ["batch_id"], name: "index_bulk_emails_on_batch_id", using: :btree
+  add_index "bulk_emails", ["student_id"], name: "index_bulk_emails_on_student_id", using: :btree
+
   create_table "bulk_messages", force: :cascade do |t|
     t.string   "type",         limit: 255
     t.string   "body",         limit: 255
@@ -1170,6 +1182,7 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.string   "organization", limit: 255
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
+    t.string   "first_name",   limit: 255
   end
 
   create_table "student_answer_sheets", force: :cascade do |t|
@@ -1507,6 +1520,8 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
   add_foreign_key "bank_fields", "schools"
   add_foreign_key "batches", "schools"
   add_foreign_key "batches_finance_fee_categories", "schools"
+  add_foreign_key "bulk_emails", "batches"
+  add_foreign_key "bulk_emails", "students"
   add_foreign_key "bulk_messages", "batches"
   add_foreign_key "bulk_messages", "students"
   add_foreign_key "categories", "schools"

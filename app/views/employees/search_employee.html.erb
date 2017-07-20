@@ -11,7 +11,7 @@
     <div class="pull-right">
       <%= link_to 'View all', viewall_emp_employees_path, class: "btn btn-primary-link btn-xs" %>
       <%= link_to 'Advanced Search',advance_search_employees_path, class: "btn btn-primary-link btn-xs" %>
-    </div>
+
   </div>
 </div>
 <hr>
@@ -35,13 +35,13 @@
      </tr>
 
  	 <tr>
-         <td class="col-3"><%= f.select :employee_department_id, EmployeeDepartment.all.collect {|b| [b.name,b.id]},{prompt:"Select Department"},{onchange:"$('#user_form').submit();", class: 'form-control'}%></td>
+         <td class="col-3"><%= f.select :employee_department_id, User.current.school.employee_departments.all.collect {|b| [b.name,b.id]},{prompt:"Select Department"},{onchange:"$('#user_form').submit();", class: 'form-control'}%></td>
   
-         <td class="col-3"><%= f.select :employee_category_id, EmployeeUser.current.school.categories.collect {|b| [b.name,b.id]},{prompt:"Select Category"},{onchange:"$('#user_form').submit();", class: 'form-control'}%></td>
+         <td class="col-3"><%= f.select :employee_category_id,User.current.school.categories.collect {|b| [b.name,b.id]},{prompt:"Select Category"},{onchange:"$('#user_form').submit();", class: 'form-control'}%></td>
     
-         <td class="col-3"><%= f.select :employee_position_id,EmployeePosition.all.collect {|b| [b.name,b.id]},{prompt:"Select Position"},{onchange:"$('#user_form').submit();", class: 'form-control'}%></td>
+         <td class="col-3"><%= f.select :employee_position_id,User.current.school.employee_positions.all.collect {|b| [b.name,b.id]},{prompt:"Select Position"},{onchange:"$('#user_form').submit();", class: 'form-control'}%></td>
     
-         <td class="col-3"><%= f.select :employee_grade_id, EmployeeGrade.all.collect {|b| [b.name,b.id]},{prompt:"Select Grade"},{onchange:"$('#user_form').submit();", class: 'form-control'}%></td>
+         <td class="col-3"><%= f.select :employee_grade_id, User.current.school.employee_grades.all.collect {|b| [b.name,b.id]},{prompt:"Select Grade"},{onchange:"$('#user_form').submit();", class: 'form-control'}%></td>
      </tr>
 
    

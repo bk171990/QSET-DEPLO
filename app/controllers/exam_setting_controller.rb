@@ -10,7 +10,7 @@ class ExamSettingController < ApplicationController
   # This object is used in drop down list for select particular course.
   def new
     if User.current.role == 'SuperAdmin'
-      @courses ||= Course.all
+      @batches ||= User.current.school.courses
     else
       @courses ||= User.current.school.courses
     end
@@ -21,7 +21,7 @@ class ExamSettingController < ApplicationController
   # This object is used in drop down list for select particular course.
   def newrank
      if User.current.role == 'SuperAdmin'
-      @courses ||= Course.all
+      @batches ||= User.current.school.courses
     else
       @courses ||= User.current.school.courses
     end

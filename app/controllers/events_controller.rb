@@ -7,7 +7,7 @@ class EventsController < ApplicationController
     @event = Event.new
     @events = Event.all
     @batches ||= User.current.school.batches
-    @departments ||= EmployeeDepartment.all
+    @departments ||= User.current.school.employee_departments
     @start_date = params[:format]
     authorize! :create, @event
   end
@@ -33,14 +33,14 @@ class EventsController < ApplicationController
   def show
     @event = Event.shod(params[:id])
     @batches ||= User.current.school.batches
-    @departments ||= EmployeeDepartment.all
+    @departments ||=  User.current.school.employee_departments
     authorize! :read, @event
   end
   
   # this is used for create event for departments
   # get all departments from database
   def showdep
-    @departments ||= EmployeeDepartment.all
+    @departments ||= User.current.school.employee_departments
     authorize! :create, Event
   end
   

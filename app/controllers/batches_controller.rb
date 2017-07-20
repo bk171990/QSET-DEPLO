@@ -79,7 +79,7 @@ class BatchesController < ApplicationController
   # and perform authorization
   def assign_tutor
     @batch = Batch.shod(params[:format])
-    @departments = EmployeeDepartment.all
+    @batches ||= User.current.school.employee_departments
     authorize! :read, @batch
   end
 
