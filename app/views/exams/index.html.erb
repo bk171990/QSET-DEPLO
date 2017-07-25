@@ -6,6 +6,7 @@
 </div>
 <div id="flash"><%= render 'layouts/messages'%></div>
 <br/><br/>
+<%if User.current.role != 'SuperAdmin'%>
 <div class="row">
   <div class="box col-md-1"></div>
   <div class="box col-md-4">
@@ -19,6 +20,7 @@
       </div>
     </div>
   </div>
+  <%end%>
   <div class="box col-md-1"></div>
   <div class="box col-md-4">
     <div class="box-inner2">
@@ -33,6 +35,7 @@
 </div>
 <% if can? :read, RankingLevel %>
 <br/>
+<%if User.current.role != 'SuperAdmin'%>
 <div class="row">
   <div class="box col-md-1"></div>
   <div class="box col-md-4">
@@ -46,4 +49,5 @@
     </div>
   </div>
 </div>
+<%end%>
 <%end%>

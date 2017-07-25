@@ -10,7 +10,6 @@
 
   <% if current_user.role == 'SuperAdmin' %>
       <%= render 'dash' %>
-      <%= will_paginate @acts %>
   <% elsif current_user.role == 'Admin' %>
       <%= render 'dash1' %>
   <% elsif current_user.role == 'Employee' %>

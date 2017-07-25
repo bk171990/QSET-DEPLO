@@ -20,11 +20,13 @@
           <%end%>
         </li>
         <li>
+        <%if User.current.role != 'SuperAdmin'%>
           <a href="/students/admission1">
           <i class="glyphicon glyphicon-edit"></i>
             <span>Admission</span>
           </a>      
         </li>
+        <%end%>
         <li>
           <a href="/students">
             <i class="glyphicon glyphicon-star"></i>

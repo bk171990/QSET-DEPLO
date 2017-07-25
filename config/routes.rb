@@ -56,6 +56,7 @@
   resources :home do
     collection do
       get :dashboard
+      get :view_activity
     end
     member do
       get :user_activity

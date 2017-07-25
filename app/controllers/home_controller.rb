@@ -7,6 +7,12 @@ class HomeController < ApplicationController
     redirect_to dashboard_home_index_path if current_user
   end
 
+  def view_activity
+    @student = current_user.student
+    @acts ||= UserActivity.order(created_at: :desc) if current_user.id == 1
+    @acts = UserActivity.all.paginate(page: params[:page], per_page: 10) 
+  end
+
   # this method is used for display dashboard
   def dashboard
     @student = current_user.student
