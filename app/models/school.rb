@@ -5,6 +5,7 @@ class School < ActiveRecord::Base
   has_many :finance_transaction_users
   has_many :finance_transactions
   has_many :courses
+  has_many :liabilities
   has_many :employees
   has_many :time_tables
   has_many :question_databases
@@ -12,7 +13,9 @@ class School < ActiveRecord::Base
   has_many :employee_positions
   has_many :placement_news
   has_many :categories
+  has_many :employee_categories
   has_one :user
+  has_many :newscasts
   has_many :reports
   has_many :events
   has_many :companies

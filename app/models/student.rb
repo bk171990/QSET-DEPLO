@@ -317,6 +317,7 @@ class Student < ActiveRecord::Base
       u.last_name = last_name
       u.username = email
       u.student_id = id
+      u.school_id = school_id
       u.password = admission_no
       u.role = 'Student'
       u.email = email

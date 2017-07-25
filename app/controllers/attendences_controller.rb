@@ -5,8 +5,13 @@ class AttendencesController < ApplicationController
   end
   # find all batches from database, and perform authorization
   def attendence_register
-    @batches ||= User.current.school.batches
-    authorize! :read, Attendence
+    if User.current.role == 'SuperAdmin'
+      @batches = Batch.all
+      authorize! :read, Attendence
+    else
+      @batches ||= User.current.school.batches
+      authorize! :read, Attendence
+    end
   end
   
   # find batch which we have selected

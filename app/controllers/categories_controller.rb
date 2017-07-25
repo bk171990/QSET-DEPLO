@@ -7,8 +7,13 @@ class CategoriesController < ApplicationController
   # and perform authorization
   def index
     @category = Category.new
-    @categorys ||= User.current.school.categories
-    authorize! :create, @category
+    if User.current.role == 'SuperAdmin'
+      @categorys ||= Category.all
+      authorize! :create, @category
+    else
+      @categorys ||= User.current.school.categories
+      authorize! :create, @category
+    end
   end
 
   # create Category object and pass required parameters

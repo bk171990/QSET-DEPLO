@@ -7,10 +7,14 @@
   <title>SCHOOL ERP</title>
   <% if user_signed_in? %>
 	  <%= stylesheet_link_tag 'vendor', media: 'all' %>
+  <%= javascript_include_tag "http://www.google.com/jsapi", "chartkick" %>
+   <%= stylesheet_link_tag 'http://yandex.st/bootstrap/3.1.1/css/bootstrap.min.css' %>
+  <%= javascript_include_tag 'http://yandex.st/bootstrap/3.1.1/js/bootstrap.min.js' %>
   <%else%>
     <%= stylesheet_link_tag 'application', media: 'all'%>
   <%end%>
   <%= javascript_include_tag 'vendor', media: 'all'%>
+  <%= javascript_include_tag "http://www.google.com/jsapi", "chartkick" %> 
   <%= csrf_meta_tags %>
 </head>
 

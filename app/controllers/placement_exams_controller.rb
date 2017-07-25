@@ -4,26 +4,45 @@ class PlacementExamsController < ApplicationController
 
   # this method used for get all placementexams and placementnews
   def index
-    @placement_exam = User.current.school.placement_exams
-    @placement_news = User.current.school.placement_news
+    if User.current.role == 'SuperAdmin'
+      @placement_exam = PlacementExam.all
+      @placement_news = PlacementNews.all
+    else
+      @placement_exam = User.current.school.placement_exams
+      @placement_news = User.current.school.placement_news
+    end
   end
 
   # this method used for get all company and placementnews
   def insert
-    @companies = User.current.school.companies
-    @placement_news = User.current.school.placement_news
+    if User.current.role == 'SuperAdmin'
+      @companies = Company.all
+      @placement_news = PlacementNews.all
+    else
+      @companies = User.current.school.companies
+      @placement_news = User.current.school.placement_news
+    end
   end
 
   # this method used for applay exam
   def apply_exam
-    @companies = User.current.school.companies
-    @placement_news = User.current.school.placement_news
+    if User.current.role == 'SuperAdmin'
+      @companies = Company.all
+      @placement_news = PlacementNews.all
+    else
+      @companies = User.current.school.companies
+      @placement_news = User.current.school.placement_news
+    end
   end
 
   # this method is used for create exam
   def create_exam
     @exam = PlacementExam.new
-    @company = User.current.school.companies
+    if User.current.role == 'SuperAdmin'
+      @company = Company.all
+    else
+      @company = User.current.school.companies
+    end
     @placement_exam = PlacementExam.new
   end
 
@@ -73,7 +92,11 @@ class PlacementExamsController < ApplicationController
   end
   # this method used hold all placementexam
   def placement_tpo
-    @placement_exams = User.current.school.placement_exams
+    if User.current.role == 'SuperAdmin'
+      @placement_exams = PlacementExam.all
+    else
+      @placement_exams = User.current.school.placement_exams
+    end
   end
 
   #this method used for display setting
@@ -135,7 +158,11 @@ class PlacementExamsController < ApplicationController
 
   # this method is used to publish result 
   def publish_result
-    @placement_exam = User.current.school.placement_exams
+    if User.current.role == 'SuperAdmin'
+     @placement_exam = PlacementExam.all
+    else
+      @placement_exam = User.current.school.placement_exams
+    end
   end
 
   # This method is used to display result

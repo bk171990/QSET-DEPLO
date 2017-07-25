@@ -4,7 +4,11 @@ class QuestionDatabasesController < ApplicationController
   # this method for get all quesions  
   def new
     @que = QuestionDatabase.new
+    if User.current.role == 'SuperAdmin'
+    @ques = QuestionDatabase.all
+    else
     @ques = User.current.school.question_databases
+    end
   end
 
   # this method used for edit questions

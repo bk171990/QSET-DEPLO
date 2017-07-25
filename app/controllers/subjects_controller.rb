@@ -4,8 +4,12 @@ class SubjectsController < ApplicationController
 
   # get all batches from database,and perform authorization
   def index
-    @batches ||= User.current.school.batches
-    authorize! :read, @batches.first
+    if User.current.role == 'SuperAdmin'
+      @batches ||= Batch.includes(:course)
+    else
+      @batches ||= User.current.school.batches
+      authorize! :read, @batches.first
+    end
   end
 
   # find batch which we selected, find all subject in that batch

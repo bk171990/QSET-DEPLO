@@ -5,11 +5,19 @@ class EventsController < ApplicationController
   # get date on whcih we want to create event
   def new
     @event = Event.new
-    @events = Event.all
-    @batches ||= User.current.school.batches
-    @departments ||= User.current.school.employee_departments
-    @start_date = params[:format]
-    authorize! :create, @event
+    if User.current.role == 'SuperAdmin'
+      @events = Event.all
+      @batches ||= Batch.all
+      @departments ||= EmployeeDepartment.all
+      @start_date = params[:format]
+      authorize! :create, @event
+    else
+      @events = User.current.school.events
+      @batches ||= User.current.school.batches
+      @departments ||= User.current.school.employee_departments
+      @start_date = params[:format]
+      authorize! :create, @event
+    end
   end
   
   # create Event object and pass required parameters
@@ -32,16 +40,27 @@ class EventsController < ApplicationController
   # get all batches from database
   def show
     @event = Event.shod(params[:id])
-    @batches ||= User.current.school.batches
-    @departments ||=  User.current.school.employee_departments
-    authorize! :read, @event
+    if User.current.role == 'SuperAdmin'
+     @batches ||= Batch.all
+     @departments ||= EmployeeDepartment.all
+     authorize! :read, @event
+    else
+     @batches ||= User.current.school.batches
+     @departments ||=  User.current.school.employee_departments
+     authorize! :read, @event
+   end
   end
   
   # this is used for create event for departments
   # get all departments from database
   def showdep
-    @departments ||= User.current.school.employee_departments
-    authorize! :create, Event
+    if User.current.role == 'SuperAdmin'
+      @departments ||= EmployeeDepartment.all
+       authorize! :create, Event
+    else
+      @departments ||= User.current.school.employee_departments
+      authorize! :create, Event
+    end
   end
   
   # this method is used to create event for multipal batch and department

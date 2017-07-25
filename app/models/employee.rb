@@ -493,6 +493,7 @@ class Employee < ActiveRecord::Base
       u.username = email
       u.employee_id = id
       u.password = employee_number
+      u.school_id = school_id
       u.role = 'Employee'
       u.email = email
       u.general_setting_id = if User.current

@@ -25,7 +25,11 @@ class CalenderController < ApplicationController
   
   # get all Events from database
   def view_events
-    @events = User.current.school.events
+    if User.current.role == 'SuperAdmin'
+     @events = Event.all
+    else
+     @events = User.current.school.events
+    end
   end
   
   # find Event which we selected

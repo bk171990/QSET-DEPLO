@@ -15,9 +15,15 @@ class EmployeeAttendancesController < ApplicationController
   # create leave type object,and perform authorization
   def new_leave_type
     @new_leave_type = EmployeeLeaveType.new
-    @employees ||= User.current.school.employees
-    checkstatus
-    authorize! :create, @new_leave_type
+    if User.current.role == 'SuperAdmin'
+      @employee ||= Employee.all
+       checkstatus
+      authorize! :create, @new_leave_type
+    else
+      @employees ||= User.current.school.employees
+      checkstatus
+      authorize! :create, @new_leave_type
+    end
   end
 
   # create employee leave type object and pass required parameters
@@ -26,6 +32,9 @@ class EmployeeAttendancesController < ApplicationController
   def	add_leave_type
     @new_leave_type = EmployeeLeaveType.new
     @new_leave_type1 = EmployeeLeaveType.new(params_leave)
+    if User.current.role == 'SuperAdmin'
+    @employee ||= Employee.all
+    else
     @employees ||= User.current.school.employees
     @school = User.current.school
     @new_leave_type1.update!(:school_id => @school.id)
@@ -35,7 +44,7 @@ class EmployeeAttendancesController < ApplicationController
     end
     checkstatus
   end
-
+  end
   # find employee leavetype which we want to destroy,
   # destroy method deleting that leave type from the
   # database and perform authorization

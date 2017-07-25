@@ -5,7 +5,11 @@ class QuestionTypesController < ApplicationController
   # get all question types
   def new
     @question_type = QuestionType.new
-    @question_types = User.current.school.question_types
+    if User.current.role == 'SuperAdmin'
+      @question_types = QuestionType.all
+    else
+      @question_types = User.current.school.question_types
+    end
   end
 
   # method for edit question type

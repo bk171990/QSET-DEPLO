@@ -4,6 +4,15 @@
 class ExamReportsController < ApplicationController
   # Retrieve the batches record for generate drop down list
   def exam_wise_report
+    if User.current.role == 'SuperAdmin'
+     @batches ||= Batch.includes(:course).all
+     unless Batch.first.nil?
+      @exam_groups ||= Batch.first.exam_groups
+      @batches ||= User.current.school.batches
+      @exam_groups ||= Batch.first.exam_groups
+      authorize! :read, @exam_groups.first
+    end
+  else
     @batches ||= User.current.school.batches
     unless Batch.first.nil?
       @exam_groups ||= Batch.first.exam_groups
@@ -12,6 +21,7 @@ class ExamReportsController < ApplicationController
       authorize! :read, @exam_groups.first
     end
   end
+end
 
   # This action provide the record for generate the
   # drop down list.
@@ -91,11 +101,19 @@ class ExamReportsController < ApplicationController
 
   # Retrieve the batches record for generate drop down list
   def subject_wise_report
+    if User.current.role == 'SuperAdmin'
+    @batches ||= Batch.includes(:course).all
+    @subjects ||= Batch.first.subjects unless Batch.first.nil?
+    @batches ||= Batch.includes(:course).all
+    @subjects ||= Batch.first.subjects unless Batch.first.nil?
+    authorize! :read, ExamGroup
+  else
     @batches ||= User.current.school.batches
     @subjects ||= Batch.first.subjects unless Batch.first.nil?
     @batches ||= User.current.school.batches
     @subjects ||= Batch.first.subjects unless Batch.first.nil?
     authorize! :read, ExamGroup
+  end
   end
 
   # When the batch is choosen by user then the this action
@@ -145,8 +163,13 @@ class ExamReportsController < ApplicationController
 
   # Retrieve the batches record for drop down list.
   def grouped_exam_report
-    @batches ||= User.current.school.batches
-    authorize! :read, ExamGroup
+    if User.current.role == 'SuperAdmin'
+      @batches ||= Batch.includes(:course).all
+      authorize! :read, ExamGroup
+    else
+      @batches ||= User.current.school.batches
+      authorize! :read, ExamGroup
+    end
   end
 
   # This action provide the objects for generate exam grouped
@@ -171,9 +194,15 @@ class ExamReportsController < ApplicationController
 
   # This is the action is subpart of the action 'generate_grouped_report'
   def generate_grouped_report3
-    flash[:alert] = t('group_error')
-    @batches ||= User.current.school.batches
-    render 'grouped_exam_report'
+    if User.current.role == 'SuperAdmin'
+      flash[:alert] = t('group_error')
+      @batches ||= Batch.includes(:course).all
+      render 'grouped_exam_report'
+    else
+      flash[:alert] = t('group_error')
+      @batches ||= User.current.school.batches
+      render 'grouped_exam_report'
+    end
   end
 
   # This action manage the data when user select
@@ -200,8 +229,13 @@ class ExamReportsController < ApplicationController
 
   # Retrieve the batches record for generate drop down list.
   def archived_student_report
-    @courses = User.current.school.courses
-    @batches = Course.first.batches.all unless Course.first.nil?
+    if User.current.role == 'SuperAdmin'
+      @courses=Course.all
+      @batches = Course.first.batches.all unless Course.first.nil?
+    else
+      @courses = User.current.school.courses
+      @batches = Course.first.batches.all unless Course.first.nil?
+    end
   end
 
   # Generate the data for drop down list.
@@ -222,9 +256,15 @@ class ExamReportsController < ApplicationController
         @subjects = @batch.subjects.all
       else
         flash[:notice_arch] = 'Please select batch'
-        @courses = User.current.school.courses
-        @batches = Course.first.batches.all
-        render 'archived_student_report'
+        if User.current.role == 'SuperAdmin'
+          @courses = Course.all
+          @batches = Course.first.batches.all
+          render 'archived_student_report'
+        else
+          @courses = User.current.school.courses
+          @batches = Course.first.batches.all
+          render 'archived_student_report'
+        end
       end
     end
   end
@@ -280,9 +320,16 @@ class ExamReportsController < ApplicationController
   # This action create the object to provide batch list records
   # for drop down list.
   def student_ranking_per_subject
-    @batches ||= User.current.school.batches
-    @subjects ||= Batch.last.subjects unless @subjects.nil?
-    authorize! :read, ExamGroup
+    if User.current.role == 'SuperAdmin'
+      @batches ||= Batch.includes(:course).all
+      @subjects ||= Batch.last.subjects unless @subjects.nil?
+      authorize! :read, ExamGroup
+    else
+      @batches ||= User.current.school.batches
+      @batch = @batches.last
+      @subjects ||= @batch.subjects unless @subjects.nil?
+      authorize! :read, ExamGroup
+   end
   end
 
   # This action fetch the subject details for selected batch
@@ -314,10 +361,17 @@ class ExamReportsController < ApplicationController
 
   # This is the action is subpart of the action 'generate_ranking_report'
   def generate_ranking_report3
-    flash[:alert] = t('subject_rank_errror')
-    @batches ||= @batches ||= User.current.school.batches
-    @subjects ||= Batch.last.subjects
-    render 'student_ranking_per_subject'
+    if User.current.role == 'SuperAdmin'
+      flash[:alert] = t('subject_rank_errror')
+      @batches ||= Batch.includes(:course).all
+      @subjects ||= Batch.last.subjects
+      render 'student_ranking_per_subject'
+    else
+      flash[:alert] = t('subject_rank_errror')
+      @batches ||= @batches ||= User.current.school.batches
+      @subjects ||= Batch.last.subjects
+      render 'student_ranking_per_subject'
+    end
   end
 
   # This action collect the data from database to provide
@@ -335,8 +389,13 @@ class ExamReportsController < ApplicationController
   # This action provide the data for create drop down
   # list for selecting the batches.
   def student_ranking_per_batch
-    @batches ||= @batches ||= User.current.school.batches
-    authorize! :read, ExamGroup
+    if User.current.role == 'SuperAdmin'
+      @batches ||= Batch.includes(:course).all
+       authorize! :read, ExamGroup
+    else
+      @batches ||= @batches ||= User.current.school.batches
+      authorize! :read, ExamGroup
+    end
   end
 
   # This action provide the objects for generate student ranking
@@ -362,9 +421,15 @@ class ExamReportsController < ApplicationController
   # This is the action is subpart of the action
   # 'generate_student_ranking_report'
   def generate_rank_report3
-    flash[:alert] = t('batch_rank_error')
-    @batches ||= User.current.school.batches
-    render 'student_ranking_per_batch'
+    if User.current.role == 'SuperAdmin'
+      flash[:alert] = t('batch_rank_error')
+      @batches ||= Batch.includes(:course).all
+      render 'student_ranking_per_batch'
+    else
+      flash[:alert] = t('batch_rank_error')
+      @batches ||= User.current.school.batches
+      render 'student_ranking_per_batch'
+    end
   end
 
   # This action collect the data from database to provide
@@ -382,8 +447,13 @@ class ExamReportsController < ApplicationController
   # This action retrieve the courses from database to provide
   # the record for drop down list
   def student_ranking_per_course
-    @batches ||= User.current.school.courses
-    authorize! :read, ExamGroup
+    if User.current.role == 'SuperAdmin'
+      @courses ||= Course.all
+       authorize! :read, ExamGroup
+    else
+      @batches ||= User.current.school.courses
+      authorize! :read, ExamGroup
+    end
   end
 
   # This action provide the objects for generate student ranking
@@ -401,9 +471,15 @@ class ExamReportsController < ApplicationController
   # This action is subpart of the action 'generate_student_ranking_report2'
   # and display the flash message.
   def generate_course_report
-    flash[:alert] = t('course_rank_error')
-    @batches ||= User.current.school.courses
-    render 'student_ranking_per_course'
+    if User.current.role == 'SuperAdmin'
+      flash[:alert] = t('course_rank_error')
+       @courses ||= Course.all
+      render 'student_ranking_per_course'
+    else
+      flash[:alert] = t('course_rank_error')
+      @batches ||= User.current.school.courses
+      render 'student_ranking_per_course'
+    end
   end
 
   # This action collect the data from database to provide
@@ -418,45 +494,77 @@ class ExamReportsController < ApplicationController
 
   # This action provide the ranking list for whole school students.
   def student_ranking_per_school
-    @batches ||= User.current.school.courses
-    @students ||= Student.all
-    @exam_groups ||= ExamGroup.result_published
-    authorize! :read, @exam_groups.first
+    if User.current.role == 'SuperAdmin'
+      @courses ||= Course.all
+      @students ||= Student.all
+      @exam_groups ||= ExamGroup.result_published
+      authorize! :read, @exam_groups.first
+    else
+      @batches ||= User.current.school.courses
+      @students ||= Student.all
+      @exam_groups ||= ExamGroup.result_published
+      authorize! :read, @exam_groups.first
+    end
   end
 
   # This action collect the data from database to provide
   # the information for generate pdf of school wise
   # ranking report.
   def school_wise_ranking_report
-    @batches ||= User.current.school.courses
-    @students ||= Student.all
-    @exam_groups ||= ExamGroup.result_published
-    @general_setting = GeneralSetting.first
-    render 'school_wise_ranking_report', layout: false
+    if User.current.role == 'SuperAdmin'
+      @courses ||= Course.all
+      @students ||= Student.all
+      @exam_groups ||= ExamGroup.result_published
+      @general_setting = GeneralSetting.first
+      render 'school_wise_ranking_report', layout: false
+    else
+      @batches ||= User.current.school.batches
+      @students ||= User.current.school.students
+      @exam_groups ||= ExamGroup.result_published
+      @general_setting = GeneralSetting.first
+      render 'school_wise_ranking_report', layout: false
+    end
   end
   
   # This action fetch the batch records from database to
   # to provide a data for drop down list.
   def student_ranking_per_attendance
-    @batches ||= @batches ||= User.current.school.batches
-    authorize! :read, ExamGroup
+    if User.current.role == 'SuperAdmin'
+      @batches ||= Batch.includes(:course).all
+      authorize! :read, ExamGroup
+    else
+      @batches ||= @batches ||= User.current.school.batches
+      authorize! :read, ExamGroup
+    end
   end
 
   # This action provide the objects for generate student ranking
   # wise report.
   def generate_student_ranking_report3
-    @batches ||= @batches ||= User.current.school.batches
-    @start_date = params[:rank_report][:start_date].to_date
-    @end_date = params[:rank_report][:end_date].to_date
-    if @start_date < @end_date
-      @batch = Batch.shod(params[:rank_report][:batch_id])
-      generate_attendance_report
-    else
-      generate_attendance_report2
+    if User.current.role == 'SuperAdmin'
+      @batches ||= Batch.includes(:course).all
+      @start_date = params[:rank_report][:start_date].to_date
+      @end_date = params[:rank_report][:end_date].to_date
+        if @start_date < @end_date
+          @batch = Batch.shod(params[:rank_report][:batch_id])
+          generate_attendance_report
+        else
+          generate_attendance_report2
+        end
+        authorize! :read, ExamGroup
+       else
+         @batches ||= @batches ||= User.current.school.batches
+          @start_date = params[:rank_report][:start_date].to_date
+          @end_date = params[:rank_report][:end_date].to_date
+          if @start_date < @end_date
+          @batch = Batch.shod(params[:rank_report][:batch_id])
+          generate_attendance_report
+          else
+          generate_attendance_report2
+          end
+      authorize! :read, ExamGroup
     end
-    authorize! :read, ExamGroup
   end
-
   # This is the action is subpart of the action
   # 'generate_student_ranking_report3'
   def generate_attendance_report

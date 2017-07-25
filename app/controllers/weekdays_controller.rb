@@ -8,7 +8,11 @@ class WeekdaysController < ApplicationController
     @weekday = Weekday.new
     @day ||= Weekday.day
     @days ||= Weekday.days
-    @weekdays ||= User.current.school.batches
+    if User.current.role == 'SuperAdmin'
+      @weekdays ||= Batch.includes(:course).all
+    else
+      @weekdays ||= User.current.school.batches
+    end
     authorize! :create, @weekday
   end
 

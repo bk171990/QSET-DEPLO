@@ -5,7 +5,11 @@ class PlacementNewsController < ApplicationController
   # Get all placement news
   def index
     @placement_new = PlacementNews.new
-    @placement_news = User.current.school.placement_news
+    if User.current.role == 'SuperAdmin'
+      @placement_news = PlacementNews.all
+    else
+      @placement_news = User.current.school.placement_news
+    end
   end
 
   # this method used for edit placement news

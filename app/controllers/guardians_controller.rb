@@ -9,6 +9,8 @@ class GuardiansController < ApplicationController
     temp_email = params['guardian']['email']
     downcase_email = temp_email.downcase
     @guardian.email = downcase_email
+    @school = User.current.school
+    @guardian.update!(:school_id => @school.id)
     if @guardian.save
       redirect_to admission2_1_students_path(@student)
     else

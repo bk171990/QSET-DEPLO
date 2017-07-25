@@ -5,9 +5,14 @@ class CoursesController < ApplicationController
 
   # Get all Courses from database, and perform authorization
   def index
-     @school = User.current.school
-     @courses = @school.courses
-    authorize! :read, @courses.first
+     if User.current.role == 'SuperAdmin'
+       @courses ||= Course.all
+       authorize! :read, @courses.first
+     else
+       @school = User.current.school
+       @courses = @school.courses
+       authorize! :read, @courses.first
+     end
   end
 
   # create new object of Course and Batch, make association

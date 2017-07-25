@@ -3,12 +3,20 @@ class TimeTablesController < ApplicationController
   # get all employee from database and
   # assign employees to particular subject,and perform authorization
   def work_allotment
+    if User.current.role == 'SuperAdmin'
+      @employees = Employee.all
+    else
     @employees ||= User.current.school.employees
+    end
     if request.post?
       @error_obj = EmployeeSubject.allot_work(params[:employee_subjects])
       flash[:notice] = t('work_allotment_update')
     end
-    @batches ||= User.current.school.batches
+    if User.current.role == 'SuperAdmin'
+      @batches = Batch.all
+    else
+      @batches ||= User.current.school.batches
+    end
     @subjects = @batches.includes(:subjects).flatten
     authorize! :create, TimeTable
   end
@@ -46,8 +54,13 @@ class TimeTablesController < ApplicationController
 
   # get all time table from database,and perform authorization
   def new
-    @timetables ||= User.current.school.time_tables
-    authorize! :read, TimeTableEntry
+    binding.pry
+    if User.current.role == 'SuperAdmin'
+       @timetables ||= TimeTable.all
+    else
+      @timetables ||= User.current.school.time_tables
+      authorize! :read, TimeTableEntry
+    end
   end
 
   # find time table which we selected and batches related to that time table
@@ -115,8 +128,12 @@ class TimeTablesController < ApplicationController
 
   # get all timetable from database,and perform authorization
   def teachers_timetable
-    @timetables ||= User.current.school.time_tables
-    authorize! :read, TimeTableEntry
+    if User.current.role == 'SuperAdmin'
+      @timetables ||= TimeTable.all
+    else
+      @timetables ||= User.current.school.time_tables
+    end
+      authorize! :read, TimeTableEntry
   end
 
   # find timetable to genretaed teacher time table pdf
@@ -132,9 +149,14 @@ class TimeTablesController < ApplicationController
 
   # get all timetable from database,and perform authorization
   def edit_timetable
-    @courses ||= Batch.all
-    @timetables ||= User.current.school.time_tables
-    authorize! :update, @timetables.first
+    if User.current.role == 'SuperAdmin'
+      @courses ||= Batch.all
+      @timetables ||= TimeTable.all
+    else
+      @courses ||= User.current.school.batches
+      @timetables ||= User.current.school.time_tables
+    end
+       authorize! :update, @timetables.first
   end
 
   # find timetable which we want to edit and pass it to update_timetable_values

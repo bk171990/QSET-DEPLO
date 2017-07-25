@@ -2,7 +2,11 @@ class ReportsController < ApplicationController
 	 before_action :load_report, only: [:import, :import_form], unless: -> { params[:id].nil? }
 
    def report_index
+    if User.current.role == 'SuperAdmin'
+      @reports = Report.all
+    else
 	  	@reports = User.current.school.reports
+    end
 	 end
 
 	 def new_report

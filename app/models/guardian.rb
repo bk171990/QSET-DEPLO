@@ -2,6 +2,7 @@
 class Guardian < ActiveRecord::Base
   belongs_to :country
   belongs_to :student
+  belongs_to :school
   validates :email, presence: true, format: { with: /\A[a-zA-Z0-9._-]+@([a-zA-Z0-9]+\.)+[a-zA-Z]{2,4}+\z/ }, allow_blank: true
   validates :first_name, presence: true, format: { with: /\A[a-zA-Z]+\z/, message: 'only allows letters' }
   validates_length_of :first_name, minimum: 1, maximum: 20
@@ -23,6 +24,7 @@ class Guardian < ActiveRecord::Base
                         length: { in: 1..20 }, allow_blank: true
   scope :shod, ->(id) { where(id: id).take }
   scope :discover, ->(s, r) { where(student_id: s, relation: r).take }
+  after_save :create_user_account
 
   # return full student name by joining first name and last name
   def student_name
@@ -76,10 +78,15 @@ end
       u.last_name = last_name
       u.username = email
       u.student_id = student.id
+      u.school_id = school_id
       u.password = 'P' + student.admission_no
       u.role = 'Parent'
       u.email = email
-      u.general_setting_id =  User.current.general_setting.id
+      u.general_setting_id = if User.current
+                               User.current.general_setting_id
+                             else
+                               1
+                             end
     end
     user.save
     p user.errors

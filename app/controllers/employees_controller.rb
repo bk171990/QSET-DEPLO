@@ -398,8 +398,13 @@ class EmployeesController < ApplicationController
   # this method used for
   def admission3
     @employee = Employee.shod(params[:format])
-    @bank_fields ||= User.current.school.bank_fields
-    authorize! :update, @employee
+    if User.current.role == 'SuperAdmin'
+       @bank_fields ||= BankField.all
+       authorize! :update, @employee
+     else
+      @bank_fields ||= User.current.school.bank_fields
+      authorize! :update, @employee
+    end
   end
 
   # This method used for create employee information of bank field,
@@ -408,6 +413,15 @@ class EmployeesController < ApplicationController
   # redirect to edit privileges and perform athorization
 
   def admission3_create
+    if User.current.role == 'SuperAdmin'
+      @employee = Employee.find(params[:format])
+    @bank_fields ||= BankField.all
+    if request.post?
+      EmployeeBankDetail.bankdetails(@employee, params[:bank_details])
+    end
+    redirect_to edit_privilege_employees_path(@employee)
+    authorize! :update, @employee
+    else
     @employee = Employee.find(params[:format])
     @bank_fields ||= User.current.school.bank_fields
     if request.post?
@@ -416,6 +430,7 @@ class EmployeesController < ApplicationController
     redirect_to edit_privilege_employees_path(@employee)
     authorize! :update, @employee
   end
+ end
 
   # This method used for display all privileges ,find
   # employee whose privileges to set and perform authorization
@@ -544,7 +559,11 @@ class EmployeesController < ApplicationController
   # This method is used for subject assignment,
   # list all batches including courses
   def subject_assignment
-    @batches = User.current.school.batches
+    if User.current.role == 'SuperAdmin'
+      @batches = Batch.includes(:course).all
+      else
+      @batches = User.current.school.batches
+    end
   end
 
   # This method is used for assigning subject,
@@ -612,7 +631,11 @@ class EmployeesController < ApplicationController
   # This method is used for search employee,
   # hold the list of all department
   def search_employee
-    @department ||= User.current.school.employee_departments
+    if User.current.role == 'SuperAdmin'
+      @department ||= EmployeeDepartment.all
+    else
+      @department ||= User.current.school.employee_departments
+    end
   end
 
   # This method is used for search employee on various criteria
@@ -649,7 +672,11 @@ class EmployeesController < ApplicationController
 
   # This method used for getting list of all employee department
   def select_employee_department
-    @department ||= User.current.school.employee_departments
+    if User.current.role == 'SuperAdmin'
+      @department ||= EmployeeDepartment.all
+    else
+      @department ||= User.current.school.employee_departments
+    end
   end
 
   # this method hold the list of all employees of selectd department
@@ -662,9 +689,15 @@ class EmployeesController < ApplicationController
   # first find employee whose payroll categories to be display,
   # then find all payroll categories belongs to that employee
   def monthly_payslip
-    @employee = Employee.shod(params[:format])
-    @independent_categories ||= User.current.school.payroll_categories
-    authorize! :update, @employee
+    if User.current.role == 'SuperAdmin'
+      @employee = Employee.shod(params[:format])
+      @independent_categories ||= PayrollCategory.all
+      authorize! :update, @employee
+    else
+      @employee = Employee.shod(params[:format])
+      @independent_categories ||= User.current.school.payroll_categories
+      authorize! :update, @employee
+    end
   end
 
   # This method is used for payslip generation of all employees,then
@@ -673,11 +706,19 @@ class EmployeesController < ApplicationController
   # call on instance method one click that contain logic for
   # payslip calculation
   def one_click_payslip_generate
-    salary_date = params[:payslip][:joining_date].to_date
-    @employees ||= User.current.school.employees
-    already_created = MonthlyPayslip.all.pluck(:employee_id)
-    @employees.one_click(@employees, already_created, salary_date)
-    one_click_pay(salary_date)
+    if User.current.role == 'SuperAdmin'
+      salary_date = params[:payslip][:joining_date].to_date
+      @employees ||= Employee.all
+      already_created = MonthlyPayslip.all.pluck(:employee_id)
+      @employees.one_click(@employees, already_created, salary_date)
+      one_click_pay(salary_date)
+    else
+      salary_date = params[:payslip][:joining_date].to_date
+      @employees ||= User.current.school.employees
+      already_created = MonthlyPayslip.all.pluck(:employee_id)
+      @employees.one_click(@employees, already_created, salary_date)
+      one_click_pay(salary_date)
+    end
   end
 
   # this method is used in one click payslip generate
@@ -737,7 +778,11 @@ class EmployeesController < ApplicationController
   def employee_structure
     @salary_date = params[:salery_date]
     @employee = Employee.find(params[:employee_id])
-    @independent_categories = User.current.school.payroll_categories
+    if User.current.role == 'SuperAdmin'
+      @independent_categories = PayrollCategory.all
+    else
+      @independent_categories = User.current.school.payroll_categories
+    end
     @amount = params[:amount]
     @payroll_category = params[:id]
     @salary = Employee.emp(@employee, @payroll_category, @amount)

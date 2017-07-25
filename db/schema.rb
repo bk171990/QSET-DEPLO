@@ -921,9 +921,11 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.string   "education",            limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "school_id",            limit: 4
   end
 
   add_index "guardians", ["country_id"], name: "index_guardians_on_country_id", using: :btree
+  add_index "guardians", ["school_id"], name: "index_guardians_on_school_id", using: :btree
   add_index "guardians", ["student_id"], name: "index_guardians_on_student_id", using: :btree
 
   create_table "individual_payslip_categories", force: :cascade do |t|
@@ -964,7 +966,10 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.boolean  "is_deleted",                               default: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "school_id",   limit: 4
   end
+
+  add_index "liabilities", ["school_id"], name: "index_liabilities_on_school_id", using: :btree
 
   create_table "monthly_payslips", force: :cascade do |t|
     t.date     "salary_date"
@@ -1549,6 +1554,8 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
   add_foreign_key "finance_transactions", "schools"
   add_foreign_key "general_settings", "schools"
   add_foreign_key "grading_levels", "schools"
+  add_foreign_key "guardians", "schools"
+  add_foreign_key "liabilities", "schools"
   add_foreign_key "newscasts", "schools"
   add_foreign_key "payroll_categories", "schools"
   add_foreign_key "placement_exams", "schools"

@@ -3,8 +3,13 @@
 class ClassTimingsController < ApplicationController
   # Get all Batches from database, and perform authorization
   def index
-    @batches ||= User.current.school.batches
-    authorize! :read, ClassTiming
+    if User.current.role == 'SuperAdmin'
+      @batches ||= Batch.includes(:course).all
+      authorize! :read, ClassTiming
+    else
+      @batches ||= User.current.school.batches
+      authorize! :read, ClassTiming
+    end
   end
 
   # create class timing object,get selected batch and association of that

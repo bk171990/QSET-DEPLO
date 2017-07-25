@@ -22,20 +22,27 @@ class StudentsController < ApplicationController
     @student.admission_no = Student.set_admission_no
     @student.class_roll_no = params[:student]
     if User.current.role == 'SuperAdmin'
-      @batches ||= Batch.includes(:courses).all
+      @batches ||= Batch.includes(:course).all
+      @countries ||= Country.all
+      @categories ||= Category.all
+     authorize! :create, @student
     else
-      @batches ||= User.current.school.courses
+      @batches ||= User.current.school.batches
+      @countries ||= Country.all
+      @categories ||= User.current.school.categories
+      authorize! :create, @student
     end
-    @countries ||= Country.all
-    @categories ||= User.current.school.categories
-    authorize! :create, @student
   end
 
   # This action save the student record in the database. before save the
   # record email id is convert into small case alphabet.
   def create
     @student = Student.new(student_params)
+    if User.current.role == 'SuperAdmin'
+      @batches = Batch.all
+    else
     @batches ||= User.current.school.batches
+  end
     temp_email = params['student']['email']
     downcase_email = temp_email.downcase
     @student.email = downcase_email
@@ -170,7 +177,7 @@ class StudentsController < ApplicationController
   # View the all students for selected batch.
   def view_all
     if User.current.role == 'SuperAdmin'
-      @batches ||= Batch.includes(:courses).all
+      @batches ||= Batch.includes(:course).all
       @students = Student.all
     else
       @batches ||= User.current.school.courses

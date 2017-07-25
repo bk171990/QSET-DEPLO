@@ -5,7 +5,11 @@ class CompaniesController < ApplicationController
   # this method is used for hold the list of all companies
   def index
     @company = Company.new
+    if User.current.role == 'SuperAdmin'
+      @companies = Company.all
+    else
     @companies = User.current.school.companies
+    end
   end
 
   # This method used for create companies,

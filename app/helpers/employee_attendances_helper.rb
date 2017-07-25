@@ -46,18 +46,18 @@ module EmployeeAttendancesHelper
   end
 
   def emp_department_collect
-    EmployeeDepartment.all.collect { |b| [b.name, b.id] }
+   User.current.school.employee_departments.collect { |b| [b.name, b.id] }
   end
 
   def emp_category_collect
-    EmployeeUser.current.school.categories.collect { |b| [b.name, b.id] }
+     User.current.school.employee_categories.collect { |b| [b.name, b.id] }
   end
 
   def emp_position_collect
-    EmployeePosition.all.collect { |b| [b.name, b.id] }
+    User.current.school.employee_positions.collect { |b| [b.name, b.id] }
   end
 
   def emp_grade_collect
-    EmployeeGrade.all.collect { |b| [b.name, b.id] }
+    User.current.school.employee_grades.all.collect { |b| [b.name, b.id] }
   end
 end

@@ -4,6 +4,14 @@
     <div class="box-header well">
       <h2>Activity Details</h2>
     </div>
+ <div class="col-xs-6">
+    <h3>Total Users</h3>
+    <%= pie_chart User.group(:role).count %>
+  </div>
+  <div class="col-xs-6">
+    <h3>Total Schools</h3>
+    <%= pie_chart School.group(:name).count %>
+  </div>
 
     <div class="box-content">
     <table class="datatable display responsive no-wrap table">
@@ -42,4 +50,3 @@
   </div>
 </div>
 </div>
-

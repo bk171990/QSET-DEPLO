@@ -61,7 +61,11 @@ class NewscastsController < ApplicationController
 
   # this method used for display all newscast in desecnding order
   def display
-    @newscasts ||= User.current.school.newscasts
+    if User.current.role == 'SuperAdmin'
+       @newscasts ||= Newscast.order(created_at: :desc).includes(:user)
+    else
+      @newscasts ||= User.current.school.newscasts
+    end
   end
 
   private

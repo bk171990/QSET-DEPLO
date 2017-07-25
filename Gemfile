@@ -35,6 +35,8 @@ gem 'roo'
 gem 'passenger'
 gem 'table_print'
 gem 'chartkick'
+gem 'groupdate', '~> 2.1.1'
+gem 'active_median', '~> 0.1.0'
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 gem 'yaml_db'
@@ -44,8 +46,6 @@ gem 'will_paginate', '~> 3.1.0'
 
 
 gem 'capistrano-passenger'
-gem 'groupdate', '~> 2.1.1'
-gem 'active_median', '~> 0.1.0'
 gem 'calendar_date_select'
 gem 'jquery-ui-rails'
 gem 'momentjs-rails', '>= 2.9.0'
