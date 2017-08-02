@@ -1,6 +1,6 @@
 class Student < ActiveRecord::Base
   include Activity
-   belongs_to :country
+  belongs_to :country
   belongs_to :batch
   belongs_to :category
   belongs_to :nationality, class_name: 'Country'
@@ -33,6 +33,12 @@ class Student < ActiveRecord::Base
   validates :last_name, presence: true, format: \
   { with: /\A[a-z A-Z]+\z/, message: 'only allows letters' }
   validates_length_of :last_name, minimum: 1, maximum: 20
+
+  validates :phone1, numericality: { only_integer: true }, length: \
+  { minimum: 6, maximum: 11 }, allow_blank: true
+  
+  validates :phone2, numericality: { only_integer: true }, length: \
+  { minimum: 6, maximum: 11 }, allow_blank: true
 
   validates :date_of_birth, presence: true
   validates :batch_id, presence: true
