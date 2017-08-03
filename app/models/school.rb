@@ -6,6 +6,8 @@ class School < ActiveRecord::Base
   has_many :finance_transactions
   has_many :courses
   has_many :liabilities
+  has_many :attendences
+  has_many :employee_attendances
   has_many :employees
   has_many :time_tables
   has_many :question_databases
@@ -14,7 +16,7 @@ class School < ActiveRecord::Base
   has_many :placement_news
   has_many :categories
   has_many :employee_categories
-  has_one :user
+  has_many :users
   has_many :newscasts
   has_many :reports
   has_many :events
@@ -52,7 +54,7 @@ class School < ActiveRecord::Base
 
   def create_user_account
 	     User.create!(
-        username: self.username,
+        username: self.email,
         password: self.password,
         email: self.email,
         first_name: self.name,

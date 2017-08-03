@@ -39,12 +39,18 @@
              <%=f.date_field :joining_date, class: "form-control datepicker" %>
 
            </div>
-
+           <% if User.current.role == 'SuperAdmin'%>
            <div class="form-group">
             <b>Position:</b>
             <%= f.select :employee_position_id,EmployeePosition.all.collect {|b| [b.name,b.id]},{prompt:true},{class:"form-control"}%>
           </div>
-          
+          <%else%>
+          <div class="form-group">
+            <b>Position:</b>
+            <%= f.select :employee_position_id,User.current.school.employee_positions.all.collect {|b| [b.name,b.id]},{prompt:true},{class:"form-control"}%>
+          </div>
+          <%end%>
+
           <div class="form-group">
             <b>Gender:</b>&nbsp;&nbsp;
             <%=f.radio_button :gender,"All", :checked => "checked" %>&nbsp;<b>All</b>&nbsp;&nbsp;
@@ -64,19 +70,41 @@
           <%=f.select :marital_status, ["single","married","divorced"],{prompt:true},{class:"form-control"}%>
         </div>
 
+      <% if User.current.role == 'SuperAdmin'%>
         <div class="form-group">
          <b>Category:</b>
-         <%= f.select :employee_category_id, EmployeeUser.current.school.categories.collect {|b| [b.name,b.id]},{prompt:true},{class:"form-control"}%>
+         <%= f.select :employee_category_id, EmployeeCategory.all.collect {|b| [b.name,b.id]},{prompt:true},{class:"form-control"}%>
        </div>
-
+       <%else%>
+        <div class="form-group">
+         <b>Category:</b>
+         <%= f.select :employee_category_id,User.current.school.categories.collect {|b| [b.name,b.id]},{prompt:true},{class:"form-control"}%>
+       </div>
+      <%end%>
+      
+      <% if User.current.role == 'SuperAdmin'%>
        <div class="form-group">
         <b>Department:</b>
         <%= f.select :employee_department_id, EmployeeDepartment.all.collect {|b| [b.name,b.id]},{prompt:true},{class:"form-control"}%>
       </div>
+      <%else%>
+       <div class="form-group">
+        <b>Department:</b>
+        <%= f.select :employee_department_id, User.current.school.employee_departments.collect {|b| [b.name,b.id]},{prompt:true},{class:"form-control"}%>
+      </div>
+    <%end%>
+
+<% if User.current.role == 'SuperAdmin'%>
       <div class="form-group">
         <b>Grade:</b>
         <%= f.select :employee_grade_id, EmployeeGrade.all.collect {|b| [b.name,b.id]},{prompt:true},{class:"form-control"}%>
       </div>
+      <%else%>
+      <div class="form-group">
+        <b>Grade:</b>
+        <%= f.select :employee_grade_id, User.current.school.employee_grades.collect {|b| [b.name,b.id]},{prompt:true},{class:"form-control"}%>
+      </div>
+      <%end%>
 
       <div class="form-group">
 

@@ -25,8 +25,10 @@ class EventsController < ApplicationController
   # create action is saving our new Event to the database.
   def create
     @event = Event.new(params_event)
+    if User.current.role != 'SuperAdmin'
     @school = User.current.school
     @event.update!(:school_id => @school.id)
+   end
     if @event.save
       @event.create_event(params[:batches],params[:departments])
       flash[:notice] = 'Event created successfully'

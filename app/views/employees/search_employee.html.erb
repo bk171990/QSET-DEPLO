@@ -35,13 +35,28 @@
      </tr>
 
  	 <tr>
-         <td class="col-3"><%= f.select :employee_department_id, User.current.school.employee_departments.collect {|b| [b.name,b.id]},{prompt:"Select Department"},{onchange:"$('#user_form').submit();", class: 'form-control'}%></td>
-  
-         <td class="col-3"><%= f.select :employee_category_id,User.current.school.categories.collect {|b| [b.name,b.id]},{prompt:"Select Category"},{onchange:"$('#user_form').submit();", class: 'form-control'}%></td>
+   <%if User.current.role == 'SuperAdmin'%>
+    <td class="col-3"><%= f.select :employee_department_id, EmployeeDepartment.all.collect {|b| [b.name,b.id]},{prompt:"Select Department"},{onchange:"$('#user_form').submit();", class: 'form-control'}%></td>
+   <%else%>
+    <td class="col-3"><%= f.select :employee_department_id, User.current.school.employee_departments.collect {|b| [b.name,b.id]},{prompt:"Select Department"},{onchange:"$('#user_form').submit();", class: 'form-control'}%></td>
+    <%end%>
+    <%if User.current.role == 'SuperAdmin'%>
+      <td class="col-3"><%= f.select :employee_category_id, EmployeeCategory.all.collect {|b| [b.name,b.id]},{prompt:"Select Category"},{onchange:"$('#user_form').submit();", class: 'form-control'}%></td>
+    <%else%>
+      <td class="col-3"><%= f.select :employee_category_id,User.current.school.employee_categories.collect {|b| [b.name,b.id]},{prompt:"Select Category"},{onchange:"$('#user_form').submit();", class: 'form-control'}%></td>
+    <%end%>
     
-         <td class="col-3"><%= f.select :employee_position_id,User.current.school.employee_positions.all.collect {|b| [b.name,b.id]},{prompt:"Select Position"},{onchange:"$('#user_form').submit();", class: 'form-control'}%></td>
+    <%if User.current.role == 'SuperAdmin'%>
+      <td class="col-3"><%= f.select :employee_position_id,EmployeePosition.all.collect {|b| [b.name,b.id]},{prompt:"Select Position"},{onchange:"$('#user_form').submit();", class: 'form-control'}%></td>
+      <%else%>
+      <td class="col-3"><%= f.select :employee_position_id,User.current.school.employee_positions.all.collect {|b| [b.name,b.id]},{prompt:"Select Position"},{onchange:"$('#user_form').submit();", class: 'form-control'}%></td>
+    <%end%>
     
-         <td class="col-3"><%= f.select :employee_grade_id, User.current.school.employee_grades.collect {|b| [b.name,b.id]},{prompt:"Select Grade"},{onchange:"$('#user_form').submit();", class: 'form-control'}%></td>
+    <%if User.current.role == 'SuperAdmin'%>
+     <td class="col-3"><%= f.select :employee_grade_id, EmployeeGrade.all.collect {|b| [b.name,b.id]},{prompt:"Select Grade"},{onchange:"$('#user_form').submit();", class: 'form-control'}%></td>
+    <%else%>
+      <td class="col-3"><%= f.select :employee_grade_id, User.current.school.employee_grades.collect {|b| [b.name,b.id]},{prompt:"Select Grade"},{onchange:"$('#user_form').submit();", class: 'form-control'}%></td>
+    <%end%>
      </tr>
 
    

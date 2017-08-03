@@ -25,38 +25,68 @@ class EmployeesController < ApplicationController
   # check employee category is active or inactive
   # we can add employee category
   def emp_category
-    @categories1 ||= EmployeeCategory.is_status
-    @categories2 ||= EmployeeCategory.not_status
+    if User.current.role == 'SuperAdmin'
+       @categories1 ||= EmployeeCategory.is_status
+       @categories2 ||= EmployeeCategory.not_status
+    else
+       @categories1 ||= User.current.school.employee_categories.is_status
+       @categories2 ||= User.current.school.employee_categories.not_status
+     end
   end
 
   # check employee department category is active or inactive
   def emp_department
-    @departments1 ||= EmployeeDepartment.is_status
-    @departments2 ||= EmployeeDepartment.not_status
+    if User.current.role == 'SuperAdmin'
+      @departments1 ||= EmployeeDepartment.is_status
+      @departments2 ||= EmployeeDepartment.not_status
+    else
+       @departments1 ||= User.current.school.employee_departments.is_status
+       @departments2 ||= User.current.school.employee_departments.not_status
+    end
   end
 
   # check employee position is active or inactive
   def emp_position
-    @positions1 ||= EmployeePosition.is_status
-    @positions2 ||= EmployeePosition.not_status
+    if User.current.role == 'SuperAdmin'
+     @positions1 ||= EmployeePosition.is_status
+     @positions2 ||= EmployeePosition.not_status
+    else
+      @positions1 ||= User.current.school.employee_positions.is_status
+      @positions2 ||= User.current.school.employee_positions.not_status 
+    end
   end
 
   # check employee bank field is active or inactive
   def bank_field
-    @bank_fields1 ||= BankField.is_status
-    @bank_fields2 ||= BankField.not_status
+    if User.current.role == 'SuperAdmin'
+      @bank_fields1 ||= BankField.is_status
+      @bank_fields2 ||= BankField.not_status
+    else
+      @bank_fields1 ||= User.current.school.bank_fields.is_status
+      @bank_fields2 ||= User.current.school.bank_fields.not_status
+    end
   end
 
   # check employee payroll category is active or inactive
   def pay_category
-    @payroll_categories1 ||= PayrollCategory.not_deduction
-    @payroll_categories2 ||= PayrollCategory.is_deduction
+    if User.current.role == 'SuperAdmin'
+      @payroll_categories1 ||= PayrollCategory.not_deduction
+      @payroll_categories2 ||= PayrollCategory.is_deduction
+    else
+      @payroll_categories1 ||= User.current.school.payroll_categories.not_deduction
+      @payroll_categories2 ||= User.current.school.payroll_categories.is_deduction
+    end
   end
 
   # check employee grade is active or inactive
   def emp_grade
-    @grade1 ||= EmployeeGrade.is_status
-    @grade2 ||= EmployeeGrade.not_status
+    if User.current.role == 'SuperAdmin'
+      @grade1 ||= EmployeeGrade.is_status
+      @grade2 ||= EmployeeGrade.not_status
+    else
+      @grade1 ||= User.current.school.employee_grades.is_status
+      @grade2 ||= User.current.school.employee_grades.not_status
+    end
   end
 
   # add new employee category here,create new

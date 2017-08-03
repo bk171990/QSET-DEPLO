@@ -481,14 +481,14 @@ class FinanceController < ApplicationController
   end
 
   # Display transaction list for given start date and end date.
-  def transactions_list
+   def transactions_list
     @start_date = params[:transaction][:start_date].to_date
     @end_date = params[:transaction][:end_date].to_date
     if @start_date.nil? || @end_date.nil?
       flash[:alert] = t('transaction_error')
       render 'transaction_report'
     else
-      @categories ||=   FinanceFeeCategory.all
+      @categories ||= FinanceTransactionCategory.all
     end
     authorize! :read, @categories.first unless @categories.nil?
   end
@@ -533,7 +533,7 @@ class FinanceController < ApplicationController
       || @end_date1.nil? || @end_date2.nil?
       render 'compare_report', alert: t('transaction_error')
     else
-      @categories ||=   FinanceFeeCategory.all
+      @categories ||=   FinanceTransactionCategory.all
     end
   end
 
@@ -550,19 +550,13 @@ class FinanceController < ApplicationController
 
   # Fetch all batches in batches object.
   def assign_batch
-   if User.current.role == 'SuperAdmin'
-      @batches ||= Batch.all
-    else
-      @batches ||= User.current.school.batches
-    end
+   if User.current.role == 'SuperAdmin' ? @batches ||= Batch.all : @batches ||= User.current.school.batches
+   end
   end
 
   # Fetch all batches in batches object.
   def remove_batch
-    if User.current.role == 'SuperAdmin'
-      @batches ||= Batch.all
-    else
-      @batches ||= User.current.school.batches
+    if User.current.role == 'SuperAdmin' ? @batches ||= Batch.all : @batches ||= User.current.school.batches
     end
   end
 
@@ -638,7 +632,7 @@ class FinanceController < ApplicationController
 
   # Insert the record of particular fee for specific finance category.
   def create_fees_particular
-    @categories ||= FinanceFeeUser.current.school.categories
+    @categories ||= User.current.school.categories
     @fee = FinanceFeeParticular.new(fee_particular_params)
     @school = User.current.school
     @fee.update!(:school_id => @school.id)
@@ -908,9 +902,15 @@ class FinanceController < ApplicationController
 
   # Displaying fee collection reciept of students accorging to batch.
   def fees_submission_batch
-    @batches ||= User.current.school.batches
-    @collections ||= Batch.first.finance_fee_collections unless Batch.first.nil?
-    authorize! :read, @collections.first unless @collections.nil?
+    if User.current.role == 'SuperAdmin'
+      @batches ||= Batch.all
+      @collections ||= Batch.first.finance_fee_collections unless Batch.first.nil?
+      authorize! :read, @collections.first unless @collections.nil?
+    else
+       @batches ||= User.current.school.batches
+       @collections ||= Batch.first.finance_fee_collections unless Batch.first.nil?
+       authorize! :read, @collections.first unless @collections.nil?
+    end
   end
 
   # This action helpful to generate the data for collection list.
@@ -1049,8 +1049,8 @@ class FinanceController < ApplicationController
       @students = Student.search(params[:search], 'present')
     else
     @student = User.current.school.students
-    end
     @students = @student.search(params[:search], 'present')
+    end
   end
 
   # Display all collection which is applied to specific student.
@@ -1122,12 +1122,15 @@ class FinanceController < ApplicationController
   def fees_defaulters
     if User.current.role == 'SuperAdmin'
        @courses ||= Course.all
+       @batches ||= Course.first.batches unless Course.first.nil?
+        @collections ||= Batch.first.finance_fee_collections unless Batch.first.nil?
+        authorize! :read, @collections.first unless @collections.nil?
     else
-       @courses ||= User.current.school.courses
+      @courses ||= User.current.school.courses
+      @batches ||= Course.first.batches unless Course.first.nil?
+      @collections ||= Batch.first.finance_fee_collections unless Batch.first.nil?
+      authorize! :read, @collections.first unless @collections.nil?
     end
-    @batches ||= Course.first.batches unless Course.first.nil?
-    @collections ||= Batch.first.finance_fee_collections unless Batch.first.nil?
-    authorize! :read, @collections.first unless @collections.nil?
   end
 
   # Collect batches of specific course.
@@ -1201,6 +1204,7 @@ class FinanceController < ApplicationController
   def view_monthly_payslip
     if User.current.role == 'SuperAdmin'
       @departments ||= EmployeeDepartment.all
+      @salary_months ||= MonthlyPayslip.select(:salary_date).distinct
     else
       @departments ||= User.current.school.employee_departments
       @salary_months ||= MonthlyPayslip.select(:salary_date).distinct

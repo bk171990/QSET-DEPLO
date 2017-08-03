@@ -180,7 +180,7 @@ class StudentsController < ApplicationController
       @batches ||= Batch.includes(:course).all
       @students = Student.all
     else
-      @batches ||= User.current.school.courses
+      @batches ||= User.current.school.batches
       @school = User.current.school
       @students = @school.students
     end  
@@ -397,7 +397,11 @@ class StudentsController < ApplicationController
   # This action generate the data for advance search drop down list
   # i.e. Select course and select batch.
   def advanced_search
-    @courses ||= User.current.school.courses
+    if User.current.role == 'SuperAdmin'
+      @courses = Course.all
+    else
+      @courses ||= User.current.school.courses
+    end
     @batches ||= Course.first.batches unless Course.first.nil?
     authorize! :read, @student
   end
@@ -537,13 +541,15 @@ class StudentsController < ApplicationController
   def archived_student_create
     @student = Student.shod(params[:format])
     @archived_student = @student.archived_student
+      @school = User.current.school
+    @archived_student.update!(:school_id => @school.id)
     @archived_student.update(status_description: \
       params[:archived_student][:status_description])
     s=StudentLog.where(student_id:@student)
     s.each do |m|
      StudentLog.destroy(m.id)
     end
-    @student.destroy
+    @student.delete
     redirect_to archived_profile_student_path(@archived_student)
   end
 

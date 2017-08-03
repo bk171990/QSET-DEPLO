@@ -12,12 +12,18 @@
 
   <div class="col-md-11 col-md-offset-1">
   <%= form_for :view_payslip, url:{action:'select_month'},method: :get,remote:true,html:{id: "user_form2"} do |f|%>
+      <%if User.current.role == 'SuperAdmin'%>
 
+      <b>Select a Department:</b>
+        <%= f.select :id, EmployeeDepartment.all.collect {|b| [b.name,b.id]},{prompt:true},{onchange:"$('#user_form2').submit();",class:"form-control",style: "width:250px"}%>
+
+        <%else%>
 	
 	    <b>Select a Department:</b>
 		    <%= f.select :id, User.current.school.employee_departments.collect {|b| [b.name,b.id]},{prompt:true},{onchange:"$('#user_form2').submit();",class:"form-control",style: "width:250px"}%>
 
 	 <%end%>
+     <%end%>
 </div>
 </div>
 <br>

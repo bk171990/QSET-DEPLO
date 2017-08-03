@@ -105,6 +105,7 @@ class TimeTableEntriesController < ApplicationController
       @batches = User.current.school.batches
     authorize! :create, @timetable
   end
+  end
 
   private
 

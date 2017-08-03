@@ -100,7 +100,18 @@
     <h3>Total Users</h3>
     <%= pie_chart User.group(:role).count %>
   </div>
-  <div class="col-xs-6">
-    <h3>Total Schools</h3>
-    <%= pie_chart School.group(:name).count %>
-  </div>
+ <div class="col-xs-6">
+<h3>Total Students in School</h3>
+  <%= column_chart School.all.map { |goal|
+    {name: goal.name, data: goal.students.group(:created_at).count}
+} %>
+</div>
+
+ <div class="col-xs-6">
+<h3>TotalEmployee in School</h3>
+  <%= line_chart School.all.map { |goal|
+    {name: goal.name, data: goal.employee_attendances.group_by_week(:created_at).count}
+} %>
+</div>
+
+ 

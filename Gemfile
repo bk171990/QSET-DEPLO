@@ -1,6 +1,10 @@
 source 'https://rubygems.org'
 # gem 'hirb', :require => nil
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
+git_source :github do |repo|
+  repo = "#{repo}/#{repo}" unless repo.include? '/'
+  "https://github.com/#{repo}.git"
+end
 gem 'rails'
 
 # Use SCSS for stylesheets
@@ -18,7 +22,7 @@ gem 'devise'
 gem 'cancan'
 gem 'pdfkit'
 gem 'wkhtmltopdf-binary'
-
+gem "groupdate"
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
@@ -35,7 +39,6 @@ gem 'roo'
 gem 'passenger'
 gem 'table_print'
 gem 'chartkick'
-gem 'groupdate', '~> 2.1.1'
 gem 'active_median', '~> 0.1.0'
 # Use debugger
 # gem 'debugger', group: [:development, :test]

@@ -500,8 +500,8 @@ end
       @exam_groups ||= ExamGroup.result_published
       authorize! :read, @exam_groups.first
     else
-      @batches ||= User.current.school.courses
-      @students ||= Student.all
+      @courses ||= User.current.school.courses
+      @students ||= User.current.school.students
       @exam_groups ||= ExamGroup.result_published
       authorize! :read, @exam_groups.first
     end

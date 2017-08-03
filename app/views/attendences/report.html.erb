@@ -15,10 +15,13 @@
 <%= form_for :batch, :url=>{:action=>'select_batch'},html:{id: 'form_batch'},remote:true,method: :get do |f| %>
   
   <b> Select a Batch: </b>
-      
+      <%if User.current.role == 'SuperAdmin'%>
       <%= f.select :id,Batch.all.collect {|b| [b.course.course_name+" "+b.course.section_name+" - "+b.name,b.id]},{prompt:true},{onchange:"$('#form_batch').submit();",class:"form-control",style: "width: 300px"}%>
-     
+      <%else%>
+
+      <%= f.select :id,User.current.school.batches.collect {|b| [b.course.course_name+" "+b.course.section_name+" - "+b.name,b.id]},{prompt:true},{onchange:"$('#form_batch').submit();",class:"form-control",style: "width: 300px"}%>
   <% end %>
+    <% end %>
  
  </div>
 

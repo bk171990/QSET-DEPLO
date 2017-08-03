@@ -35,11 +35,16 @@
                <% batch.subjects.each do |subj| %>
                
                <td><b><%=subj.name%>:</b></td>
+            <%if User.current.role == 'SuperAdmin'%>
+               <td><%=select_tag "employee_subjects[#{subj.id}]",options_for_select([[t('select_employee'),""]]+Employee.all.collect{|c| [c.first_name,c.id]},subj.employees.first.try(:id)),class: "form-control",style:"width:350px"%>
+               </td>
+               <%else%>
                <td><%=select_tag "employee_subjects[#{subj.id}]",options_for_select([[t('select_employee'),""]]+User.current.school.employees.collect{|c| [c.first_name,c.id]},subj.employees.first.try(:id)),class: "form-control",style:"width:350px"%>
                </td>
-
+            <%end%>
              </tr>
-             <%end%> 
+            
+             <%end%>  
              <% end %>
            </div>
          </table>

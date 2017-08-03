@@ -16,7 +16,7 @@ class EmployeeLeaveType < ActiveRecord::Base
   # that leave for all empoyee and save in EmployeeLeave database
   def add_leave(new_leave, emp)
     emp.each do |e|
-      EmployeeLeave.create(employee_id: e.id, employee_leave_type_id: new_leave.id, leave_count: new_leave.max_leave_count)
+      EmployeeLeave.create(employee_id: e.id, employee_leave_type_id: new_leave.id, leave_count: new_leave.max_leave_count,school_id: new_leave.school_id)
     end
   end
   # update all employee leave associated with selected employee leave type

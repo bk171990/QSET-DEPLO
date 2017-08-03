@@ -127,10 +127,12 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.string   "image_content_type", limit: 255
     t.integer  "image_file_size",    limit: 4
     t.datetime "image_updated_at"
+    t.integer  "school_id",          limit: 4
   end
 
   add_index "archived_students", ["batch_id"], name: "index_archived_students_on_batch_id", using: :btree
   add_index "archived_students", ["category_id"], name: "index_archived_students_on_category_id", using: :btree
+  add_index "archived_students", ["school_id"], name: "index_archived_students_on_school_id", using: :btree
 
   create_table "assets", force: :cascade do |t|
     t.string   "title",       limit: 255
@@ -441,10 +443,12 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.date     "reset_date"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "school_id",              limit: 4
   end
 
   add_index "employee_leaves", ["employee_id"], name: "index_employee_leaves_on_employee_id", using: :btree
   add_index "employee_leaves", ["employee_leave_type_id"], name: "index_employee_leaves_on_employee_leave_type_id", using: :btree
+  add_index "employee_leaves", ["school_id"], name: "index_employee_leaves_on_school_id", using: :btree
 
   create_table "employee_positions", force: :cascade do |t|
     t.string   "name",                 limit: 255
@@ -589,6 +593,7 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.boolean  "is_failed"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "percent",          limit: 255
   end
 
   add_index "exam_scores", ["exam_id"], name: "index_exam_scores_on_exam_id", using: :btree
@@ -1516,6 +1521,7 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
   add_index "weightages", ["placement_exam_id"], name: "index_weightages_on_placement_exam_id", using: :btree
   add_index "weightages", ["question_type_id"], name: "index_weightages_on_question_type_id", using: :btree
 
+  add_foreign_key "archived_students", "schools"
   add_foreign_key "assets", "schools"
   add_foreign_key "attendences", "batches"
   add_foreign_key "attendences", "schools"
@@ -1540,6 +1546,7 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
   add_foreign_key "employee_departments", "schools"
   add_foreign_key "employee_grades", "schools"
   add_foreign_key "employee_leave_types", "schools"
+  add_foreign_key "employee_leaves", "schools"
   add_foreign_key "employee_positions", "schools"
   add_foreign_key "employees", "schools"
   add_foreign_key "events", "schools"

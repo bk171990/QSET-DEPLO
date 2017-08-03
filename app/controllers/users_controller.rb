@@ -2,7 +2,8 @@
 class UsersController < ApplicationController
   def index
     authorize! :read, User
-    @users = User.all
+   if User.current.role == 'SuperAdmin' ? @users = User.all : @users = User.current.school.users
+   end
   end
 
   # create new object of User
@@ -13,7 +14,8 @@ class UsersController < ApplicationController
   end
 
   def view_all_details
-    @users = User.all
+    if User.current.role == 'SuperAdmin' ? @users = User.all : @users = User.current.school.users
+    end
   end
 
   # create User object and pass required parameters
@@ -21,6 +23,8 @@ class UsersController < ApplicationController
   # create action is saving our new User to the database.
   def create
     @user = User.new(user_params)
+    @school = User.current.school
+    @user.update!(:school_id => @school.id)
     if @user.save
       flash[:user] = t('user_create')
       redirect_to user_path(@user)

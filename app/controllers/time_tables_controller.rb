@@ -3,22 +3,16 @@ class TimeTablesController < ApplicationController
   # get all employee from database and
   # assign employees to particular subject,and perform authorization
   def work_allotment
-    if User.current.role == 'SuperAdmin'
-      @employees = Employee.all
-    else
-    @employees ||= User.current.school.employees
-    end
+   if User.current.role == 'SuperAdmin' ?  @employees = Employee.all : @employees ||= User.current.school.employees
     if request.post?
       @error_obj = EmployeeSubject.allot_work(params[:employee_subjects])
       flash[:notice] = t('work_allotment_update')
     end
-    if User.current.role == 'SuperAdmin'
-      @batches = Batch.all
-    else
-      @batches ||= User.current.school.batches
+    if User.current.role == 'SuperAdmin' ? @batches = Batch.all : @batches ||= User.current.school.batches
+     @subjects = @batches.includes(:subjects).flatten
+     authorize! :create, TimeTable
     end
-    @subjects = @batches.includes(:subjects).flatten
-    authorize! :create, TimeTable
+   end
   end
 
   # create new object of timetable,and perform authorization
@@ -54,12 +48,8 @@ class TimeTablesController < ApplicationController
 
   # get all time table from database,and perform authorization
   def new
-    binding.pry
-    if User.current.role == 'SuperAdmin'
-       @timetables ||= TimeTable.all
-    else
-      @timetables ||= User.current.school.time_tables
-      authorize! :read, TimeTableEntry
+    if User.current.role == 'SuperAdmin' ?  @timetables ||= TimeTable.all : @timetables ||= User.current.school.time_tables
+     authorize! :read, TimeTableEntry
     end
   end
 

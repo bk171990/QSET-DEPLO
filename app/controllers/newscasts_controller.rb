@@ -17,8 +17,10 @@ class NewscastsController < ApplicationController
   def create
     @newscast = Newscast.new(newscast_params)
     @newscast.user_id = current_user.id
-    @school = User.current.school
+    if User.current.role != 'SuperAdmin'
+    @school = User.current.school 
     @newscast.update!(:school_id => @school.id)
+    end
     if @newscast.save
       redirect_to newscast_path(@newscast), notice: t('news_add')
     else
