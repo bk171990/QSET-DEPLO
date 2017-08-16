@@ -3,6 +3,7 @@ class Exam < ActiveRecord::Base
   include Activity
   belongs_to :exam_group
   belongs_to :subject
+  belongs_to :school
   belongs_to :event
   has_many :exam_scores, dependent: :destroy
   

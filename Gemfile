@@ -61,7 +61,7 @@ gem 'puma'
 gem 'sass', '~> 3.4.23'
 
 group :development, :test do
-  gem 'pry-byebug'
+  gem 'byebug'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   # gem 'spring'
   # gem 'brakeman'

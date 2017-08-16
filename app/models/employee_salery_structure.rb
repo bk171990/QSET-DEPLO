@@ -1,6 +1,7 @@
 # EmployeeSaleryStructure model
 class EmployeeSaleryStructure < ActiveRecord::Base
   include Activity
+  belongs_to :school
   belongs_to :employee
   belongs_to :payroll_category
   scope :shod, ->(id) { where(id: id).take }

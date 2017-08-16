@@ -7,7 +7,7 @@ class Employee < ActiveRecord::Base
   belongs_to :employee_department
   belongs_to :nationality, class_name: 'Country'
   belongs_to :user
-  has_one :school
+  belongs_to :school
   belongs_to :reporting_manager, class_name: 'Employee'
   has_attached_file :image
   validates_attachment_content_type \
@@ -369,7 +369,7 @@ class Employee < ActiveRecord::Base
 
             grand_tot = tot - tot_deduction
 
-            MonthlyPayslip.create(employee_id: emp.id, amount: grand_tot, is_approved: false, salary_date: salary_date)
+            MonthlyPayslip.create(employee_id: emp.id, amount: grand_tot, is_approved: false, salary_date: salary_date,school_id: emp.school_id)
             counter += 1
       end
     end
@@ -409,7 +409,7 @@ class Employee < ActiveRecord::Base
     if b[0].present?
       flag = 1 if b[0] == salary_date.strftime('%b')
     else
-      MonthlyPayslip.create(salary_date: salary_date, employee_id: employee.id, amount: total_salary)
+      MonthlyPayslip.create(salary_date: salary_date, employee_id: employee.id, amount: total_salary,school_id: employee.school_id)
       flag = 0
     end
     flag

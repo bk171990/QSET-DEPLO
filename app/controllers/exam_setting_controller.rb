@@ -9,23 +9,15 @@ class ExamSettingController < ApplicationController
   # @courses object store the all records of course from database.
   # This object is used in drop down list for select particular course.
   def new
-    if User.current.role == 'SuperAdmin'
-      @batches ||= User.current.school.courses
-    else
-      @courses ||= User.current.school.courses
-    end
+    User.current.role == 'SuperAdmin' ? @batches ||=  @courses ||= Course.all : @courses ||= User.current.school.courses
     authorize! :read, ClassDesignation
   end
 
   # @courses object store the all records of course from database.
   # This object is used in drop down list for select particular course.
   def newrank
-     if User.current.role == 'SuperAdmin'
-      @batches ||= User.current.school.courses
-    else
-      @courses ||= User.current.school.courses
-    end
-    authorize! :read, RankingLevel
+     User.current.role == 'SuperAdmin' ? @batches ||=  @courses ||= Course.all : @courses ||= User.current.school.courses
+     authorize! :read, RankingLevel
   end
 
   # This action is create the new object for save class designation
@@ -61,8 +53,10 @@ class ExamSettingController < ApplicationController
   # class designation record is saved using save method and
   # send a flash message.
   def create_flash
-    @school = User.current.school
-    @class_des1.update!(:school_id => @school.id)
+    if User.current.role != 'SuperAdmin'
+      @school = User.current.school
+      @class_des1.update!(:school_id => @school.id)
+    end
     if @class_des1.save
       flash[:notice] = t('create_class')
     else
@@ -86,8 +80,10 @@ class ExamSettingController < ApplicationController
   # rank level record is saved using save method and
   # send a flash message.
   def createrank_flash
-    @school = User.current.school
-    @rank_lev1.update!(:school_id => @school.id)
+    if User.current.role != 'SuperAdmin'
+      @school = User.current.school
+      @rank_lev1.update!(:school_id => @school.id)
+    end
     if @rank_lev1.save
       flash[:notice] = t('create_rank')
     else
@@ -230,7 +226,7 @@ class ExamSettingController < ApplicationController
   # designation record for specific course.
   def select
     @course = Course.shod(params[:course][:id])
-    @class_dess ||= User.current.school.class_designations
+    User.current.role == 'SuperAdmin' ? @class_dess ||= @course.class_designations : @class_dess ||= User.current.school.class_designations
     authorize! :read, @class_dess.first
   end
 

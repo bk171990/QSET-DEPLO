@@ -3,6 +3,7 @@ class QuestionDatabase < ActiveRecord::Base
   include Activity
   belongs_to :question_type
   has_many :options
+  belongs_to :school
 
   # validates :question, presence: true, length: \
   # { minimum: 1, maximum: 50 }

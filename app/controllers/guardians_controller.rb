@@ -9,8 +9,10 @@ class GuardiansController < ApplicationController
     temp_email = params['guardian']['email']
     downcase_email = temp_email.downcase
     @guardian.email = downcase_email
+    if User.current.role == 'SuperAdmin'
     @school = User.current.school
     @guardian.update!(:school_id => @school.id)
+    end
     if @guardian.save
       redirect_to admission2_1_students_path(@student)
     else
@@ -47,7 +49,7 @@ class GuardiansController < ApplicationController
     @guard = Guardian.shod(params[:id])
     authorize! :delete, @guard
     @guard.destroy
-    redirect_to students_dispguardian_path(@guard.student)
+    redirect_to dispguardian_students_path(@guard.student)
   end
 
   # This method used for edit guardian  details

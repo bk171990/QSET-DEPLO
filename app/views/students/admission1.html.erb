@@ -62,7 +62,7 @@ Note:&nbsp;&nbsp;<font color="red">Fields marked with * must be filled</font>
                     <div class="form-group">
                       <b>Course and Batch:</b>
                       <span style="color:red">*</span>
-                      <%=f.select :batch_id,collect_course,{prompt:true}, {class: "form-control"}%>
+                      <%=f.select :batch_id,@batches.collect {|b| [b.course.course_name+" "+b.course.section_name+" - "+b.name,b.id]},{prompt:true}, {class: "form-control"}%>
                       
                     </div>
                   </div>
@@ -71,7 +71,7 @@ Note:&nbsp;&nbsp;<font color="red">Fields marked with * must be filled</font>
                     <div class="form-group">
                       <b>Adhar Card Number:</b>
                       <span style="color:red">*</span>
-                      <%=f.text_field :class_roll_no,placeholder: "adhar card number", class: "form-control"%>
+                      <%=f.text_field :class_roll_no,placeholder: "class_roll_no", class: "form-control"%>
                     </div>
                   </div>
 

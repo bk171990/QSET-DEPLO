@@ -4,14 +4,11 @@ class GradingLevelsController < ApplicationController
   before_filter :find_grade, only: [:edit, :update, :destroy]
 
   # find all batches from database,and perform authorization
-  def index
-    if User.current.role == 'SuperAdmin'
-      @batches ||= @batches ||= User.current.school.batches
-    else
-      @batches ||= User.current.school.courses
-    end
+   def index
+    User.current.role == 'SuperAdmin' ? @batches ||= Batch.includes(:course).all : @batches = User.current.school.batches
     authorize! :read, @batches.first
-  end
+   end
+
 
   # create GradingLevel object,
   # make association of Batch and GradingLevel,and perform authorization
@@ -28,8 +25,10 @@ class GradingLevelsController < ApplicationController
   def create
     @grading_levels ||= @batch.grading_levels
     @grading_level1 = @batch.grading_levels.new(params_grade)
-    @school = User.current.school
-    @grading_level1.update!(:school_id => @school.id)
+    if User.current.role != 'SuperAdmin'
+      @school = User.current.school
+      @grading_level1.update!(:school_id => @school.id)
+    end
     @grading_level1.save
     flash[:notice] = t('grade_create')
   end
@@ -69,11 +68,7 @@ class GradingLevelsController < ApplicationController
   # get all grading_level of that batch, and perform authorization
   def select
     @batch = Batch.shod(params[:batch][:id])
-    if User.current.role == 'SuperAdmin'
-      @grading_levels ||= @batch.grading_levels
-    else
-      @grading_levels ||=  User.current.school.grading_levels
-    end
+    User.current.role == 'SuperAdmin' ?  @grading_levels ||= @batch.grading_levels : @grading_levels ||=  User.current.school.grading_levels
     authorize! :read, @batch
   end
 

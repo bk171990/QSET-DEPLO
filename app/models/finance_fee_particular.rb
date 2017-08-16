@@ -3,6 +3,7 @@ class FinanceFeeParticular < ActiveRecord::Base
   include Activity
   belongs_to :finance_fee_category
   belongs_to :category
+  belongs_to :school
   validates :name, presence: true, length: { minimum: 1, maximum: 30 }\
   , format: { with: /\A[a-z A-Z 0-9_.-\/]+\z/ }
   validates :description, presence: true, length: { minimum: 1, maximum: 50 }

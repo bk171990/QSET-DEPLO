@@ -38,11 +38,7 @@ class PlacementExamsController < ApplicationController
   # this method is used for create exam
   def create_exam
     @exam = PlacementExam.new
-    if User.current.role == 'SuperAdmin'
-      @company = Company.all
-    else
-      @company = User.current.school.companies
-    end
+    User.current.role == 'SuperAdmin' ? @company = Company.all : @company = User.current.school.companies
     @placement_exam = PlacementExam.new
   end
 
@@ -55,8 +51,10 @@ class PlacementExamsController < ApplicationController
     percentage = params[:percentages]
     if percentage.map(&:to_i).sum == 100
       @placement_exam = PlacementExam.new(placement_exam_params)
-      @school = User.current.school
-      @placement_exam.update!(:school_id => @school.id)
+      if User.current.role != 'SuperAdmin'
+        @school = User.current.school
+        @placement_exam.update!(:school_id => @school.id)
+      end
       @placement_exam.save
       i = 0
       question_type.each do |q|
@@ -92,11 +90,7 @@ class PlacementExamsController < ApplicationController
   end
   # this method used hold all placementexam
   def placement_tpo
-    if User.current.role == 'SuperAdmin'
-      @placement_exams = PlacementExam.all
-    else
-      @placement_exams = User.current.school.placement_exams
-    end
+    User.current.role == 'SuperAdmin' ?  @placement_exams = PlacementExam.all :  @placement_exams = User.current.school.placement_exams
   end
 
   #this method used for display setting
@@ -117,8 +111,10 @@ class PlacementExamsController < ApplicationController
   # call save method on placement exams instance
   def create
     @placement_exam = PlacementExam.new(placement_exam_params)
+    if User.current.role == 'SuperAdmin'
     @school = User.current.school
     @placement_exam.update!(:school_id => @school.id)
+    end
     @placement_exam.save
   end
 
@@ -158,11 +154,7 @@ class PlacementExamsController < ApplicationController
 
   # this method is used to publish result 
   def publish_result
-    if User.current.role == 'SuperAdmin'
-     @placement_exam = PlacementExam.all
-    else
-      @placement_exam = User.current.school.placement_exams
-    end
+    User.current.role == 'SuperAdmin' ? @placement_exam = PlacementExam.all : @placement_exam = User.current.school.placement_exams
   end
 
   # This method is used to display result

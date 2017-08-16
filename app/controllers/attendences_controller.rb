@@ -5,13 +5,8 @@ class AttendencesController < ApplicationController
   end
   # find all batches from database, and perform authorization
   def attendence_register
-    if User.current.role == 'SuperAdmin'
-      @batches = Batch.all
+     User.current.role == 'SuperAdmin' ? @batches = Batch.all : @batches ||= User.current.school.batches
       authorize! :read, Attendence
-    else
-      @batches ||= User.current.school.batches
-      authorize! :read, Attendence
-    end
   end
   
   # find batch which we have selected
@@ -73,8 +68,10 @@ class AttendencesController < ApplicationController
     @subject_id = params[:subject_id]
     @today = params[:attendence][:month_date].to_date
     @attendence = Attendence.new(attendence_params)
+    if User.current.role != 'SuperAdmin'
     @school = User.current.school
     @attendence.update!(:school_id => @school.id)
+    end
     @attendence.save
     @attendence.update(subject_id: @subject_id)
     @subject = Subject.shod(params[:subject_id])

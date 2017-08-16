@@ -3,7 +3,7 @@ class EmployeeBankDetail < ActiveRecord::Base
   include Activity
   belongs_to :employee
   belongs_to :bank_field
-
+  belongs_to :school
 
   scope :shod, ->(id) { where(id: id).take }
   scope :bank_details, -> (emp) { where(employee_id: emp.id) }

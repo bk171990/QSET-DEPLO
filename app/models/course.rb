@@ -10,7 +10,7 @@ class Course < ActiveRecord::Base
 
   has_many :batches, dependent: :destroy
   has_many :batch_groups
-  has_one :school
+  belongs_to :school
   has_many :weekdays
   has_many :class_timings
   accepts_nested_attributes_for :batches

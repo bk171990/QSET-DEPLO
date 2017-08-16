@@ -20,15 +20,9 @@ class EmployeeAttendancesController < ApplicationController
   # create leave type object,and perform authorization
   def new_leave_type
     @new_leave_type = EmployeeLeaveType.new
-    if User.current.role == 'SuperAdmin'
-      @employee ||= Employee.all
-       checkstatus
-      authorize! :create, @new_leave_type
-    else
-      @employees ||= User.current.school.employees
-      checkstatus
-      authorize! :create, @new_leave_type
-    end
+    User.current.role == 'SuperAdmin' ?  @employee ||= Employee.all :  @employee ||= User.current.school.employees
+    checkstatus
+    authorize! :create, @new_leave_type
   end
 
   # create employee leave type object and pass required parameters
@@ -37,15 +31,16 @@ class EmployeeAttendancesController < ApplicationController
   def add_leave_type
     @new_leave_type = EmployeeLeaveType.new
     @new_leave_type1 = EmployeeLeaveType.new(params_leave)
-    if User.current.role == 'SuperAdmin' ?  @employee ||= Employee.all :  @employee ||= Employee.all
+    User.current.role == 'SuperAdmin' ?  @employee ||= Employee.all :  @employee ||= Employee.all
     if @new_leave_type1.save
-      @school = User.current.school
-      @new_leave_type1.update!(:school_id => @school.id)
+      if User.current.role != 'SuperAdmin'  
+        @school = User.current.school
+        @new_leave_type1.update!(:school_id => @school.id)
+      end
       @new_leave_type1.add_leave(@new_leave_type1, @employee)
       flash[:notice] = 'Employee Leave type created successfully!'
     end
     checkstatus
-  end
   end
   # find employee leavetype which we want to destroy,
   # destroy method deleting that leave type from the
@@ -86,14 +81,7 @@ class EmployeeAttendancesController < ApplicationController
   # and created employee leaves for the employee which we created
   # after the employee leave type,and perform authorization
   def attendence_register
-    if User.current.role == 'SuperAdmin'
-      @deparments = EmployeeDepartment.all
-      @emp = Employee.att_reg
-      Employee.att_leave(@emp)
-      authorize! :create, @leave
-    else
-      @deparments = User.current.school.employee_departments
-    end
+    User.current.role == 'SuperAdmin' ?  @deparments = EmployeeDepartment.all : @deparments = User.current.school.employee_departments
     @emp = Employee.att_reg
     Employee.att_leave(@emp)
     authorize! :create, @leave
@@ -126,11 +114,7 @@ class EmployeeAttendancesController < ApplicationController
     @attendance = EmployeeAttendance.new
     @employee = Employee.find(params[:id])
     @date = params[:attendance_date]
-     if User.current.role == 'SuperAdmin'
-      @leave_types = EmployeeLeaveType.all
-    else
-    @leave_types = User.current.school.employee_leave_types
-   end
+    User.current.role == 'SuperAdmin' ? @leave_types = EmployeeLeaveType.all :  @leave_types = User.current.school.employee_leave_types
     authorize! :create, @attendance
   end
 
@@ -139,11 +123,7 @@ class EmployeeAttendancesController < ApplicationController
   def create
     @attendance = EmployeeAttendance.new(params_attendance)
     @employee = Employee.find(params[:employee_attendance][:employee_id])
-     if User.current.role == 'SuperAdmin'
-      @leave_types = EmployeeLeaveType.all
-    else
-    @leave_types = User.current.school.employee_leave_types
-   end
+    User.current.role == 'SuperAdmin' ? @leave_types = EmployeeLeaveType.all : @leave_types = User.current.school.employee_leave_types
     @leave_count = EmployeeLeave.where(employee_id: @employee.id)
     @date = params[:employee_attendance][:attendance_date]
     create2
@@ -153,11 +133,7 @@ class EmployeeAttendancesController < ApplicationController
   # create2 action is saving our new employee leave to
   # the database.
   def create2
-     if User.current.role == 'SuperAdmin'
-      @leave_types = EmployeeLeaveType.all
-    else
-    @leave_types = User.current.school.employee_leave_types
-   end
+    User.current.role == 'SuperAdmin' ? @leave_types = EmployeeLeaveType.all :  @leave_types = User.current.school.employee_leave_types
     @leave_count = EmployeeLeave.where(employee_id: @employee.id)
     @attendance.create_att(@attendance)
     @deparment = @employee.employee_department
@@ -221,12 +197,8 @@ class EmployeeAttendancesController < ApplicationController
   # find all EmployeeDeparments from database
   # and perform authorization
   def attendance_report
-    if User.current.role == 'SuperAdmin'
-       @deparments ||= EmployeeDepartment.all
-    else
-      @deparments ||= User.current.school.employee_departments
-      authorize! :read, EmployeeAttendance
-    end
+    User.current.role == 'SuperAdmin' ? @deparments ||= EmployeeDepartment.all : @deparments ||= User.current.school.employee_departments
+    authorize! :read, EmployeeAttendance
   end
 
   # find EmployeeDeparment we selected and also find employee
@@ -234,11 +206,7 @@ class EmployeeAttendancesController < ApplicationController
   # and perform authorization
   def select_report
     @deparment = EmployeeDepartment.find(params[:department][:id])
-    if User.current.role == 'SuperAdmin'
-        @leave_types ||= EmployeeLeaveType.all
-      else
-        @leave_types ||= User.current.school.employee_leave_types
-    end
+    User.current.role == 'SuperAdmin' ?  @leave_types ||= EmployeeLeaveType.all : @leave_types ||= User.current.school.employee_leave_types
     @employees ||= @deparment.employees.all
     authorize! :read, EmployeeAttendance
   end
@@ -246,11 +214,7 @@ class EmployeeAttendancesController < ApplicationController
   # find Employees and employee leave type and all report to genretaed pdf
   def attendance_report_pdf
     @deparment = EmployeeDepartment.find(params[:id])
-    if User.current.role == 'SuperAdmin'
-        @leave_types ||= EmployeeLeaveType.all
-      else
-        @leave_types ||= User.current.school.employee_leave_types
-    end
+    User.current.role == 'SuperAdmin' ? @leave_types ||= EmployeeLeaveType.all : @leave_types ||= User.current.school.employee_leave_types
     @employees ||= @deparment.employees.all
     @general_setting = GeneralSetting.first
     render 'attendance_report_pdf', layout: false
@@ -262,11 +226,7 @@ class EmployeeAttendancesController < ApplicationController
   def report_info
     @employee = Employee.find(params[:id])
     @attendance_report = EmployeeAttendance.find_by_employee_id(@employee.id)
-    if User.current.role == 'SuperAdmin'
-        @leave_types ||= EmployeeLeaveType.all
-      else
-        @leave_types ||= User.current.school.employee_leave_types
-    end
+    User.current.role == 'SuperAdmin' ? @leave_types ||= EmployeeLeaveType.all : @leave_types ||= User.current.school.employee_leave_types
     @leave_count = EmployeeLeave.where(employee_id: @employee)
     authorize! :create, @attendance_report
   end
@@ -281,11 +241,7 @@ class EmployeeAttendancesController < ApplicationController
 
   # get all EmployeeDepartmentfrom database
   def employee_leave_reset_by_department
-    if User.current.role == 'SuperAdmin'
-           @deparments ||= EmployeeDepartment.all
-      else
-         @deparments ||= User.current.school.employee_departments
-    end
+    User.current.role == 'SuperAdmin' ?  @deparments ||= EmployeeDepartment.all :  @deparments ||= User.current.school.employee_departments
   end
 
   # find EmployeeDepartment which we selected and get all

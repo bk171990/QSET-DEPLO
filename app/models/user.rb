@@ -2,11 +2,11 @@
 class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
-  has_many :privilege_users
+  has_many :privilege_users, dependent: :destroy
   has_many :privileges, through: :privilege_users
   has_many :newscasts
   has_many :comments
-  has_many :employees, dependent: :destroy
+  has_many :employees
   belongs_to :student
   belongs_to :school
   belongs_to :course

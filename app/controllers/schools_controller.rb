@@ -33,6 +33,7 @@ class SchoolsController < ApplicationController
 	end
 
 	def destroy
+		byebug
 		@school = School.find(params[:id])
 		@school.destroy
 		redirect_to schools_path

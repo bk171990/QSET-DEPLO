@@ -5,6 +5,7 @@ class FeeDiscount < ActiveRecord::Base
   belongs_to :finance_fee_category
   belongs_to :batch
   belongs_to :category
+  belongs_to :school
 
   scope :shod, ->(id) { where(id: id).take }
 

@@ -4,7 +4,7 @@ class EmployeeAttendance < ActiveRecord::Base
   belongs_to :employee
   belongs_to :employee_leave_type
   belongs_to :EmployeeDepartment
-
+  belongs_to :school
   validates :employee_leave_type_id, presence: true
   validates :reason, presence: true, length: \
    { minimum: 1, maximum: 50 }, format: \

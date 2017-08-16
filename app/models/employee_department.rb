@@ -2,6 +2,7 @@
 class EmployeeDepartment < ActiveRecord::Base
   include Activity
   has_many :employees
+  belongs_to :school
   has_many :employee_department_events
   has_many :events, through: :employee_department_events
   validates :name, presence: true, length: \

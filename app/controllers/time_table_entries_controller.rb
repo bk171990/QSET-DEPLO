@@ -5,11 +5,7 @@ class TimeTableEntriesController < ApplicationController
   def index
     @time = TimeTable.shod(params[:format])
     flash[:notice] = t('time_table') + "#{@time.start_date} - #{@time.end_date}"
-    if User.current.role == 'SuperAdmin'
-     @batches = Batch.includes(:course).all
-    else
-     @batches = User.current.school.batches
-    end
+    User.current.role == 'SuperAdmin' ? @batches = Batch.includes(:course).all : @batches = User.current.school.batches
     authorize! :read, @time
   end
 
@@ -99,12 +95,8 @@ class TimeTableEntriesController < ApplicationController
   # get all bathces from databases,and perform authorization
   def new
     @timetable = TimeTable.shod(params[:format])
-    if User.current.role == 'SuperAdmin'
-     @batches = Batch.all
-    else
-      @batches = User.current.school.batches
+    if User.current.role == 'SuperAdmin' ? @batches = Batch.all : @batches = User.current.school.batches
     authorize! :create, @timetable
-  end
   end
 
   private
@@ -114,4 +106,5 @@ class TimeTableEntriesController < ApplicationController
   def time_table
     params.require(:time_table).permit(:start_date, :end_date, :is_active)
   end
+end
 end

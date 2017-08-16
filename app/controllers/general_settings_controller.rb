@@ -13,8 +13,10 @@ class GeneralSettingsController < ApplicationController
   # and it accepts a hash containing the attributes that you want to update.
   def update
     @general_setting = GeneralSetting.shod(params[:id])
-    @school = User.current.school
-    @general_setting.update!(:school_id => @school.id)
+    if User.current.role == 'SuperAdmin'
+      @school = User.current.school
+      @general_setting.update!(:school_id => @school.id)
+    end
     if @general_setting.update(general_setting_params)
       flash[:notice] = t('setting_update')
       redirect_to dashboard_home_index_path

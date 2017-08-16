@@ -1,44 +1,45 @@
 class School < ActiveRecord::Base
 	after_save :create_user_account
-  has_many :students
-  has_many :batches
-  has_many :finance_transaction_users
-  has_many :finance_transactions
-  has_many :courses
-  has_many :liabilities
-  has_many :attendences
-  has_many :employee_attendances
-  has_many :employees
-  has_many :time_tables
-  has_many :question_databases
-  has_many :employee_leave_types
-  has_many :employee_positions
-  has_many :placement_news
-  has_many :categories
-  has_many :employee_categories
-  has_many :users
-  has_many :newscasts
-  has_many :reports
-  has_many :events
-  has_many :companies
-  has_many :finance_donations
-  has_many :employee_departments
-  has_many :employee_grades
-  has_many :placement_exams
-  has_many :newscasts
-  has_many :assets
-  has_many :subjects
-  has_many :finance_fee_categories
-  has_many :question_types
-  has_many :bank_fields
-  has_many :payroll_categories
-  has_many :finance_fee_collections
-  has_many :class_timings
-  has_many :class_designations
-  has_many :grading_levels
-  has_many :ranking_levels
-  has_many :finance_transaction_triggers
-  has_many :finance_transaction_categories
+  has_many :students, dependent: :destroy
+  has_many :batches, dependent: :destroy
+  has_many :monthly_payslips, dependent: :destroy
+  has_many :finance_transactions, dependent: :destroy
+  has_many :courses, dependent: :destroy
+  has_many :liabilities, dependent: :destroy
+  has_many :attendences, dependent: :destroy
+  has_many :employee_attendances, dependent: :destroy
+  has_many :employees, dependent: :destroy
+  has_many :time_tables, dependent: :destroy
+  has_many :question_databases, dependent: :destroy
+  has_many :employee_leave_types, dependent: :destroy
+  has_many :employee_positions, dependent: :destroy
+  has_many :placement_news, dependent: :destroy
+  has_many :categories, dependent: :destroy
+  has_many :employee_categories, dependent: :destroy
+  has_many :users, dependent: :destroy
+  has_many :newscasts, dependent: :destroy
+  has_many :reports, dependent: :destroy
+  has_many :events, dependent: :destroy
+  has_many :employee_leaves,dependent: :destroy
+  has_many :companies, dependent: :destroy
+  has_many :finance_donations, dependent: :destroy
+  has_many :employee_departments, dependent: :destroy
+  has_many :employee_grades, dependent: :destroy
+  has_many :placement_exams, dependent: :destroy
+  has_many :newscasts, dependent: :destroy
+  has_many :assets, dependent: :destroy
+  has_many :subjects, dependent: :destroy
+  has_many :finance_fee_categories, dependent: :destroy
+  has_many :question_types, dependent: :destroy
+  has_many :bank_fields, dependent: :destroy
+  has_many :payroll_categories, dependent: :destroy
+  has_many :finance_fee_collections, dependent: :destroy
+  has_many :class_timings, dependent: :destroy
+  has_many :class_designations, dependent: :destroy
+  has_many :grading_levels, dependent: :destroy
+  has_many :ranking_levels, dependent: :destroy
+  has_many :finance_transaction_triggers, dependent: :destroy
+  has_many :finance_transaction_categories, dependent: :destroy
   validates :name, presence: true
   scope :shod, ->(id) { where(id: id).take }
 

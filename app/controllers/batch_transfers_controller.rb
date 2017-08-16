@@ -3,16 +3,10 @@ class BatchTransfersController < ApplicationController
   # get all courses from database
   # create new object of course,
   # and perform authorization
-  def index
-    if User.current.role == 'SuperAdmin'
-      @courses ||= Course.all
+  def index 
+      User.current.role == 'SuperAdmin' ? @courses ||= Course.all : @courses ||= User.current.school.courses
       @course = Course.new
       authorize! :read, @course
-    else
-       @courses ||= User.current.school.courses
-      @course = Course.new
-      authorize! :read, @course
-    end
   end
 
   # find course which we selected,
@@ -26,12 +20,7 @@ class BatchTransfersController < ApplicationController
   # and perform authorization
   def transfer
     @batch = Batch.shod(params[:id])
-    if User.current.role == 'SuperAdmin'
-      @batchs ||= Batch.includes(:course).all
-      @students ||= @batch.students
-      authorize! :read, @batch
-    else
-      @batchs ||= User.current.school.batches
+      User.current.role == 'SuperAdmin' ? @batchs ||= Batch.includes(:course).all : @batchs ||= User.current.school.batches
       @students ||= @batch.students
       authorize! :read, @batch
     end

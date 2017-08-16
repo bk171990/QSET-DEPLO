@@ -6,7 +6,7 @@ class GeneralSetting < ActiveRecord::Base
                                         length: { in: 1..100 }, on: :update
   validates :school_or_college_phone_no, presence: true, length: { in: 6..11 },
                                          format: { with: /\A[0-9]+\z/ }, on: :update
-
+  belongs_to :school
   has_attached_file :image
   validates_attachment_content_type :image, content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
   validate :finance_end_date_cannot_be_less_than_finance_start_date

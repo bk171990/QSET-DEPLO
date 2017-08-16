@@ -38,16 +38,14 @@ class StudentsController < ApplicationController
   # record email id is convert into small case alphabet.
   def create
     @student = Student.new(student_params)
-    if User.current.role == 'SuperAdmin'
-      @batches = Batch.all
-    else
-    @batches ||= User.current.school.batches
-  end
+    User.current.role == 'SuperAdmin' ?  @batches = Batch.all : @batches ||= User.current.school.batches
     temp_email = params['student']['email']
     downcase_email = temp_email.downcase
     @student.email = downcase_email
+    if User.current.role != 'SuperAdmin'
     @school = User.current.school
     @student.update!(:school => @school)
+    end
     if @student.save
       flash[:notice] = t('student_admission1')
       redirect_to admission2_students_path(@student)
@@ -90,11 +88,7 @@ class StudentsController < ApplicationController
   # Fetch the student record from database for edit.
   def edit
     @student = Student.shod(params[:id])
-    if User.current.role == 'SuperAdmin'
-      @batches ||= Batch.includes(:courses).all
-    else
-      @batches ||= User.current.school.courses
-    end
+    User.current.role == 'SuperAdmin' ?  @batches ||= Batch.includes(:courses).all : @batches ||= User.current.school.courses
     authorize! :update, @student
   end
 
@@ -244,12 +238,15 @@ class StudentsController < ApplicationController
   def report
     if User.current.role == 'SuperAdmin'
       @students = Student.all
+      @student = Student.shod(params[:format])
+      @batch = @student.batch
+      authorize! :read, @student
     else
-      @batches ||= Batch.includes(:courses).all
-    end
-    @student = Student.shod(params[:format])
-    @batch = @student.batch
-    authorize! :read, @student
+      @students = User.current.school.students
+      @student = Student.shod(params[:format])
+      @batch = @student.batch
+      authorize! :read, @student
+    end    
   end
 
   # Generate the student reciept about its admission status.
@@ -397,11 +394,7 @@ class StudentsController < ApplicationController
   # This action generate the data for advance search drop down list
   # i.e. Select course and select batch.
   def advanced_search
-    if User.current.role == 'SuperAdmin'
-      @courses = Course.all
-    else
-      @courses ||= User.current.school.courses
-    end
+    User.current.role == 'SuperAdmin' ?  @courses = Course.all :  @courses ||= User.current.school.courses
     @batches ||= Course.first.batches unless Course.first.nil?
     authorize! :read, @student
   end
@@ -417,8 +410,9 @@ class StudentsController < ApplicationController
   # This action fire the complex query to find out correct record for
   # advance search.
   def advanced_student_search
-    @students ||= Student.advance_search(params[:search], params[:batch]) unless params[:batch].nil?
-    @search ||= Student.search_script(params[:search], params[:batch]) unless params[:batch].nil?
+    student = User.current.school.students
+    @students ||= student.advance_search(params[:search], params[:batch]) unless params[:batch].nil?
+    @search ||= student.search_script(params[:search], params[:batch]) unless params[:batch].nil?
     authorize! :read, @student
   end
 

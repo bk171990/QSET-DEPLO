@@ -3,7 +3,7 @@ class TimeTablesController < ApplicationController
   # get all employee from database and
   # assign employees to particular subject,and perform authorization
   def work_allotment
-   if User.current.role == 'SuperAdmin' ?  @employees = Employee.all : @employees ||= User.current.school.employees
+  User.current.role == 'SuperAdmin' ?  @employees = Employee.all : @employees ||= User.current.school.employees
     if request.post?
       @error_obj = EmployeeSubject.allot_work(params[:employee_subjects])
       flash[:notice] = t('work_allotment_update')
@@ -12,7 +12,6 @@ class TimeTablesController < ApplicationController
      @subjects = @batches.includes(:subjects).flatten
      authorize! :create, TimeTable
     end
-   end
   end
 
   # create new object of timetable,and perform authorization
@@ -48,9 +47,8 @@ class TimeTablesController < ApplicationController
 
   # get all time table from database,and perform authorization
   def new
-    if User.current.role == 'SuperAdmin' ?  @timetables ||= TimeTable.all : @timetables ||= User.current.school.time_tables
-     authorize! :read, TimeTableEntry
-    end
+    User.current.role == 'SuperAdmin' ?  @timetables ||= TimeTable.all : @timetables ||= User.current.school.time_tables
+    authorize! :read, TimeTableEntry
   end
 
   # find time table which we selected and batches related to that time table
@@ -118,12 +116,8 @@ class TimeTablesController < ApplicationController
 
   # get all timetable from database,and perform authorization
   def teachers_timetable
-    if User.current.role == 'SuperAdmin'
-      @timetables ||= TimeTable.all
-    else
-      @timetables ||= User.current.school.time_tables
-    end
-      authorize! :read, TimeTableEntry
+    User.current.role == 'SuperAdmin' ?   @timetables ||= TimeTable.all : @timetables ||= User.current.school.time_tables
+    authorize! :read, TimeTableEntry
   end
 
   # find timetable to genretaed teacher time table pdf

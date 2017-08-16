@@ -3,6 +3,7 @@ class PrivilegeUser < ActiveRecord::Base
   include Activity
   belongs_to :privilege
   belongs_to :user
+  belongs_to :school
   belongs_to :privilege_tag
   scope :shod, ->(id) { where(id: id).take }
 

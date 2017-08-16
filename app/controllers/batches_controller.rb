@@ -5,12 +5,8 @@ class BatchesController < ApplicationController
 
   # get all courses from database,and perform authorization
   def index
-    if User.current.role == 'SuperAdmin'
-      @courses ||= Course.all
-    else
-      @courses ||= User.current.school.courses
+      User.current.role == 'SuperAdmin' ? @courses ||= Course.all : @courses ||= User.current.school.courses      
       authorize! :read, @courses.first
-    end
   end
 
   # find course which we selected
@@ -83,12 +79,8 @@ class BatchesController < ApplicationController
   # and perform authorization
   def assign_tutor
     @batch = Batch.shod(params[:format])
-    if User.current.role == 'SuperAdmin'
-      @departments = EmployeeDepartment.all
-    else
-      @batches ||= User.current.school.employee_departments
-      authorize! :read, @batch
-    end
+    User.current.role == 'SuperAdmin' ? @departments = EmployeeDepartment.all : @batches ||= User.current.school.employee_departments
+    authorize! :read, @batch
   end
 
   # this method is used to assign employee to perticular batch

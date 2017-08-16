@@ -3,6 +3,7 @@ class EmployeeLeave < ActiveRecord::Base
   include Activity
   belongs_to :employee_leave_type
   belongs_to :employee
+  belongs_to :school
   scope :shod, ->(id) { where(id: id).take }
   # find employee leave where leave type is as we pass in parameter
   scope :dest_leave, ->(leave) { where(employee_leave_type_id: leave.id) }

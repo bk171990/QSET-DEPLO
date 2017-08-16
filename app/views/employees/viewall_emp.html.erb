@@ -16,8 +16,11 @@
 
     <%= form_for :viewall, url:{action:'allemp'}, method: :get,remote:true,html:{id: "user_form"} do |f|%>
     <b>Select a Department:</b>
+    <%if User.current.role == 'SuperAdmin'%>
     <%= f.select :id, EmployeeDepartment.all.collect {|b| [b.name,b.id]},{prompt:true},{onchange:"$('#user_form').submit();",class: "form-control",style:"width:300px"}%>
-
+    <%else%>
+    <%= f.select :id,User.current.school.employee_departments.all.collect {|b| [b.name,b.id]},{prompt:true},{onchange:"$('#user_form').submit();",class: "form-control",style:"width:300px"}%>
+    <%end%>
     <%end%>
   </div>
 </div>

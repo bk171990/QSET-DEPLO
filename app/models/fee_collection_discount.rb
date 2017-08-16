@@ -4,6 +4,7 @@ class FeeCollectionDiscount < ActiveRecord::Base
   self.inheritance_column = nil
   belongs_to :finance_fee_collection
   belongs_to :batch
+  belongs_to :school
   belongs_to :category
   has_and_belongs_to_many :students
   scope :shod, ->(id) { where(id: id).take }

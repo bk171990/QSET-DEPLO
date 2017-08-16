@@ -7,23 +7,20 @@ class CategoriesController < ApplicationController
   # and perform authorization
   def index
     @category = Category.new
-    if User.current.role == 'SuperAdmin'
-      @categorys ||= Category.all
-      authorize! :create, @category
-    else
-      @categorys ||= User.current.school.categories
-      authorize! :create, @category
-    end
+     User.current.role == 'SuperAdmin' ?  @categorys ||= Category.all : @categorys ||= User.current.school.categories
+     authorize! :create, @category
   end
 
   # create Category object and pass required parameters
   # from private method category_params and
   # create action is saving our new Category to the database.
   def create
-    @categorys ||= User.current.school.categories
+    User.current.role == 'SuperAdmin' ?  @categorys ||= Category.all : @categorys ||= User.current.school.categories
     @category = Category.new(category_params)
+    if User.current.role != 'SuperAdmin'
     @school = User.current.school
     @category.update!(:school_id => @school.id)
+    end
     if @category.save
       flash[:notice] = t('category_create')
       redirect_to categories_path

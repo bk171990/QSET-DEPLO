@@ -1,7 +1,7 @@
 # GroupedExamReport model
 class GroupedExamReport < ActiveRecord::Base
   include Activity
-
+	belongs_to :school
   # This action fetch the record from general settings table for selected batch,
   # student, exam group and exam subject id.
   def self.gpexre(batch, student, exam_group, exam)

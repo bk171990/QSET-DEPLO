@@ -15,7 +15,7 @@
           Exam Remaining Time:
           <input id="minutes" type="text" readonly="true" style="width: 26px; font-size: 16px; font-weight: bold; background-color:transparent"> min : 
           <input id="seconds" type="text" readonly="true" style="width: 26px;font-size: 16px; font-weight: bold; background-color:transparent">sec
-          <%=link_to :"Start Exam",disp_time_placement_exams_path(exam_id:@placement_exam,company_id:@company),remote:true,class: "btn btn-primary"%>
+          <%=link_to :"Start Exam",disp_time_placement_exams_path(exam_id:@placement_exam,company_id:@company),remote:true,id: "start_exam",class: "btn btn-primary"%>
         </div>
       </div>
     </div>

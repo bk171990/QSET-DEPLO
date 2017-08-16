@@ -1,6 +1,7 @@
 # UserActivity model
 class UserActivity < ActiveRecord::Base
   belongs_to :user
+  belongs_to :school
   scope :shod, ->(id) { where(id: id).take }
 
   # method used for track activity and create user activity

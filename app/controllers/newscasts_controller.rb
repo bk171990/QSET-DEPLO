@@ -8,7 +8,8 @@ class NewscastsController < ApplicationController
   # this method used for select news cast titel by calling
   # class method news
   def select
-    @newscasts ||= Newscast.news(params[:newscast][:title])
+    User.current.role == 'SuperAdmin' ?  @newscasts ||= Newscast.order(created_at: :desc).includes(:user) : @newscasts ||= User.current.school.newscasts
+    @newscasts ||= @newscasts.news(params[:newscast][:title])
   end
 
   # This method used for create newscast,
@@ -63,11 +64,7 @@ class NewscastsController < ApplicationController
 
   # this method used for display all newscast in desecnding order
   def display
-    if User.current.role == 'SuperAdmin'
-       @newscasts ||= Newscast.order(created_at: :desc).includes(:user)
-    else
-      @newscasts ||= User.current.school.newscasts
-    end
+    User.current.role == 'SuperAdmin' ?  @newscasts ||= Newscast.order(created_at: :desc).includes(:user) : @newscasts ||= User.current.school.newscasts
   end
 
   private

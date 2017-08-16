@@ -3,6 +3,7 @@ class ClassTiming < ActiveRecord::Base
   include Activity
   has_many :timetable_entries
   belongs_to :batch
+  belongs_to :school
   validates :name, presence: true, length: { \
     minimum: 1, maximum: 20 }, format: { with: /\A[a-zA-Z0-9" "-]+\Z/ }
   validates :start_time, presence: true

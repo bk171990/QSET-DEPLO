@@ -2,11 +2,7 @@ class ReportsController < ApplicationController
 	 before_action :load_report, only: [:import, :import_form], unless: -> { params[:id].nil? }
 
    def report_index
-    if User.current.role == 'SuperAdmin'
-      @reports = Report.all
-    else
-	  	@reports = User.current.school.reports
-    end
+     User.current.role == 'SuperAdmin' ? @reports = Report.all : @reports = User.current.school.reports
 	 end
 
 	 def new_report
@@ -15,8 +11,10 @@ class ReportsController < ApplicationController
 
    def create_report
      @report = Report.new(report_params)
-     @school = User.current.school
-     @report.update!(:school_id => @school.id)
+     if User.current.role != 'SuperAdmin'
+      @school = User.current.school
+      @report.update!(:school_id => @school.id)
+     end
      @report.save
      redirect_to report_index_reports_path(@report)
    end

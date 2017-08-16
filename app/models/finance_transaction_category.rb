@@ -2,6 +2,7 @@
 class FinanceTransactionCategory < ActiveRecord::Base
   include Activity
   has_many :finance_transactions
+  belongs_to :school
   has_one :finance_transaction_trigger
   validates :name, presence: true, length: \
   { minimum: 1, maximum: 30 }, format: { with: /\A[a-z A-Z 0-9_.-\/]+\z/ }

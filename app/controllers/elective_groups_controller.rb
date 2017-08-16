@@ -18,8 +18,10 @@ class ElectiveGroupsController < ApplicationController
     @subjects ||= @batch.normal_subjects
     @elective_groups ||= @batch.elective_groups
     @elective_group = @batch.elective_groups.new(elective_group_params)
-    @school = User.current.school
-    @elective_group.update!(:school_id => @school.id)
+    if User.current.role != 'SuperAdmin'
+      @school = User.current.school
+      @elective_group.update!(:school_id => @school.id)
+    end
     @elective_group.save
     flash[:notice] = t('elective_group_create')
   end

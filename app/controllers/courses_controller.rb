@@ -5,14 +5,8 @@ class CoursesController < ApplicationController
 
   # Get all Courses from database, and perform authorization
   def index
-     if User.current.role == 'SuperAdmin'
-       @courses ||= Course.all
-       authorize! :read, @courses.first
-     else
-       @school = User.current.school
-       @courses = @school.courses
-       authorize! :read, @courses.first
-     end
+    User.current.role == 'SuperAdmin' ? @courses ||= Course.all :  @courses = User.current.school.courses
+    authorize! :read, @courses.first
   end
 
   # create new object of Course and Batch, make association
@@ -27,8 +21,9 @@ class CoursesController < ApplicationController
   # create Course object and pass required parameters
   # from private method postparam and
   # create action is saving our new Course to the database.
-  def create
+def create
     @course = Course.new(postparam)
+    if User.current.role != 'SuperAdmin'
     @school = User.current.school
     @course.update!(:school_id => @school.id)
     if @course.save
@@ -40,7 +35,7 @@ class CoursesController < ApplicationController
       render 'new'
     end
   end
-
+  end
   # find all batches from database
   # and perform authorization
   def show
@@ -156,7 +151,7 @@ class CoursesController < ApplicationController
   # and perform authorization
   def update
     @course.update(postparam)
-    @batches ||= User.current.school.courses
+    User.current.role == 'SuperAdmin' ? @courses ||= Course.all :  @courses = User.current.school.courses
     flash[:notice] = t('course_updated')
   end
 

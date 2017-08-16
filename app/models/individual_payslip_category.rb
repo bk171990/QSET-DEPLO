@@ -2,6 +2,7 @@
 class IndividualPayslipCategory < ActiveRecord::Base
   include Activity
   belongs_to :employee
+  belongs_to :school
   scope :shod, ->(id) { where(id: id).take }
 
   # methohd for create individual payslip category

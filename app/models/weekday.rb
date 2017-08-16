@@ -3,6 +3,7 @@ class Weekday < ActiveRecord::Base
   include Activity
   belongs_to :batch
   belongs_to :course
+  belongs_to :school
   scope :shod, ->(id) { where(id: id).take }
   scope :day, -> \
   { %w(Sunday Monday Tuesday Wednesday Thursday Friday Saturday) }

@@ -5,11 +5,7 @@
 class FinanceController < ApplicationController
   # Display all transaction category list
   def transaction_category
-    if User.current.role == 'SuperAdmin'
-       @transaction_categories ||= FinanceTransactionCategory.all
-    else
-       @transaction_categories ||= User.current.school.finance_transaction_categories
-    end
+    User.current.role == 'SuperAdmin' ? @transaction_categories ||= FinanceTransactionCategory.all :   @transaction_categories ||= User.current.school.finance_transaction_categories
     authorize! :read, @transaction_categories.last
   end
 
@@ -26,11 +22,13 @@ class FinanceController < ApplicationController
   def create_transaction_category
     @transaction_category = FinanceTransactionCategory.new\
     (transaction_category_params)
-    @school = User.current.school
-    @transaction_category.update!(:school_id => @school.id)
+    if User.current.role != 'SuperAdmin'
+     @school = User.current.school
+     @transaction_category.update!(:school_id => @school.id)
+    end
     @transaction_category.save
     flash[:notice] = t('transaction_category_create')
-    @transaction_categories ||=  User.current.school.finance_transaction_categories
+    User.current.role == 'SuperAdmin' ? @transaction_categories ||= FinanceTransactionCategory.all :   @transaction_categories ||= User.current.school.finance_transaction_categories
   end
 
   # Retrieve user inputed record from transaction category for update.
@@ -45,7 +43,7 @@ class FinanceController < ApplicationController
     @transaction_category = FinanceTransactionCategory.shod(params[:id])
     @transaction_category.update(transaction_category_params)
     flash[:notice] = t('transaction_category_update')
-    @transaction_categories ||=  User.current.school.finance_transaction_categories
+    User.current.role == 'SuperAdmin' ? @transaction_categories ||= FinanceTransactionCategory.all :   @transaction_categories ||= User.current.school.finance_transaction_categories
   end
 
   # Fetch the user inputed transaction category record.
@@ -67,8 +65,10 @@ class FinanceController < ApplicationController
   # Insert the new donation record in database
   def create_donation
     @donation = FinanceDonation.new(donation_params)
-    @school = User.current.school
-    @donation.update!(:school_id => @school.id)
+    if User.current.role != 'SuperAdmin'
+       @school = User.current.school
+      @donation.update!(:school_id => @school.id)
+    end
     if @donation.save
       @donation.create_transaction
       flash[:notice] = t('donation_create')
@@ -93,11 +93,7 @@ class FinanceController < ApplicationController
 
   # Display all donors list.
   def donors
-    if User.current.role == 'SuperAdmin'
-      @donors ||= FinanceDonation.all
-    else
-      @donors ||= User.current.school.finance_donations
-    end
+    User.current.role == 'SuperAdmin' ? @donors ||= FinanceDonation.all : @donors ||= User.current.school.finance_donations     
     authorize! :read, @donors.first
   end
 
@@ -136,11 +132,7 @@ class FinanceController < ApplicationController
 
   # Insert the asset details in database.
   def create_asset
-    if User.current.role == 'SuperAdmin'
-      @assets ||= Asset.all
-    else
-      @assets = User.current.school.assets
-    end 
+    User.current.role == 'SuperAdmin' ? @assets ||= Asset.all :  @assets = User.current.school.assets 
     @asset = Asset.new(asset_params)
     @school = User.current.school
     @asset.update!(:school_id => @school.id)
@@ -150,11 +142,7 @@ class FinanceController < ApplicationController
 
   # Display all asset list.
   def view_asset
-    if User.current.role == 'SuperAdmin'
-      @assets ||= Asset.all
-    else
-    @assets ||= User.current.school.assets
-    end
+    User.current.role == 'SuperAdmin' ? @assets ||= Asset.all :  @assets = User.current.school.assets 
     authorize! :read, @assets.first
   end
 
@@ -184,13 +172,9 @@ class FinanceController < ApplicationController
 
   # Collecting the information for display asset list pdf
   def asset_list
-     if User.current.role == 'SuperAdmin'
-      @assets ||= Asset.all
-     else
-      @assets ||= User.current.school.assets
-     end
-     @general_setting = GeneralSetting.first
-     render 'asset_list', layout: false
+    User.current.role == 'SuperAdmin' ? @assets ||= Asset.all :  @assets = User.current.school.assets 
+    @general_setting = GeneralSetting.first
+    render 'asset_list', layout: false
   end
 
   # Display each asset particularly.
@@ -209,19 +193,17 @@ class FinanceController < ApplicationController
   # Insert the liability details in database.
   def create_liability
     @liability = Liability.new(liability_params)
-    @school = User.current.school
-    @liability.update!(:school_id => @school.id)
+    if User.current.role != 'SuperAdmin'
+      @school = User.current.school
+      @liability.update!(:school_id => @school.id)
+    end
     @liability.save
     flash[:notice] = t('liability_create')
   end
 
   # Display all liability list.
   def view_liability
-    if User.current.role == 'SuperAdmin'
-      @liabilities ||= Liability.all
-    else
-      @liabilities = User.current.school.liabilities
-    end
+    User.current.role == 'SuperAdmin' ?  @liabilities ||= Liability.all : @liabilities = User.current.school.liabilities    
     authorize! :read, @liabilities.first
   end
 
@@ -234,14 +216,10 @@ class FinanceController < ApplicationController
 
   # Update the given liability details in database.
   def update_liability
-    if User.current.role == 'SuperAdmin'
-      @liabilities ||= Liability.all
-    else
-      @liabilities = User.current.school.liabilities
-    end
-    @liability = Liability.shod(params[:id])
-    @liability.update(liability_params)
-    flash[:notice] = t('liability_update')
+     User.current.role == 'SuperAdmin' ?  @liabilities ||= Liability.all : @liabilities = User.current.school.liabilities    
+     @liability = Liability.shod(params[:id])
+     @liability.update(liability_params)
+     flash[:notice] = t('liability_update')
   end
 
   # Delete the given liability details from database.
@@ -261,11 +239,7 @@ class FinanceController < ApplicationController
 
   # Collecting the information for display liability list pdf
   def liability_list
-    if User.current.role == 'SuperAdmin'
-      @liabilities ||= Liability.all
-    else
-      @liabilities = User.current.school.liabilities
-    end
+    User.current.role == 'SuperAdmin' ?  @liabilities ||= Liability.all : @liabilities = User.current.school.liabilities    
     @general_setting = GeneralSetting.first
     render 'liability_list', layout: false
   end
@@ -273,46 +247,36 @@ class FinanceController < ApplicationController
   # Fetching the automatic transaction details from database and
   # display list.
   def automatic_transaction
-    if User.current.role == 'SuperAdmin'
-      @automatic_transactions ||= FinanceTransactionTrigger.all
-    else
-      @automatic_transactions ||= User.current.school.finance_transaction_triggers
-    end
-    authorize! :read, @automatic_transactions.first
+     User.current.role == 'SuperAdmin' ?  @automatic_transactions ||= FinanceTransactionTrigger.all : @automatic_transactions ||= User.current.school.finance_transaction_triggers
+     authorize! :read, @automatic_transactions.first
   end
 
   # Create the fresh object for inserting the automatic transaction
   # record in database for the given categories.
   def new_automatic_transaction
     @automatic_transaction = FinanceTransactionTrigger.new
-    if User.current.role == 'SuperAdmin'
-      @categories ||= FinanceTransactionCategory.all
-    else
-      @categories ||= User.current.school.finance_transaction_categories
-    end
-    authorize! :create, @automatic_transaction
+    User.current.role == 'SuperAdmin' ? @categories ||= FinanceTransactionCategory.all : @categories ||= User.current.school.finance_transaction_categories
+    authorize! :create, @automatic_transactiond
   end
 
   # Insert the automatic transaction details in database.
   def create_automatic_transaction
     @automatic_transaction = FinanceTransactionTrigger.new\
     (auto_transaction_params)
-    @school = User.current.school
-    @automatic_transaction.update!(:school_id => @school.id)
+    if User.current.role != 'SuperAdmin'
+      @school = User.current.school
+      @automatic_transaction.update!(:school_id => @school.id)
+    end
     @automatic_transaction.save
     flash[:notice] = t('automatic_transaction_create')
-    @automatic_transactions ||= User.current.school.finance_transaction_triggers
+    User.current.role == 'SuperAdmin' ?  @automatic_transactions ||= FinanceTransactionTrigger.all : @automatic_transactions ||= User.current.school.finance_transaction_triggers
   end
 
   # Creating the object for update the automatic transaction
   # details which are already existed in database.
   def edit_automatic_transaction
     @automatic_transaction = FinanceTransactionTrigger.shod(params[:id])
-    if User.current.role == 'SuperAdmin'
-      @categories ||= FinanceTransactionCategory.all
-    else
-      @categories ||= User.current.school.finance_transaction_categories
-    end
+    User.current.role == 'SuperAdmin' ? @categories ||= FinanceTransactionCategory.all : @categories ||= User.current.school.finance_transaction_categories
     authorize! :update, @automatic_transaction
   end
 
@@ -345,8 +309,10 @@ class FinanceController < ApplicationController
   # Insert the record of expenses.
   def create_expense
     @transaction = FinanceTransaction.new(transaction_params)
-    @school = User.current.school
-    @transaction.update!(:school_id => @school.id)
+    if User.current.role == 'SuperAdmin'
+      @school = User.current.school
+      @transaction.update!(:school_id => @school.id)
+    end
     if @transaction.save
       flash[:notice] = t('expense_create')
       redirect_to new_expense_finance_index_path
@@ -418,8 +384,10 @@ class FinanceController < ApplicationController
   # Insert the record of income.
   def create_income
     @transaction = FinanceTransaction.new(transaction_params)
-    @school = User.current.school
-    @transaction.update!(:school_id => @school.id)
+    if User.current.role == 'SuperAdmin'
+      @school = User.current.school
+      @transaction.update!(:school_id => @school.id)
+    end
     if @transaction.save
       flash[:notice] = t('income_create')
       redirect_to new_income_finance_index_path
@@ -488,9 +456,9 @@ class FinanceController < ApplicationController
       flash[:alert] = t('transaction_error')
       render 'transaction_report'
     else
-      @categories ||= FinanceTransactionCategory.all
+      User.current.role == 'SuperAdmin' ? @categories ||= FinanceTransactionCategory.all : @categories ||= User.current.school.finance_transaction_categories
+      authorize! :read, @categories.first unless @categories.nil?
     end
-    authorize! :read, @categories.first unless @categories.nil?
   end
 
   # Display the expense details for given start and end date.
@@ -533,38 +501,34 @@ class FinanceController < ApplicationController
       || @end_date1.nil? || @end_date2.nil?
       render 'compare_report', alert: t('transaction_error')
     else
-      @categories ||=   FinanceTransactionCategory.all
+      User.current.role == 'SuperAdmin' ? @categories ||= FinanceTransactionCategory.all : @categories ||= User.current.school.finance_transaction_categories
     end
   end
 
   # create the new object of category for specific batches
   def new_master_category
     @master_category = FinanceFeeCategory.new
-    if User.current.role == 'SuperAdmin'
-      @batches ||= Batch.all
-    else
-      @batches ||= User.current.school.batches
-    end
+    User.current.role == 'SuperAdmin' ? @batches ||= Batch.all : @batches ||= User.current.school.batches
     authorize! :create, @master_category
   end
 
   # Fetch all batches in batches object.
   def assign_batch
-   if User.current.role == 'SuperAdmin' ? @batches ||= Batch.all : @batches ||= User.current.school.batches
-   end
+    User.current.role == 'SuperAdmin' ? @batches ||= Batch.all : @batches ||= User.current.school.batches
   end
 
   # Fetch all batches in batches object.
   def remove_batch
-    if User.current.role == 'SuperAdmin' ? @batches ||= Batch.all : @batches ||= User.current.school.batches
-    end
+    User.current.role == 'SuperAdmin' ? @batches ||= Batch.all : @batches ||= User.current.school.batches
   end
 
   # Insert the record for master category
   def create_master_category
     @master_category = FinanceFeeCategory.new(fee_category_params)
-    @school = User.current.school
-    @master_category.update!(:school_id => @school.id)
+    if User.current.role != 'SuperAdmin'
+     @school = User.current.school
+      @master_category.update!(:school_id => @school.id)
+    end
     @master_category.save
     @master_category.fee_category(params[:batches])
     flash[:notice] = t('fee_category_create')
@@ -614,11 +578,7 @@ class FinanceController < ApplicationController
   # Create a particular for specific finance fee category.
   def new_fees_particular
     @fee = FinanceFeeParticular.new
-    if User.current.role == 'SuperAdmin'
-      @categories ||= FinanceFeeCategory.all
-    else
-      @categories ||= User.current.school.finance_fee_categories
-    end
+    User.current.role == 'SuperAdmin' ? @categories ||= FinanceFeeCategory.all : @categories ||= User.current.school.finance_fee_categories
     authorize! :create, @fee
   end
 
@@ -632,10 +592,12 @@ class FinanceController < ApplicationController
 
   # Insert the record of particular fee for specific finance category.
   def create_fees_particular
-    @categories ||= User.current.school.categories
+    User.current.role == 'SuperAdmin' ? @categories ||= FinanceFeeCategory.all : @categories ||= User.current.school.finance_fee_categories
     @fee = FinanceFeeParticular.new(fee_particular_params)
-    @school = User.current.school
-    @fee.update!(:school_id => @school.id)
+    if User.current.role != 'SuperAdmin' 
+      @school = User.current.school
+      @fee.update!(:school_id => @school.id)
+    end
     result = FinanceFeeParticular.create_fee(fee_particular_params\
       , params[:batches], params[:mode]\
       , params[:admission_no], params[:category])
@@ -657,11 +619,7 @@ class FinanceController < ApplicationController
 
   # Display all batches for creating and viewing particular of fess.
   def master_fees
-    if User.current.role == 'SuperAdmin'
-      @batches ||= Batch.includes(:course).all
-    else
-      @batches ||= User.current.school.batches
-    end
+    User.current.role == 'SuperAdmin' ?  @batches ||= Batch.includes(:course).all : @batches ||= User.current.school.batches
   end
 
   # creating fresh object for particular
@@ -737,11 +695,7 @@ class FinanceController < ApplicationController
   # Create the object for save discount record on the basis of category.
   def new_fee_discount
     @fee_discount = FeeDiscount.new
-    if User.current.role == 'SuperAdmin'
-      @categories ||= FinanceFeeCategory.all
-    else
-      @categories ||= User.current.school.finance_fee_categories
-    end
+    User.current.role == 'SuperAdmin' ? @categories ||= FinanceFeeCategory.all : @categories ||= User.current.school.finance_fee_categories
     authorize! :create, @discount
   end
 
@@ -752,10 +706,12 @@ class FinanceController < ApplicationController
 
   # Create the discount record for specific finance category.
   def create_fee_discount
-    @categories ||= User.current.school.finance_fee_categories
+     User.current.role == 'SuperAdmin' ? @categories ||= FinanceFeeCategory.all : @categories ||= User.current.school.finance_fee_categories
     @discount = FeeDiscount.new(fee_discount_params)
-    @school = User.current.school
-    @discount.update!(:school_id => @school.id)
+    if User.current.role != 'SuperAdmin' 
+      @school = User.current.school
+      @discount.update!(:school_id => @school.id)
+    end
     result = FeeDiscount.create_discount(fee_discount_params\
       , params[:batches], params[:admission_no], params[:category])
     if result == 1
@@ -825,11 +781,7 @@ class FinanceController < ApplicationController
   # of finance category.
   def new_fee_collection
     @collection = FinanceFeeCollection.new
-     if User.current.role == 'SuperAdmin'
-      @categories ||= FinanceFeeCategory.all
-    else
-      @categories ||= User.current.school.finance_fee_categories
-    end
+    User.current.role == 'SuperAdmin' ? @categories ||= FinanceFeeCategory.all :  @categories ||= User.current.school.finance_fee_categories
     authorize! :create, @collection
   end
 
@@ -901,15 +853,10 @@ class FinanceController < ApplicationController
   end
 
   # Displaying fee collection reciept of students accorging to batch.
-  def fees_submission_batch
-    if User.current.role == 'SuperAdmin'
-      @batches ||= Batch.all
+   def fees_submission_batch
+     if User.current.role == 'SuperAdmin' ? @batches ||= Batch.includes(:course).all : @batches ||= User.current.school.batches
       @collections ||= Batch.first.finance_fee_collections unless Batch.first.nil?
       authorize! :read, @collections.first unless @collections.nil?
-    else
-       @batches ||= User.current.school.batches
-       @collections ||= Batch.first.finance_fee_collections unless Batch.first.nil?
-       authorize! :read, @collections.first unless @collections.nil?
     end
   end
 
@@ -1120,17 +1067,10 @@ class FinanceController < ApplicationController
 
   # Create the dropdown list for courses,batches and collections.
   def fees_defaulters
-    if User.current.role == 'SuperAdmin'
-       @courses ||= Course.all
-       @batches ||= Course.first.batches unless Course.first.nil?
-        @collections ||= Batch.first.finance_fee_collections unless Batch.first.nil?
-        authorize! :read, @collections.first unless @collections.nil?
-    else
-      @courses ||= User.current.school.courses
-      @batches ||= Course.first.batches unless Course.first.nil?
-      @collections ||= Batch.first.finance_fee_collections unless Batch.first.nil?
-      authorize! :read, @collections.first unless @collections.nil?
-    end
+    User.current.role == 'SuperAdmin' ? @courses ||= Course.all :  @courses ||= User.current.school.courses
+    @batches ||= Course.first.batches unless Course.first.nil?
+    @collections ||= Batch.first.finance_fee_collections unless Batch.first.nil?
+    authorize! :read, @collections.first unless @collections.nil?
   end
 
   # Collect batches of specific course.
@@ -1178,13 +1118,15 @@ class FinanceController < ApplicationController
   # create the drop down list for select salary month.
   # so that only salary date field is fetch from monthly payslip.
   def approve_monthly_payslip
-    @salary_months ||= MonthlyPayslip.select(:salary_date).distinct
+    User.current.role == 'SuperAdmin' ? @salary_dates = MonthlyPayslip.all :  @salary_dates = User.current.school.monthly_payslips
+    @salary_months ||= @salary_dates.select(:salary_date).distinct
   end
 
   # This action useful to provide salary details for approve.
   # We want to take date so it is done throw params[:date].
   def approve_salary
-    @salary_months ||= MonthlyPayslip.where(salary_date: params[:date])
+    User.current.role == 'SuperAdmin' ? @salary_dates = MonthlyPayslip.all :  @salary_dates = User.current.school.monthly_payslips
+    @salary_months ||= @salary_dates.where(salary_date: params[:date])
     @salary = @salary_months.first
     @date = params[:date]
   end
@@ -1202,13 +1144,9 @@ class FinanceController < ApplicationController
   # Retrieve monthly payslip record of particular employee department
   # for drop down list.
   def view_monthly_payslip
-    if User.current.role == 'SuperAdmin'
-      @departments ||= EmployeeDepartment.all
-      @salary_months ||= MonthlyPayslip.select(:salary_date).distinct
-    else
-      @departments ||= User.current.school.employee_departments
-      @salary_months ||= MonthlyPayslip.select(:salary_date).distinct
-    end
+    User.current.role == 'SuperAdmin' ? @departments ||= EmployeeDepartment.all : @departments ||= User.current.school.employee_departments
+    User.current.role == 'SuperAdmin' ? @salary_dates = MonthlyPayslip.all :  @salary_dates = User.current.school.monthly_payslips
+    @salary_months ||= @salary_dates.select(:salary_date).distinct
   end
 
   # Create the new payslip array for inserting salary.
@@ -1262,20 +1200,12 @@ class FinanceController < ApplicationController
 
   # Create the drop down list for selecting batch to display discounts.
   def fee_discounts
-    if User.current.role == 'SuperAdmin'
-      @batches ||= Batch.includes(:course).all
-    else
-      @batches ||= User.current.school.batches
-    end
+    User.current.role == 'SuperAdmin' ? @batches ||= Batch.includes(:course).all : @batches ||= User.current.school.batches
   end
 
   # create the drop down list for selecting batch to display discounts.
   def fee_collection_view
-    if User.current.role == 'SuperAdmin'
-      @batches ||= Batch.includes(:course).all
-    else
-      @batches ||= User.current.school.batches
-    end
+    User.current.role == 'SuperAdmin' ?  @batches ||= Batch.includes(:course).all : @batches ||= User.current.school.batches
   end
 
   private

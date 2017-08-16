@@ -4,6 +4,7 @@ class FeeCollectionParticular < ActiveRecord::Base
   belongs_to :finance_fee_collection
   belongs_to :category
   belongs_to :batch
+  belongs_to :school
   has_and_belongs_to_many :students
   scope :shod, ->(id) { where(id: id).take }
 

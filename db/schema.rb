@@ -985,11 +985,13 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.integer  "approver_id",         limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "school_id",           limit: 4
   end
 
   add_index "monthly_payslips", ["approver_id"], name: "index_monthly_payslips_on_approver_id", using: :btree
   add_index "monthly_payslips", ["employee_id"], name: "index_monthly_payslips_on_employee_id", using: :btree
   add_index "monthly_payslips", ["payroll_category_id"], name: "index_monthly_payslips_on_payroll_category_id", using: :btree
+  add_index "monthly_payslips", ["school_id"], name: "index_monthly_payslips_on_school_id", using: :btree
 
   create_table "newscasts", force: :cascade do |t|
     t.string   "title",      limit: 255
@@ -1563,6 +1565,7 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
   add_foreign_key "grading_levels", "schools"
   add_foreign_key "guardians", "schools"
   add_foreign_key "liabilities", "schools"
+  add_foreign_key "monthly_payslips", "schools"
   add_foreign_key "newscasts", "schools"
   add_foreign_key "payroll_categories", "schools"
   add_foreign_key "placement_exams", "schools"

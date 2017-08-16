@@ -1,6 +1,7 @@
 # EmployeePosition model
 class EmployeePosition < ActiveRecord::Base
   include Activity
+  belongs_to :school
   belongs_to :employee_category
   validates :name, presence: true,
                    length: { minimum: 1, maximum: 30 }, format: { with: /\A[a-z A-Z 0-9_.-\/]+\z/, message: 'allows Alphanumeric with _, ., -, /' }

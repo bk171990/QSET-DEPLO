@@ -2,6 +2,7 @@
 class ExamGroup < ActiveRecord::Base
   include Activity
   belongs_to :batch
+  belongs_to :school
   has_many :exams, dependent: :destroy
   accepts_nested_attributes_for :exams
   validates :name, presence: true, length: \

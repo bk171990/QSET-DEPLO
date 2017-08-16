@@ -102,8 +102,10 @@ class EmployeesController < ApplicationController
   def add_category
     @employee_category_new = EmployeeCategory.new
     @employee_category = EmployeeCategory.new(category_params)
-    @school = User.current.school
-    @employee_category.update!(:school_id => @school.id)
+    if User.current.role != 'SuperAdmin'
+      @school = User.current.school
+      @employee_category.update!(:school_id => @school.id)
+    end
     flash[:notice] = t('emp_category') if @employee_category.save
     emp_category
   end
@@ -118,9 +120,10 @@ class EmployeesController < ApplicationController
   # call update method on instance of employee category
   def update_category
     @employee_category_new = EmployeeCategory.new
-    flash[:notice] = t('emp_update_category') if \
-    @employee_category.update(category_params)
-    emp_category
+    if @employee_category.update(category_params)
+      flash[:notice] = t('emp_update_category') 
+      emp_category
+    end
   end
 
   # destroy employee category,first find category which to be destroy
@@ -146,8 +149,10 @@ class EmployeesController < ApplicationController
   def add_department
     @employee_department_new = EmployeeDepartment.new
     @employee_department = EmployeeDepartment.new(department_params)
-    @school = User.current.school
-    @employee_department.update!(:school_id => @school.id)
+    if User.current.role != 'SuperAdmin'
+      @school = User.current.school
+      @employee_department.update!(:school_id => @school.id)
+    end
     flash[:notice] = t('add_emp_dept') if @employee_department.save
     emp_department
   end
@@ -190,8 +195,10 @@ class EmployeesController < ApplicationController
   def add_position
     @employee_position_new = EmployeePosition.new
     @employee_position = EmployeePosition.new(position_params)
-    @school = User.current.school
-    @employee_position.update!(:school_id => @school.id)
+    if User.current.role != 'SuperAdmin'
+     @school = User.current.school
+     @employee_position.update!(:school_id => @school.id)
+    end
     flash[:notice] = t('add_pos') if @employee_position.save
     emp_position
   end
@@ -233,8 +240,10 @@ class EmployeesController < ApplicationController
   def add_bank_field
     @bank_field_new = BankField.new
     @bank_field = BankField.new(bank_field_params)
-    @school = User.current.school
-    @bank_field.update!(:school_id => @school.id)
+    if User.current.role != 'SuperAdmin'
+      @school = User.current.school
+      @bank_field.update!(:school_id => @school.id)
+    end
     flash[:notice] = 'Bank field created Successfully' if @bank_field.save
     bank_field
   end
@@ -276,8 +285,10 @@ class EmployeesController < ApplicationController
   def add_payroll_category
     @payroll_category_new = PayrollCategory.new
     @payroll_category = PayrollCategory.new(payroll_category_params)
-    @school = User.current.school
-    @payroll_category.update!(:school_id => @school.id)
+    if User.current.role != 'SuperAdmin'
+      @school = User.current.school
+      @payroll_category.update!(:school_id => @school.id)
+    end
     flash[:notice] = t('add_pay') if @payroll_category.save
     pay_category
   end
@@ -345,8 +356,10 @@ class EmployeesController < ApplicationController
   def add_grade
     @employee_grade_new = EmployeeGrade.new
     @employee_grade = EmployeeGrade.new(grade_params)
-    @school = User.current.school
-    @employee_grade.update!(:school_id => @school.id)
+    if User.current.role != 'SuperAdmin'
+      @school = User.current.school
+      @employee_grade.update!(:school_id => @school.id)
+    end
     flash[:notice] = t('emp_grade') if @employee_grade.save
     emp_grade
   end
@@ -381,7 +394,7 @@ class EmployeesController < ApplicationController
   # that caluclate admission no of employee ,perform authorization
   def admission1
     @employee = Employee.new
-    @empdept = User.current.school.employee_departments
+    User.current.role == 'SuperAdmin' ? @empdept = EmployeeDepartment.all : @empdept = User.current.school.employee_departments
     @date = Time.zone.today.strftime('%Y%m%d')
     @employee.emp_no
     authorize! :create, @employee
@@ -392,10 +405,12 @@ class EmployeesController < ApplicationController
   # using private method and call save method on instance of employee
   # if employee save then redirect to admission2 page or render same page again
   def create
-    @empdept = User.current.school.employee_departments
+    User.current.role == 'SuperAdmin' ? @empdept = EmployeeDepartment.all : @empdept = User.current.school.employee_departments
     @employee = Employee.new(employee_params)
-    @school = User.current.school
-    @employee.update!(:school_id => @school.id)
+    if User.current.role != 'SuperAdmin'
+      @school = User.current.school
+      @employee.update!(:school_id => @school.id)
+    end
     if @employee.save
       flash[:notice] = "Employee details added for #{@employee.first_name}"
       redirect_to admission2_employees_path(@employee)
@@ -428,39 +443,23 @@ class EmployeesController < ApplicationController
   # this method used for
   def admission3
     @employee = Employee.shod(params[:format])
-    if User.current.role == 'SuperAdmin'
-       @bank_fields ||= BankField.all
-       authorize! :update, @employee
-     else
-      @bank_fields ||= User.current.school.bank_fields
-      authorize! :update, @employee
-    end
+    User.current.role == 'SuperAdmin' ? @bank_fields ||= BankField.all : @bank_fields ||= User.current.school.bank_fields
+    authorize! :update, @employee
   end
 
   # This method used for create employee information of bank field,
   # find employee from params of id and call class method bankdetails and pass
   # employee and bank details as an argument
   # redirect to edit privileges and perform athorization
-
   def admission3_create
-    if User.current.role == 'SuperAdmin'
-      @employee = Employee.find(params[:format])
-    @bank_fields ||= BankField.all
-    if request.post?
-      EmployeeBankDetail.bankdetails(@employee, params[:bank_details])
-    end
-    redirect_to edit_privilege_employees_path(@employee)
-    authorize! :update, @employee
-    else
     @employee = Employee.find(params[:format])
-    @bank_fields ||= User.current.school.bank_fields
+    User.current.role == 'SuperAdmin' ? @bank_fields ||= BankField.all : @bank_fields ||= User.current.school.bank_fields
     if request.post?
       EmployeeBankDetail.bankdetails(@employee, params[:bank_details])
     end
-    redirect_to edit_privilege_employees_path(@employee)
-    authorize! :update, @employee
+      redirect_to edit_privilege_employees_path(@employee)
+      authorize! :update, @employee
   end
- end
 
   # This method used for display all privileges ,find
   # employee whose privileges to set and perform authorization
@@ -492,7 +491,8 @@ class EmployeesController < ApplicationController
   # by calling class method search2 ,search2 method contain logic for searching
   def search
     @employee = Employee.shod(params[:format])
-    @reporting_man ||= Employee.search2(params[:advance_search]\
+    employee = User.current.school.employees
+    @reporting_man ||= employee.search2(params[:advance_search]\
       , params[:search])
     authorize! :read, @employee
   end
@@ -589,11 +589,7 @@ class EmployeesController < ApplicationController
   # This method is used for subject assignment,
   # list all batches including courses
   def subject_assignment
-    if User.current.role == 'SuperAdmin'
-      @batches = Batch.includes(:course).all
-      else
-      @batches = User.current.school.batches
-    end
+    User.current.role == 'SuperAdmin' ?  @batches = Batch.includes(:course).all : @batches = User.current.school.batches 
   end
 
   # This method is used for assigning subject,
@@ -661,17 +657,14 @@ class EmployeesController < ApplicationController
   # This method is used for search employee,
   # hold the list of all department
   def search_employee
-    if User.current.role == 'SuperAdmin'
-      @department ||= EmployeeDepartment.all
-    else
-      @department ||= User.current.school.employee_departments
-    end
+    User.current.role == 'SuperAdmin' ? @department ||= EmployeeDepartment.all : @department ||= User.current.school.employee_departments
   end
 
   # This method is used for search employee on various criteria
   # by calling class method on search2
   def search_emp
-    @employee = Employee.search2(params[:advance_search], params[:search])
+    emp = User.current.school.employees
+    @employee = emp.search2(params[:advance_search], params[:search])
     authorize! :read, Employee
   end
 
@@ -684,8 +677,9 @@ class EmployeesController < ApplicationController
   # This method is used for search employee on more number criteria
   # by calling two class method on employee adv_search and adv_search2
   def advance_search_emp
-    @employees = Employee.adv_search(params[:search])
-    @search = Employee.adv_search2(params[:search])
+    emp = User.current.school.employees
+    @employees = emp.adv_search(params[:search])
+    @search = emp.adv_search2(params[:search])
     authorize! :read, @employee
   end
 
@@ -702,11 +696,7 @@ class EmployeesController < ApplicationController
 
   # This method used for getting list of all employee department
   def select_employee_department
-    if User.current.role == 'SuperAdmin'
-      @department ||= EmployeeDepartment.all
-    else
-      @department ||= User.current.school.employee_departments
-    end
+    User.current.role == 'SuperAdmin' ? @department ||= EmployeeDepartment.all : @department ||= User.current.school.employee_departments
   end
 
   # this method hold the list of all employees of selectd department
@@ -719,15 +709,9 @@ class EmployeesController < ApplicationController
   # first find employee whose payroll categories to be display,
   # then find all payroll categories belongs to that employee
   def monthly_payslip
-    if User.current.role == 'SuperAdmin'
-      @employee = Employee.shod(params[:format])
-      @independent_categories ||= PayrollCategory.all
-      authorize! :update, @employee
-    else
-      @employee = Employee.shod(params[:format])
-      @independent_categories ||= User.current.school.payroll_categories
-      authorize! :update, @employee
-    end
+    @employee = Employee.shod(params[:format])
+     User.current.role == 'SuperAdmin' ? @independent_categories ||= PayrollCategory.all : @independent_categories ||= User.current.school.payroll_categories
+     authorize! :update, @employee
   end
 
   # This method is used for payslip generation of all employees,then
@@ -735,21 +719,13 @@ class EmployeesController < ApplicationController
   # list of all employee whose salery slip already created and
   # call on instance method one click that contain logic for
   # payslip calculation
-  def one_click_payslip_generate
-    if User.current.role == 'SuperAdmin'
+    def one_click_payslip_generate
       salary_date = params[:payslip][:joining_date].to_date
-      @employees ||= Employee.all
-      already_created = MonthlyPayslip.all.pluck(:employee_id)
-      @employees.one_click(@employees, already_created, salary_date)
-      one_click_pay(salary_date)
-    else
-      salary_date = params[:payslip][:joining_date].to_date
-      @employees ||= User.current.school.employees
+      User.current.role == 'SuperAdmin' ? @employees ||= Employee.all : @employees ||= User.current.school.employees
       already_created = MonthlyPayslip.all.pluck(:employee_id)
       @employees.one_click(@employees, already_created, salary_date)
       one_click_pay(salary_date)
     end
-  end
 
   # this method is used in one click payslip generate
   # for redirecting to next page and perform authorization
@@ -782,8 +758,10 @@ class EmployeesController < ApplicationController
   # create payslip that contan logic of claucation of paylip
   def create_monthly_payslip2
     unless @salary_date.to_date < @employee.joining_date.to_date
-    @school = User.current.school
-    @employee.update!(:school_id => @school.id)
+      if User.current.role != 'SuperAdmin'
+        @school = User.current.school
+        @employee.update!(:school_id => @school.id)
+      end
       flag = @employee.create_payslip(@employee, @salary_date)
       paysli(flag, @employee)
     end
@@ -808,11 +786,7 @@ class EmployeesController < ApplicationController
   def employee_structure
     @salary_date = params[:salery_date]
     @employee = Employee.find(params[:employee_id])
-    if User.current.role == 'SuperAdmin'
-      @independent_categories = PayrollCategory.all
-    else
-      @independent_categories = User.current.school.payroll_categories
-    end
+    User.current.role == 'SuperAdmin' ?  @independent_categories = PayrollCategory.all : @independent_categories = User.current.school.payroll_categories
     @amount = params[:amount]
     @payroll_category = params[:id]
     @salary = Employee.emp(@employee, @payroll_category, @amount)
@@ -837,7 +811,7 @@ class EmployeesController < ApplicationController
   # This method used for select month and hold all
   # salary dates of monthly payslip
   def select_month
-    @salary_dates = MonthlyPayslip.all
+    User.current.role == 'SuperAdmin' ? @salary_dates = MonthlyPayslip.all :  @salary_dates = User.current.school.monthly_payslips
     @department = params[:view_payslip][:id]
   end
 
@@ -858,7 +832,7 @@ class EmployeesController < ApplicationController
   # find department and display all employees of selectd department
   # whose payslip to be display
   def view_payslip
-    @salary_dates = MonthlyPayslip.all
+    User.current.role == 'SuperAdmin' ? @salary_dates = MonthlyPayslip.all :  @salary_dates = User.current.school.monthly_payslips
     @department = EmployeeDepartment.shod(params[:format])
     @employees = @department.employees
   end
@@ -866,7 +840,7 @@ class EmployeesController < ApplicationController
   # This method is used to display payslip profile by selecting
   # salary date and finding employee whose payslp profile to be display
   def view_payslip_profile
-    @salary_dates = MonthlyPayslip.all
+    User.current.role == 'SuperAdmin' ? @salary_dates = MonthlyPayslip.all :  @salary_dates = User.current.school.monthly_payslips
     @employee = Employee.find(params[:format])
   end
 
@@ -875,7 +849,7 @@ class EmployeesController < ApplicationController
   # employee
   def view_employee_payslip
     @payslip = MonthlyPayslip.view(params[:salary_date], params[:employee_id])
-    @independent_categories = PayrollCategory.all
+    User.current.role == 'SuperAdmin' ?  @independent_categories = PayrollCategory.all : @independent_categories = User.current.school.payroll_categories
   end
 
   # This method is used for display employee individual payslip pdf,
@@ -885,7 +859,7 @@ class EmployeesController < ApplicationController
   def employee_individual_payslip_pdf
     @general_setting = current_user.general_setting
     @payslip = MonthlyPayslip.shod(params[:payslip])
-    @independent_categories = PayrollCategory.all
+    User.current.role == 'SuperAdmin' ?  @independent_categories = PayrollCategory.all : @independent_categories = User.current.school.payroll_categories
     render 'employee_individual_payslip_pdf', layout: false
   end
 
@@ -1141,7 +1115,7 @@ class EmployeesController < ApplicationController
 
   #  this method is used to hold payslip of selected employee
   def emp_payslip
-    @salary_dates = MonthlyPayslip.all
+    User.current.role == 'SuperAdmin' ? @salary_dates = MonthlyPayslip.all :  @salary_dates = User.current.school.monthly_payslips
     @emp = Employee.shod(params[:format])
     @payslip = MonthlyPayslip.where(employee_id: @emp.id).take
   end

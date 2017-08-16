@@ -3,6 +3,7 @@ class ExamScore < ActiveRecord::Base
   include Activity
   belongs_to :student
   belongs_to :exam
+  belongs_to :school
   belongs_to :grading_level
   validates :marks, numericality: true, allow_blank: true
   validates :remarks, length: { minimum: 1, maximum: 30 }, format: \

@@ -78,7 +78,7 @@
        <%else%>
         <div class="form-group">
          <b>Category:</b>
-         <%= f.select :employee_category_id,User.current.school.categories.collect {|b| [b.name,b.id]},{prompt:true},{class:"form-control"}%>
+         <%= f.select :employee_category_id,User.current.school.employee_categories.collect {|b| [b.name,b.id]},{prompt:true},{class:"form-control"}%>
        </div>
       <%end%>
       

@@ -2,6 +2,7 @@
 class MonthlyPayslip < ActiveRecord::Base
   include Activity
   belongs_to :employee
+  belongs_to :school
   scope :shod, ->(id) { where(id: id).take }
 
   # method for approve salary ,first update is_approved to true

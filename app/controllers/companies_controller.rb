@@ -4,22 +4,20 @@ class CompaniesController < ApplicationController
 
   # this method is used for hold the list of all companies
   def index
-    @company = Company.new
-    if User.current.role == 'SuperAdmin'
-      @companies = Company.all
-    else
-    @companies = User.current.school.companies
-    end
+    @company = Company.new 
+    User.current.role == 'SuperAdmin' ?  @companies = Company.all : @companies = User.current.school.companies
   end
 
   # This method used for create companies,
   # create company instance  and pass required params
   # from private method and call save method on company instance
   def create
-    @companies ||= User.current.school.companies
+    User.current.role == 'SuperAdmin' ?  @companies = Company.all : @companies = User.current.school.companies
     @company = Company.new(company_params)
+    if User.current.role != 'SuperAdmin'
     @school = User.current.school
     @company.update!(:school_id => @school.id)
+    end
     if @company.save
       redirect_to companies_path
     else

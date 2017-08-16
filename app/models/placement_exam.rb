@@ -2,6 +2,7 @@
 class PlacementExam < ActiveRecord::Base
   include Activity
   belongs_to :company
+  belongs_to :school
   has_many :weightages
   has_many :student_scores
   validates :company_id, presence: true

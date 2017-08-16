@@ -3,6 +3,7 @@ class ArchivedStudent < ActiveRecord::Base
   include Activity
   belongs_to :country
   belongs_to :batch
+  belongs_to :school
   belongs_to :category
   belongs_to :nationality, class_name: 'Country'
   has_one :student_previous_data

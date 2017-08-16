@@ -56,13 +56,8 @@ class EventsController < ApplicationController
   # this is used for create event for departments
   # get all departments from database
   def showdep
-    if User.current.role == 'SuperAdmin'
-      @departments ||= EmployeeDepartment.all
-       authorize! :create, Event
-    else
-      @departments ||= User.current.school.employee_departments
-      authorize! :create, Event
-    end
+    User.current.role == 'SuperAdmin' ? @departments ||= EmployeeDepartment.all : @departments ||= User.current.school.employee_departments
+    authorize! :create, Event
   end
   
   # this method is used to create event for multipal batch and department
