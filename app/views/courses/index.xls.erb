@@ -1,0 +1,30 @@
+<div class="row">
+  <div class="box col-md-12">
+  <div class="box-inner">
+    <div class="box-header well">
+      <h2>Courses Details</h2>
+    </div>
+
+    <div class="box-content">
+    <table class="datatable display responsive no-wrap table">
+        <thead>
+          <tr>
+            <th>Course Name</th>
+            <th>Course Code</th>
+          </tr>
+        </thead>
+        <tbody>
+        <% @courses.each do |c| %>
+          <tr>
+            <td>
+              <%= c.full_name%>
+              <%= c.code%>
+            </td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</div>

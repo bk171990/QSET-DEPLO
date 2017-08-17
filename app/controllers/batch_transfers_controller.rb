@@ -23,7 +23,6 @@ class BatchTransfersController < ApplicationController
       User.current.role == 'SuperAdmin' ? @batchs ||= Batch.includes(:course).all : @batchs ||= User.current.school.batches
       @students ||= @batch.students
       authorize! :read, @batch
-    end
   end
 
   # get all students of that batch

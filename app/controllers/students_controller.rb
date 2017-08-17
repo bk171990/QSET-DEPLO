@@ -5,10 +5,10 @@ class StudentsController < ApplicationController
   # Fetch the all student records for display on page.
   def index
     if User.current.role == 'SuperAdmin'
-      @schools = Student.all
+      @students = Student.all
     else      
       @school = User.current.school
-      @schools = @school.students
+      @students = @school.students
     end
     authorize! :create, Student
   end
@@ -185,14 +185,8 @@ class StudentsController < ApplicationController
   # and provide the selected batch student.
   def select
     @batch = Batch.shod(params[:batch][:id])
-     if User.current.role == 'SuperAdmin'
-      @batches ||= @batches ||= Batch.includes(:courses).all
-      @students = Student.all
-    else
-      @batches ||= User.current.school.courses
-      @school = User.current.school
-      @students = @school.students
-    end  
+    @students ||= @batch.students
+    authorize! :read, @students.first
   end
 
   # Display the student profile after admission successfully.

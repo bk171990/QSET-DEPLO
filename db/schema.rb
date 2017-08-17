@@ -238,31 +238,6 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
   add_index "batches_online_exams", ["batch_id"], name: "index_batches_online_exams_on_batch_id", using: :btree
   add_index "batches_online_exams", ["online_exam_id"], name: "index_batches_online_exams_on_online_exam_id", using: :btree
 
-  create_table "bulk_emails", force: :cascade do |t|
-    t.string   "subject",    limit: 255
-    t.string   "email_body", limit: 255
-    t.integer  "student_id", limit: 4
-    t.integer  "batch_id",   limit: 4
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
-  end
-
-  add_index "bulk_emails", ["batch_id"], name: "index_bulk_emails_on_batch_id", using: :btree
-  add_index "bulk_emails", ["student_id"], name: "index_bulk_emails_on_student_id", using: :btree
-
-  create_table "bulk_messages", force: :cascade do |t|
-    t.string   "type",         limit: 255
-    t.string   "body",         limit: 255
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
-    t.integer  "student_id",   limit: 4
-    t.integer  "batch_id",     limit: 4
-    t.string   "message_type", limit: 255
-  end
-
-  add_index "bulk_messages", ["batch_id"], name: "index_bulk_messages_on_batch_id", using: :btree
-  add_index "bulk_messages", ["student_id"], name: "index_bulk_messages_on_student_id", using: :btree
-
   create_table "categories", force: :cascade do |t|
     t.string   "name",       limit: 255
     t.datetime "created_at"
@@ -593,7 +568,6 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.boolean  "is_failed"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "percent",          limit: 255
   end
 
   add_index "exam_scores", ["exam_id"], name: "index_exam_scores_on_exam_id", using: :btree
@@ -780,11 +754,9 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.boolean  "is_paid"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "school_id",                 limit: 4
   end
 
   add_index "finance_fees", ["finance_fee_collection_id"], name: "index_finance_fees_on_finance_fee_collection_id", using: :btree
-  add_index "finance_fees", ["school_id"], name: "index_finance_fees_on_school_id", using: :btree
   add_index "finance_fees", ["student_id"], name: "index_finance_fees_on_student_id", using: :btree
 
   create_table "finance_fines", force: :cascade do |t|
@@ -945,17 +917,6 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
   end
 
   add_index "individual_payslip_categories", ["employee_id"], name: "index_individual_payslip_categories_on_employee_id", using: :btree
-
-  create_table "inventory_store_items", force: :cascade do |t|
-    t.string   "item_name",  limit: 255
-    t.string   "code",       limit: 255
-    t.string   "quantity",   limit: 255
-    t.string   "unit_price", limit: 255
-    t.string   "tax",        limit: 255
-    t.string   "batch_no",   limit: 255
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
-  end
 
   create_table "languages", force: :cascade do |t|
     t.string   "name",       limit: 255
@@ -1194,7 +1155,6 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.string   "organization", limit: 255
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
-    t.string   "first_name",   limit: 255
   end
 
   create_table "student_answer_sheets", force: :cascade do |t|
@@ -1373,20 +1333,6 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
   add_index "subjects", ["elective_group_id"], name: "index_subjects_on_elective_group_id", using: :btree
   add_index "subjects", ["school_id"], name: "index_subjects_on_school_id", using: :btree
 
-  create_table "suppliers", force: :cascade do |t|
-    t.string   "supplier_name",    limit: 255
-    t.string   "contact_no",       limit: 255
-    t.string   "address",          limit: 255
-    t.string   "pin_no",           limit: 255
-    t.string   "region",           limit: 255
-    t.string   "help_desk",        limit: 255
-    t.integer  "supplier_type_id", limit: 4
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
-  end
-
-  add_index "suppliers", ["supplier_type_id"], name: "index_suppliers_on_supplier_type_id", using: :btree
-
   create_table "time_table_entries", force: :cascade do |t|
     t.integer  "batch_id",        limit: 4
     t.integer  "weekday_id",      limit: 4
@@ -1523,79 +1469,74 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
   add_index "weightages", ["placement_exam_id"], name: "index_weightages_on_placement_exam_id", using: :btree
   add_index "weightages", ["question_type_id"], name: "index_weightages_on_question_type_id", using: :btree
 
-  add_foreign_key "archived_students", "schools"
-  add_foreign_key "assets", "schools"
+  add_foreign_key "archived_students", "schools", on_delete: :cascade
+  add_foreign_key "assets", "schools", on_delete: :cascade
   add_foreign_key "attendences", "batches"
-  add_foreign_key "attendences", "schools"
+  add_foreign_key "attendences", "schools", on_delete: :cascade
   add_foreign_key "attendences", "students"
   add_foreign_key "attendences", "subjects"
   add_foreign_key "attendences", "time_table_entries"
-  add_foreign_key "bank_fields", "schools"
-  add_foreign_key "batches", "schools"
-  add_foreign_key "batches_finance_fee_categories", "schools"
-  add_foreign_key "bulk_emails", "batches"
-  add_foreign_key "bulk_emails", "students"
-  add_foreign_key "bulk_messages", "batches"
-  add_foreign_key "bulk_messages", "students"
-  add_foreign_key "categories", "schools"
-  add_foreign_key "class_designations", "schools"
-  add_foreign_key "class_timings", "schools"
-  add_foreign_key "companies", "schools"
-  add_foreign_key "courses", "schools"
-  add_foreign_key "elective_groups", "schools"
-  add_foreign_key "employee_attendances", "schools"
-  add_foreign_key "employee_categories", "schools"
-  add_foreign_key "employee_departments", "schools"
-  add_foreign_key "employee_grades", "schools"
-  add_foreign_key "employee_leave_types", "schools"
-  add_foreign_key "employee_leaves", "schools"
-  add_foreign_key "employee_positions", "schools"
-  add_foreign_key "employees", "schools"
-  add_foreign_key "events", "schools"
-  add_foreign_key "fee_discounts", "schools"
-  add_foreign_key "finance_donations", "schools"
-  add_foreign_key "finance_fee_categories", "schools"
-  add_foreign_key "finance_fee_collections", "schools"
-  add_foreign_key "finance_fee_particulars", "schools"
-  add_foreign_key "finance_fees", "schools"
-  add_foreign_key "finance_transaction_categories", "schools"
-  add_foreign_key "finance_transaction_triggers", "schools"
-  add_foreign_key "finance_transactions", "schools"
-  add_foreign_key "general_settings", "schools"
-  add_foreign_key "grading_levels", "schools"
-  add_foreign_key "guardians", "schools"
-  add_foreign_key "liabilities", "schools"
-  add_foreign_key "monthly_payslips", "schools"
-  add_foreign_key "newscasts", "schools"
-  add_foreign_key "payroll_categories", "schools"
-  add_foreign_key "placement_exams", "schools"
-  add_foreign_key "placement_news", "schools"
+  add_foreign_key "bank_fields", "schools", on_delete: :cascade
+  add_foreign_key "batches", "schools", on_delete: :cascade
+  add_foreign_key "batches_finance_fee_categories", "schools", on_delete: :cascade
+  add_foreign_key "categories", "schools", on_delete: :cascade
+  add_foreign_key "class_designations", "schools", on_delete: :cascade
+  add_foreign_key "class_timings", "schools", on_delete: :cascade
+  add_foreign_key "companies", "schools", on_delete: :cascade
+  add_foreign_key "courses", "schools", on_delete: :cascade
+  add_foreign_key "elective_groups", "schools", on_delete: :cascade
+  add_foreign_key "employee_attendances", "schools", on_delete: :cascade
+  add_foreign_key "employee_categories", "schools", on_delete: :cascade
+  add_foreign_key "employee_departments", "schools", on_delete: :cascade
+  add_foreign_key "employee_grades", "schools", on_delete: :cascade
+  add_foreign_key "employee_leave_types", "schools", on_delete: :cascade
+  add_foreign_key "employee_leaves", "schools", on_delete: :cascade
+  add_foreign_key "employee_positions", "schools", on_delete: :cascade
+  add_foreign_key "employees", "schools", on_delete: :cascade
+  add_foreign_key "events", "schools", on_delete: :cascade
+  add_foreign_key "fee_discounts", "schools", on_delete: :cascade
+  add_foreign_key "finance_donations", "schools", on_delete: :cascade
+  add_foreign_key "finance_fee_categories", "schools", on_delete: :cascade
+  add_foreign_key "finance_fee_collections", "schools", on_delete: :cascade
+  add_foreign_key "finance_fee_particulars", "schools", on_delete: :cascade
+  add_foreign_key "finance_transaction_categories", "schools", on_delete: :cascade
+  add_foreign_key "finance_transaction_triggers", "schools", on_delete: :cascade
+  add_foreign_key "finance_transactions", "schools", on_delete: :cascade
+  add_foreign_key "general_settings", "schools", on_delete: :cascade
+  add_foreign_key "grading_levels", "schools", on_delete: :cascade
+  add_foreign_key "guardians", "schools", on_delete: :cascade
+  add_foreign_key "liabilities", "schools", on_delete: :cascade
+  add_foreign_key "monthly_payslips", "schools", on_delete: :cascade
+  add_foreign_key "newscasts", "schools", on_delete: :cascade
+  add_foreign_key "payroll_categories", "schools", on_delete: :cascade
+  add_foreign_key "placement_exams", "schools", on_delete: :cascade
+  add_foreign_key "placement_news", "schools", on_delete: :cascade
   add_foreign_key "privilege_users", "privilege_tags"
   add_foreign_key "privilege_users", "privileges"
   add_foreign_key "privilege_users", "users"
-  add_foreign_key "question_databases", "schools"
-  add_foreign_key "question_types", "schools"
-  add_foreign_key "ranking_levels", "schools"
+  add_foreign_key "question_databases", "schools", on_delete: :cascade
+  add_foreign_key "question_types", "schools", on_delete: :cascade
+  add_foreign_key "ranking_levels", "schools", on_delete: :cascade
   add_foreign_key "reports", "employees"
   add_foreign_key "reports", "guardians"
-  add_foreign_key "reports", "schools"
+  add_foreign_key "reports", "schools", on_delete: :cascade
   add_foreign_key "reports", "students"
   add_foreign_key "reports", "users"
   add_foreign_key "student_logs", "batches"
   add_foreign_key "student_logs", "exam_groups"
   add_foreign_key "student_logs", "students"
   add_foreign_key "student_logs", "subjects"
-  add_foreign_key "students", "schools"
-  add_foreign_key "subjects", "schools"
-  add_foreign_key "time_tables", "schools"
+  add_foreign_key "students", "schools", on_delete: :cascade
+  add_foreign_key "subjects", "schools", on_delete: :cascade
+  add_foreign_key "time_tables", "schools", on_delete: :cascade
   add_foreign_key "user_employees", "employees"
   add_foreign_key "user_employees", "users"
   add_foreign_key "user_privileges", "privileges"
   add_foreign_key "user_privileges", "users"
-  add_foreign_key "user_schools", "schools"
-  add_foreign_key "user_schools", "users"
+  add_foreign_key "user_schools", "schools", on_delete: :cascade
+  add_foreign_key "user_schools", "users", on_delete: :cascade
   add_foreign_key "user_students", "students"
   add_foreign_key "user_students", "users"
-  add_foreign_key "users", "schools"
-  add_foreign_key "weekdays", "schools"
+  add_foreign_key "users", "schools", on_delete: :cascade
+  add_foreign_key "weekdays", "schools", on_delete: :cascade
 end

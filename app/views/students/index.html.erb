@@ -9,9 +9,11 @@
     <div class="pull-right">
       <%= link_to 'View All','students/view_all', class: "btn btn-primary-link btn-xs" %>
       <%= link_to 'Advanced Search','students/advanced_search', class: "btn btn-primary-link btn-xs" %>
+      <%= link_to "Download Excel",students_path(format: "xls"), class: "btn btn-primary-link btn-xs" %>
     </div>
   </div>
 </div>
+<b>Total Students:</b><br/><b><%= @students.length%></b>
    <hr>
 <div class="row">
   <div class="box col-md-12">
@@ -20,7 +22,7 @@
       <h2>Student Details</h2>
     </div>
   <div class="box-content" style="overflow-y: scroll; height:auto">
-  <% if @schools.empty? %>
+  <% if @students.empty? %>
  <h4 align="center">No Record Found </h4>
    <% else %>
       <table class="table table-striped table-bordered responsive">
@@ -33,7 +35,7 @@
       </tr>
     </thead>
   <tbody>  
-      <% @schools.each_with_index do |student,i| %>
+      <% @students.each_with_index do |student,i| %>
         <tr>
           <td><%= i+1 %></td>
           <td><%=  student.first_name.to_s + " " + student.last_name.to_s %></td>

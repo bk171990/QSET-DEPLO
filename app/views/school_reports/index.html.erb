@@ -1,0 +1,286 @@
+<div>
+  <ul class="breadcrumb">
+    <li><%= link_to 'Home',dashboard_home_index_path%></li>
+    <li>School Reports</li>
+  </ul>
+</div>
+<div id="flash"><%= render 'layouts/messages'%></div>
+<br/>
+
+<div class="row">
+  <div class="col-lg-3 col-md-6">
+    <div class="panel panel-success">
+      <div class="panel-heading">
+         <div class="row">
+          <div class="col-xs-3">
+             <span style="font-size:35px;" class="glyphicon glyphicon-user" ></span>
+          </div>
+         <div class="col-xs-9 text-right">
+        <div class="huge"><%=UserActivity.all.count%></div>
+       <div>New Activity!</div>
+      </div>
+     </div>
+    </div>
+    <a href="/home/view_activity">
+      <div class="panel-footer">
+        <span class="pull-left">View Details</span>
+          <span class="pull-right"><i class="glyphicon glyphicon-chevron-right"></i></span>
+            <div class="clearfix"></div>
+            </div>
+    </a>
+     </div>
+  </div>
+  <div class="row">
+  <div class="col-lg-3 col-md-6">
+    <div class="panel panel-danger">
+      <div class="panel-heading">
+         <div class="row">
+          <div class="col-xs-3">
+             <span style="font-size:35px;" class="glyphicon glyphicon-calendar" ></span>
+          </div>
+         <div class="col-xs-9 text-right">
+        <div class="huge"><%=Event.all.count%></div>
+       <div>Events!</div>
+      </div>
+     </div>
+    </div>
+    <a href="/calender/view_events">
+      <div class="panel-footer">
+        <span class="pull-left">View Details</span>
+          <span class="pull-right"><i class="glyphicon glyphicon-chevron-right"></i></span>
+            <div class="clearfix"></div>
+            </div>
+    </a>
+     </div>
+  </div>
+
+<div class="row">
+  <div class="col-lg-3 col-md-6">
+    <div class="panel panel-success">
+      <div class="panel-heading">
+         <div class="row">
+          <div class="col-xs-3">
+             <span style="font-size:35px;" class="glyphicon glyphicon-bookmark" ></span>
+          </div>
+         <div class="col-xs-9 text-right">
+        <div class="huge"><%=Student.all.count%></div>
+       <div>All Students!</div>
+      </div>
+     </div>
+    </div>
+    <a href="/students">
+      <div class="panel-footer">
+        <span class="pull-left">View Details</span>
+          <span class="pull-right"><i class="glyphicon glyphicon-chevron-right"></i></span>
+            <div class="clearfix"></div>
+            </div>
+    </a>
+     </div>
+  </div>
+  <div class="row">
+  <div class="col-lg-3 col-md-6">
+    <div class="panel panel-danger">
+      <div class="panel-heading">
+         <div class="row">
+          <div class="col-xs-3">
+             <span style="font-size:35px;" class="glyphicon glyphicon-inbox" ></span>
+          </div>
+         <div class="col-xs-9 text-right">
+        <div class="huge"><%=GroupedExamReport.all.count%></div>
+       <div>All Exams Reports!</div>
+      </div>
+     </div>
+    </div>
+    <a href="/exam_reports/report_center">
+      <div class="panel-footer">
+        <span class="pull-left">View Details</span>
+          <span class="pull-right"><i class="glyphicon glyphicon-chevron-right"></i></span>
+            <div class="clearfix"></div>
+            </div>
+    </a>
+     </div>
+  </div>
+</div>
+</div>  
+</div>
+</div>
+
+
+ <div class="row">
+  <div class="col-lg-3 col-md-6">
+    <div class="panel panel-danger">
+      <div class="panel-heading">
+         <div class="row">
+          <div class="col-xs-3">
+             <span style="font-size:35px;" class="glyphicon glyphicon-list-alt" ></span>
+          </div>
+         <div class="col-xs-9 text-right">
+        <div class="huge"><%=Course.all.count%></div>
+       <div>All Courses!</div>
+      </div>
+     </div>
+    </div>
+    <a href="/courses">
+      <div class="panel-footer">
+        <span class="pull-left">View Details</span>
+          <span class="pull-right"><i class="glyphicon glyphicon-chevron-right"></i></span>
+            <div class="clearfix"></div>
+            </div>
+    </a>
+     </div>
+  </div>
+
+
+
+<div class="row">
+  <div class="col-lg-3 col-md-6">
+    <div class="panel panel-success">
+      <div class="panel-heading">
+         <div class="row">
+          <div class="col-xs-3">
+             <span style="font-size:35px;" class="glyphicon glyphicon-stats" ></span>
+          </div>
+         <div class="col-xs-9 text-right">
+        <div class="huge"><%=EmployeeAttendance.all.count%></div>
+       <div>All Employee Attendance!</div>
+      </div>
+     </div>
+    </div>
+    <a href="/employee_attendances/attendance_report">
+      <div class="panel-footer">
+        <span class="pull-left">View Details</span>
+          <span class="pull-right"><i class="glyphicon glyphicon-chevron-right"></i></span>
+            <div class="clearfix"></div>
+            </div>
+    </a>
+     </div>
+  </div>
+
+
+ <div class="row">
+  <div class="col-lg-3 col-md-6">
+    <div class="panel panel-danger">
+      <div class="panel-heading">
+         <div class="row">
+          <div class="col-xs-3">
+             <span style="font-size:35px;" class="glyphicon glyphicon-sort" ></span>
+          </div>
+         <div class="col-xs-9 text-right">
+        <div class="huge"><%=FinanceTransaction.all.count%></div>
+       <div>All Finance Transaction!</div>
+      </div>
+     </div>
+    </div>
+    <a href="/finance/transaction_report">
+      <div class="panel-footer">
+        <span class="pull-left">View Details</span>
+          <span class="pull-right"><i class="glyphicon glyphicon-chevron-right"></i></span>
+            <div class="clearfix"></div>
+            </div>
+    </a>
+     </div>
+  </div>
+
+
+<div class="row">
+  <div class="col-lg-3 col-md-6">
+    <div class="panel panel-success">
+      <div class="panel-heading">
+         <div class="row">
+          <div class="col-xs-3">
+             <span style="font-size:35px;" class="glyphicon glyphicon-filter" ></span>
+          </div>
+         <div class="col-xs-9 text-right">
+        <div class="huge"><%=FinanceFeeCollection.all.count%></div>
+       <div>All Fee Defaulters!</div>
+      </div>
+     </div>
+    </div>
+    <a href="/finance/fees_defaulters">
+      <div class="panel-footer">
+        <span class="pull-left">View Details</span>
+          <span class="pull-right"><i class="glyphicon glyphicon-chevron-right"></i></span>
+            <div class="clearfix"></div>
+            </div>
+    </a>
+     </div>
+  </div>
+</div>
+</div>
+</div>
+</div>
+
+
+ <div class="row">
+  <div class="col-lg-3 col-md-6">
+    <div class="panel panel-success">
+      <div class="panel-heading">
+         <div class="row">
+          <div class="col-xs-3">
+             <span style="font-size:35px;" class="glyphicon glyphicon-thumbs-up" ></span>
+          </div>
+         <div class="col-xs-9 text-right">
+        <div class="huge"><%=PlacementExam.all.count%></div>
+       <div>All Placement Exam!</div>
+      </div>
+     </div>
+    </div>
+    <a href="placement_exams/publish_result">
+      <div class="panel-footer">
+        <span class="pull-left">View Details</span>
+          <span class="pull-right"><i class="glyphicon glyphicon-chevron-right"></i></span>
+            <div class="clearfix"></div>
+            </div>
+    </a>
+     </div>
+  </div>
+
+
+  <div class="row">
+  <div class="col-lg-3 col-md-6">
+    <div class="panel panel-danger">
+      <div class="panel-heading">
+         <div class="row">
+          <div class="col-xs-3">
+             <span style="font-size:35px;" class="glyphicon glyphicon-tasks" ></span>
+          </div>
+         <div class="col-xs-9 text-right">
+        <div class="huge"><%=Attendence.all.count%></div>
+       <div>All Student Attendence!</div>
+      </div>
+     </div>
+    </div>
+    <a href="attendences/report">
+      <div class="panel-footer">
+        <span class="pull-left">View Details</span>
+          <span class="pull-right"><i class="glyphicon glyphicon-chevron-right"></i></span>
+            <div class="clearfix"></div>
+            </div>
+    </a>
+     </div>
+  </div>
+
+
+<div class="row">
+  <div class="col-lg-3 col-md-6">
+    <div class="panel panel-success">
+      <div class="panel-heading">
+         <div class="row">
+          <div class="col-xs-3">
+             <span style="font-size:35px;" class="glyphicon glyphicon-comment" ></span>
+          </div>
+         <div class="col-xs-9 text-right">
+        <div class="huge"><%=Newscast.all.count%></div>
+       <div>All News!</div>
+      </div>
+     </div>
+    </div>
+    <a href="newscasts/display">
+      <div class="panel-footer">
+        <span class="pull-left">View Details</span>
+          <span class="pull-right"><i class="glyphicon glyphicon-chevron-right"></i></span>
+            <div class="clearfix"></div>
+            </div>
+    </a>
+     </div>
+  </div>

@@ -37,7 +37,9 @@
 		        </tbody>
 		      </table>
 		      <div align="center">
-    				<%= link_to 'Pdf Report',fees_defaulters_list_finance_index_path(id:@collection.id,format:"pdf"),class: "btn btn-success"%>
+    				<%= link_to 'Pdf Report',fees_defaulters_list_finance_index_path(id:@collection.id,format:"pdf"),class: "btn btn-success",target: '_blank'%>
+    				  <%= link_to "Excel Report", fees_defaulters_list_finance_index_path(id:@collection.id,format: "xls"),class: "btn btn-success" %>
+
 					</div>
 		    <%else%>
 					<center><h5>No student found for this fee category</h5></center>

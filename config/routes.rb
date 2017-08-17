@@ -21,6 +21,8 @@
     end
   end
 
+  resources :school_reports
+
   resources :schools
   
   resources :reports do

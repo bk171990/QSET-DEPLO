@@ -1,0 +1,34 @@
+<table class="datatable table table-striped table-bordered responsive">
+    <thead>
+     <tr>
+      <th>Employee Name</th>
+      <th>Attendence</th>
+      <th></th>
+      </tr>
+    </thead>
+    <tbody>
+<%@employees.each do |e|%>
+<tr>
+<td><%= e.first_name%></td>
+ <% total=0 %>
+       <% @leave_types.each do |lt1| %>
+       <% leave_count = emp_leave_count(lt1,e)%>
+      
+         <% report = emp_report(e,lt1) %>
+         <% count = 0 %>
+         <% unless report.nil? %>
+         <% report.each do |d| %>
+         <% if d.is_half_day==true %>
+         <% count += 0.5 %>
+         <% else %>
+         <% count +=1 %>
+         <% end %>
+         <% end  %>
+         <%= count %>
+         <% total += count  %>
+         <% end %>
+      
+       <% end %>
+       <td><%= total %><td>
+       </tr> 
+<%end%>
