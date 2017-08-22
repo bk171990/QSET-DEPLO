@@ -32,13 +32,13 @@ Rails.application.configure do
   # config.action_view.raise_on_missing_translations = true
 
    config.assets.raise_runtime_errors = true
-config.action_mailer.delivery_method = :smtp
- config.action_mailer.smtp_settings = {
+   config.action_mailer.delivery_method = :smtp
+   config.action_mailer.smtp_settings = {
      :address              => "smtp.gmail.com",
      :port                 => 587,
      :domain               => 'localhost:3000',
-     :user_name            => 'priyanka.j.babar@gmail.com',
-     :password             => 'priy@nk@09031993',
+     :user_name            => 'demo.qset@gmail.com',
+     :password             => 'Bhushan@17',
      :authentication       => "plain",
     :enable_starttls_auto => true
     }

@@ -33,23 +33,25 @@
       <div class="col-sm-1"></div>
       <div class="col-sm-4">
 
-       <div class="form-group">
-          <b>Email Subject:</b>
-          <span style="color:red">*</span>
-          <%= f.text_field :subject, placeholder: "Email Subject", class: "form-control",required:true, style:"width:250px"%>
-        </div>
-
-        <div class="form-group">
-          <b>Email Body:</b>
-          <span style="color:red">*</span>
-          <%= f.text_area :email_body, placeholder: "Email Body", class: "form-control",required:true, style:"width:250px"%>
-        </div>
-
          <div class="form-group">
           <b>Select Batch:</b>
           <span style="color:red">*</span>
           <%= f.select :batch_id,Batch.includes(:course).all.collect{|b| [b.course.course_name+" "+b.course.section_name+" - "+b.name,b.id]}, {prompt:true}, {onclick:"var a={id:$('#bulk_email_batch_id').val()};$.get('selected_batched',a,function(response){});",:style =>"width: 300px",class: "form-control"} %>
           <br>
+
+       <div class="form-group">
+          <b>Email Subject:</b>
+          <span style="color:red">*</span>
+          <%= f.text_field :subject, placeholder: "Email Subject", class: "form-control",required:true, style:"width:300px"%>
+        </div>
+
+        <div class="form-group">
+          <b>Email Body:</b>
+          <span style="color:red">*</span>
+          <%= f.text_area :email_body, placeholder: "Email Body", class: "form-control",required:true, style:"width:300px;height:200px"%>
+        </div>
+
+      
 
 
     <div class="col-sm-2 col-sm-offset-2"> 
