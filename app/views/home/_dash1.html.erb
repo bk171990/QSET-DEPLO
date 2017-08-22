@@ -1,3 +1,6 @@
+ <% configures = Configurable.all%>
+        <% configures.each do |s|%>
+        <% if s.select==true and s.name_tag == "Admission"%>
 <div class=" row">
     <div class="col-md-3 col-sm-3 col-xs-6">
         <a class="well top-block" href="/students/admission1">
@@ -5,28 +8,63 @@
             <div>Admission</div>
         </a>
     </div>
+    <%end%>
 
+ <% if s.select==true and s.name_tag == "Student details"%>
     <div class="col-md-3 col-sm-3 col-xs-6">
         <a class="well top-block" href="/students">
             <i class="glyphicon glyphicon-star"></i>
             <div>Student Details</div>
         </a>
     </div>
+ <%end%>
 
+<% if s.select==true and s.name_tag == "Manage Users"%>
     <div class="col-md-3 col-sm-3 col-xs-6">
         <a class="well top-block" href="/users">
             <i class="glyphicon glyphicon-user"></i>
             <div>Manage Users</div>
         </a>
     </div>
+<%end%>
 
+<% if s.select==true and s.name_tag == "Examinations"%>
     <div class="col-md-3 col-sm-3 col-xs-6">
         <a class="well top-block" href="/exams">
             <i class="glyphicon glyphicon-signal"></i>
             <div>Examinations</div>
         </a>
-    </div>
 </div>
+<%end%>
+
+<% if s.select==true and s.name_tag == "Human Resources"%>
+    <div class="col-md-3 col-sm-3 col-xs-6">
+        <a class="well top-block" href="/employees">
+            <i class="glyphicon glyphicon-link"></i>
+            <div>Human Resources</div>
+        </a>
+    </div>
+<%end%>
+
+<% if s.select==true and s.name_tag == "Finance"%>
+    <div class="col-md-3 col-sm-3 col-xs-6">
+        <a class="well top-block" href="/finance">
+            <i class="glyphicon glyphicon-briefcase"></i>
+            <div>Finance</div>
+        </a>
+    </div>
+<%end%>
+
+<% if s.select==true and s.name_tag == "Timetable"%>
+    <div class="col-md-3 col-sm-3 col-xs-6">
+        <a class="well top-block" href="/time_tables">
+            <i class="glyphicon glyphicon-time"></i>
+            <div>Timetable</div>
+        </a>
+    </div>
+<%end%>
+
+<% if s.select==true and s.name_tag == "Settings"%>
 <div class=" row">
     <div class="col-md-3 col-sm-3 col-xs-6">
         <a class="well top-block" href="/setting">
@@ -34,28 +72,11 @@
             <div>Settings</div>
         </a>
     </div>
+    <%end%>
 
-    <div class="col-md-3 col-sm-3 col-xs-6">
-        <a class="well top-block" href="/employees">
-            <i class="glyphicon glyphicon-link"></i>
-            <div>Human Resources</div>
-        </a>
-    </div>
 
-    <div class="col-md-3 col-sm-3 col-xs-6">
-        <a class="well top-block" href="/finance">
-            <i class="glyphicon glyphicon-briefcase"></i>
-            <div>Finance</div>
-        </a>
-    </div>
 
-    <div class="col-md-3 col-sm-3 col-xs-6">
-        <a class="well top-block" href="/time_tables">
-            <i class="glyphicon glyphicon-time"></i>
-            <div>Timetable</div>
-        </a>
-    </div>
-</div>
+<% if s.select==true and s.name_tag == "Attendance"%>
 <div class=" row">
     <div class="col-md-3 col-sm-3 col-xs-6">
         <a class="well top-block" href="/attendences">
@@ -63,35 +84,44 @@
             <div>Attendance</div>
         </a>
     </div>
+<%end%>
 
+<% if s.select==true and s.name_tag == "Calendar"%>
     <div class="col-md-3 col-sm-3 col-xs-6">
         <a class="well top-block" href="/calender">
             <i class="glyphicon glyphicon-calendar"></i>
             <div>Calendar</div>
         </a>
     </div>
+<%end%>
 
+<% if s.select==true and s.name_tag == "Manage News"%>
     <div class="col-md-3 col-sm-3 col-xs-6">
         <a class="well top-block" href="/newscasts">
             <i class="glyphicon glyphicon-comment"></i>
             <div>Manage News</div>
         </a>
     </div>
+<%end%>
 
+<% if s.select==true and s.name_tag == "Placement"%>
      <div class="col-md-3 col-sm-3 col-xs-6">
         <a class="well top-block" href="/placement_exams">
             <i class="glyphicon glyphicon-thumbs-up"></i>
             <div>Placement</div>
         </a>
     </div>
+<%end%>
 
-
+<% if s.select==true and s.name_tag == "Reports"%>
     <div class="col-md-3 col-sm-3 col-xs-6">
         <a class="well top-block" href="/reports/report_index">
             <i class="glyphicon glyphicon-file"></i>
             <div>Reports</div>
         </a>
     </div>
-
+<%end%>
+<%end%>
     
-</div>
+
+

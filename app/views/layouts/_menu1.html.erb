@@ -11,86 +11,124 @@
             <span>Dashboard</span>
           </a>
         </li>
+        <% configures = Configurable.all%>
+        <% configures.each do |s|%>
+        <% if s.select==true and s.name_tag == "Admission"%>
         <li>
           <a href="/students/admission1">
           <i class="glyphicon glyphicon-edit"></i>
             <span>Admission</span>
           </a>      
         </li>
+        <%end%>
+
+        <% if s.select==true and s.name_tag == "Student details"%>
         <li>
           <a href="/students">
             <i class="glyphicon glyphicon-star"></i>
             <span>Student details</span>
           </a>
         </li>
+        <%end%>
+
+        <% if s.select==true and s.name_tag == "Manage Users"%>
         <li>
           <a href="/users">
             <i class="glyphicon glyphicon-user"></i>
             <span>Manage Users</span>
           </a>
         </li>
+        <%end%>
+
+        <% if s.select==true and s.name_tag == "Examinations"%>
         <li>
           <a href="/exams">
             <i class="glyphicon glyphicon-signal"></i>
             <span>Examinations</span>
           </a>
         </li>
+        <%end%>
+
+        <% if s.select==true and s.name_tag == "Settings"%>
         <li>
           <a href="/setting">
             <i class="glyphicon glyphicon-cog"></i>
             <span>Settings</span>
           </a>
         </li>
+        <%end%>
+
+        <% if s.select==true and s.name_tag == "Human Resources"%>
         <li>
           <a href="/employees">
             <i class="glyphicon glyphicon-link"></i>
             <span>Human Resources</span>
           </a>
         </li>
+        <%end%>
+
+        <% if s.select==true and s.name_tag == "Finance"%>
         <li>
           <a href="/finance">
           <i class="glyphicon glyphicon-briefcase"></i>
             <span>Finance</span>
           </a>
         </li>                
+        <%end%>
+
+        <% if s.select==true and s.name_tag == "Timetable"%>
         <li>
           <a href="/time_tables">
             <i class="glyphicon glyphicon-time"></i>
             <span>Timetable</span>
           </a>
         </li>
+        <%end%>
+
+        <% if s.select==true and s.name_tag == "Attendance"%>
         <li>
           <a href="/attendences">
           <i class="glyphicon glyphicon-tasks"></i>
             <span>Attendance</span>
           </a>
         </li>
+        <%end%>
+        
+        <% if s.select==true and s.name_tag == "Calender"%>
         <li>
           <a href="/calender">
             <i class="glyphicon glyphicon-calendar"></i>
             <span>Calender</span>
           </a>
         </li>               
+        <%end%>
+        <% if s.select==true and s.name_tag == "Manage News"%>
         <li>
           <a href="/newscasts">
             <i class="glyphicon glyphicon-comment"></i>
             <span>Manage News</span>
           </a>
         </li>
+        <%end%>
+
+        <% if s.select==true and s.name_tag == "Placement"%>
           <li>
           <a href="/placement_exams">
             <i class="glyphicon glyphicon-thumbs-up"></i>
             <span>Placement</span>
           </a>
         </li>
+        <%end%>
 
+<% if s.select==true and s.name_tag == "Reports"%>
          <li>
           <a href="/reports/report_index">
             <i class="glyphicon glyphicon-file"></i>
             <span>Reports</span>
           </a>
         </li>
-
+        <%end%>
+<%end%>
       </ul>
     </div>
   </div>

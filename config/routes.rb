@@ -17,9 +17,10 @@
       get :display_result
       post :qualify_student
       get :qualified_student
-
     end
   end
+
+  resources :configurations
   
   resources :reports do
     collection do 

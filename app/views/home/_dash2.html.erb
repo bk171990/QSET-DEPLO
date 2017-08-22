@@ -1,3 +1,7 @@
+ <% configures = Configurable.all%>
+        <% configures.each do |s|%>
+        <% if s.select==true and s.name_tag == "Examinations"%>
+
 <div class=" row">
     <div class="col-md-3 col-sm-3 col-xs-6">
         <a class="well top-block" href="/exams">
@@ -5,27 +9,37 @@
             <div>Examinations</div>
         </a>
     </div>
+    <%end%>
 
+
+ <% if s.select==true and s.name_tag == "Human Resources"%>
     <div class="col-md-3 col-sm-3 col-xs-6">
         <a class="well top-block" href="/employees">
             <i class="glyphicon glyphicon-link"></i>
             <div>Human Resources</div>
         </a>
     </div>
+<%end%>
 
+ <% if s.select==true and s.name_tag == "Library"%>
     <div class="col-md-3 col-sm-3 col-xs-6">
         <a class="well top-block" href="#">
             <i class="glyphicon glyphicon-book"></i>
             <div>Library</div>
         </a>
     </div>
+<%end%>
+
+ <% if s.select==true and s.name_tag == "Timetable"%>
     <div class="col-md-3 col-sm-3 col-xs-6">
         <a class="well top-block" href="/time_tables">
             <i class="glyphicon glyphicon-time"></i>
             <div>Timetable</div>
         </a>
     </div>
-</div>
+<%end%>
+
+ <% if s.select==true and s.name_tag == "Campus News"%>
 <div class=" row">
     <div class="col-md-3 col-sm-3 col-xs-6">
         <a class="well top-block" href="/newscasts">
@@ -33,26 +47,32 @@
             <div>Campus News</div>
         </a>
     </div>
+<%end%>
 
+ <% if s.select==true and s.name_tag == "Leaves"%>
     <div class="col-md-3 col-sm-3 col-xs-6">
         <a class="well top-block" href="#">
             <i class="glyphicon glyphicon-plane"></i>
             <div>Leaves</div>
         </a>
     </div>
+ <%end%>
 
+ <% if s.select==true and s.name_tag == "Remainders"%>
     <div class="col-md-3 col-sm-3 col-xs-6">
         <a class="well top-block" href="#">
             <i class="glyphicon glyphicon-bell"></i>
             <div>Remainders</div>
         </a>
     </div>
+<%end%>
 
+<% if s.select==true and s.name_tag == "Calendar"%>
     <div class="col-md-3 col-sm-3 col-xs-6">
         <a class="well top-block" href="/calender">
             <i class="glyphicon glyphicon-calendar"></i>
             <div>Calendar</div>
         </a>
-    </div>
 </div>
-
+<%end%>
+<%end%>

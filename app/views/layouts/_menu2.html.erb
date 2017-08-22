@@ -11,54 +11,81 @@
             <span>Dashboard</span>
           </a>
         </li>
+
+        <% configures = Configurable.all%>
+        <% configures.each do |s|%>
+        <% if s.select==true and s.name_tag == "Campus News"%>
         <li>
           <a href="/newscasts">
           <i class="glyphicon glyphicon-comment"></i>
             <span>Campus News</span>
           </a>      
         </li>
+        <%end%>
+
+         <% if s.select==true and s.name_tag == "Leaves"%>
         <li>
           <a href="#">
             <i class="glyphicon glyphicon-plane"></i>
             <span>Leaves</span>
           </a>
         </li>
+        <%end%>
+
+         <% if s.select==true and s.name_tag == "Remainders"%>
         <li>
           <a href="#">
             <i class="glyphicon glyphicon-bell"></i>
             <span>Remainders</span>
           </a>
         </li>
+        <%end%>
+
+         <% if s.select==true and s.name_tag == "Examinations"%>
         <li>
           <a href="/exams">
             <i class="glyphicon glyphicon-signal"></i>
             <span>Examinations</span>
           </a>
         </li>
+        <%end%>
+
+         <% if s.select==true and s.name_tag == "Human Resources"%>
         <li>
           <a href="/employees">
             <i class="glyphicon glyphicon-link"></i>
             <span>Human Resources</span>
           </a>
         </li>
+        <%end%>
+
+         <% if s.select==true and s.name_tag == "Library"%>
         <li>
           <a href="#">
           <i class="glyphicon glyphicon-book"></i>
             <span>Library</span>
           </a>
         </li>
+        <%end%>
+
+         <% if s.select==true and s.name_tag == "Timetable"%>
          <li>
           <a href="/time_tables">
             <i class="glyphicon glyphicon-time"></i>
             <span>Timetable</span>
           </a>
         </li>
+        <%end%>
+
+         <% if s.select==true and s.name_tag == "Calender"%>
         <li>
           <a href="/calender">
             <i class="glyphicon glyphicon-calendar"></i>
             <span>Calender</span>
           </a>
         </li>                 
+        <%end%>
+            <%end%>
       </ul>
     </div>
   </div>

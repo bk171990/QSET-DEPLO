@@ -127,10 +127,12 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.string   "image_content_type", limit: 255
     t.integer  "image_file_size",    limit: 4
     t.datetime "image_updated_at"
+    t.integer  "school_id",          limit: 4
   end
 
   add_index "archived_students", ["batch_id"], name: "index_archived_students_on_batch_id", using: :btree
   add_index "archived_students", ["category_id"], name: "index_archived_students_on_category_id", using: :btree
+  add_index "archived_students", ["school_id"], name: "index_archived_students_on_school_id", using: :btree
 
   create_table "assets", force: :cascade do |t|
     t.string   "title",       limit: 255
@@ -140,7 +142,10 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.boolean  "is_deleted",                               default: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "school_id",   limit: 4
   end
+
+  add_index "assets", ["school_id"], name: "index_assets_on_school_id", using: :btree
 
   create_table "attendences", force: :cascade do |t|
     t.integer  "student_id",          limit: 4
@@ -152,9 +157,11 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.boolean  "is_absent"
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
+    t.integer  "school_id",           limit: 4
   end
 
   add_index "attendences", ["batch_id"], name: "index_attendences_on_batch_id", using: :btree
+  add_index "attendences", ["school_id"], name: "index_attendences_on_school_id", using: :btree
   add_index "attendences", ["student_id"], name: "index_attendences_on_student_id", using: :btree
   add_index "attendences", ["subject_id"], name: "index_attendences_on_subject_id", using: :btree
   add_index "attendences", ["time_table_entry_id"], name: "index_attendences_on_time_table_entry_id", using: :btree
@@ -164,7 +171,10 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.boolean  "status"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "school_id",  limit: 4
   end
+
+  add_index "bank_fields", ["school_id"], name: "index_bank_fields_on_school_id", using: :btree
 
   create_table "batch_events", force: :cascade do |t|
     t.integer  "batch_id",   limit: 4
@@ -200,19 +210,23 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.boolean  "is_deleted",              default: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "school_id",   limit: 4
   end
 
   add_index "batches", ["course_id"], name: "index_batches_on_course_id", using: :btree
+  add_index "batches", ["school_id"], name: "index_batches_on_school_id", using: :btree
 
   create_table "batches_finance_fee_categories", force: :cascade do |t|
     t.integer  "finance_fee_category_id", limit: 4
     t.integer  "batch_id",                limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "school_id",               limit: 4
   end
 
   add_index "batches_finance_fee_categories", ["batch_id"], name: "index_batches_finance_fee_categories_on_batch_id", using: :btree
   add_index "batches_finance_fee_categories", ["finance_fee_category_id"], name: "index_batches_finance_fee_categories_on_finance_fee_category_id", using: :btree
+  add_index "batches_finance_fee_categories", ["school_id"], name: "index_batches_finance_fee_categories_on_school_id", using: :btree
 
   create_table "batches_online_exams", force: :cascade do |t|
     t.integer  "online_exam_id", limit: 4
@@ -228,7 +242,10 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.string   "name",       limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "school_id",  limit: 4
   end
+
+  add_index "categories", ["school_id"], name: "index_categories_on_school_id", using: :btree
 
   create_table "class_designations", force: :cascade do |t|
     t.string   "name",       limit: 255
@@ -237,9 +254,11 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.integer  "course_id",  limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "school_id",  limit: 4
   end
 
   add_index "class_designations", ["course_id"], name: "index_class_designations_on_course_id", using: :btree
+  add_index "class_designations", ["school_id"], name: "index_class_designations_on_school_id", using: :btree
 
   create_table "class_timings", force: :cascade do |t|
     t.integer  "batch_id",   limit: 4
@@ -249,9 +268,11 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.boolean  "is_break"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "school_id",  limit: 4
   end
 
   add_index "class_timings", ["batch_id"], name: "index_class_timings_on_batch_id", using: :btree
+  add_index "class_timings", ["school_id"], name: "index_class_timings_on_school_id", using: :btree
 
   create_table "comments", force: :cascade do |t|
     t.text     "statement",   limit: 65535
@@ -269,6 +290,16 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.string   "criteria",   limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "school_id",  limit: 4
+  end
+
+  add_index "companies", ["school_id"], name: "index_companies_on_school_id", using: :btree
+
+  create_table "configurables", force: :cascade do |t|
+    t.boolean  "select"
+    t.string   "name_tag",   limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   create_table "countries", force: :cascade do |t|
@@ -285,7 +316,10 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.boolean  "is_deleted",               default: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "school_id",    limit: 4
   end
+
+  add_index "courses", ["school_id"], name: "index_courses_on_school_id", using: :btree
 
   create_table "elective_groups", force: :cascade do |t|
     t.string   "name",       limit: 255
@@ -293,9 +327,11 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.boolean  "is_deleted",             default: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "school_id",  limit: 4
   end
 
   add_index "elective_groups", ["batch_id"], name: "index_elective_groups_on_batch_id", using: :btree
+  add_index "elective_groups", ["school_id"], name: "index_elective_groups_on_school_id", using: :btree
 
   create_table "employee_attendances", force: :cascade do |t|
     t.date     "attendance_date"
@@ -305,10 +341,12 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.boolean  "is_half_day"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "school_id",              limit: 4
   end
 
   add_index "employee_attendances", ["employee_id"], name: "index_employee_attendances_on_employee_id", using: :btree
   add_index "employee_attendances", ["employee_leave_type_id"], name: "index_employee_attendances_on_employee_leave_type_id", using: :btree
+  add_index "employee_attendances", ["school_id"], name: "index_employee_attendances_on_school_id", using: :btree
 
   create_table "employee_bank_details", force: :cascade do |t|
     t.integer  "employee_id",   limit: 4
@@ -327,7 +365,10 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.boolean  "status"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "school_id",  limit: 4
   end
+
+  add_index "employee_categories", ["school_id"], name: "index_employee_categories_on_school_id", using: :btree
 
   create_table "employee_department_events", force: :cascade do |t|
     t.integer  "event_id",               limit: 4
@@ -345,7 +386,10 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.boolean  "status"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "school_id",  limit: 4
   end
+
+  add_index "employee_departments", ["school_id"], name: "index_employee_departments_on_school_id", using: :btree
 
   create_table "employee_grades", force: :cascade do |t|
     t.string   "name",           limit: 255
@@ -355,7 +399,10 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.integer  "max_hours_week", limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "school_id",      limit: 4
   end
+
+  add_index "employee_grades", ["school_id"], name: "index_employee_grades_on_school_id", using: :btree
 
   create_table "employee_leave_types", force: :cascade do |t|
     t.string   "name",                 limit: 255
@@ -365,7 +412,10 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.boolean  "enable_carry_forward"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "school_id",            limit: 4
   end
+
+  add_index "employee_leave_types", ["school_id"], name: "index_employee_leave_types_on_school_id", using: :btree
 
   create_table "employee_leaves", force: :cascade do |t|
     t.integer  "employee_id",            limit: 4
@@ -375,10 +425,12 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.date     "reset_date"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "school_id",              limit: 4
   end
 
   add_index "employee_leaves", ["employee_id"], name: "index_employee_leaves_on_employee_id", using: :btree
   add_index "employee_leaves", ["employee_leave_type_id"], name: "index_employee_leaves_on_employee_leave_type_id", using: :btree
+  add_index "employee_leaves", ["school_id"], name: "index_employee_leaves_on_school_id", using: :btree
 
   create_table "employee_positions", force: :cascade do |t|
     t.string   "name",                 limit: 255
@@ -386,9 +438,11 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.boolean  "status"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "school_id",            limit: 4
   end
 
   add_index "employee_positions", ["employee_category_id"], name: "index_employee_positions_on_employee_category_id", using: :btree
+  add_index "employee_positions", ["school_id"], name: "index_employee_positions_on_school_id", using: :btree
 
   create_table "employee_salary_structures", force: :cascade do |t|
     t.integer  "employee_id",         limit: 4
@@ -473,6 +527,7 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.string   "image_content_type",     limit: 255
     t.integer  "image_file_size",        limit: 4
     t.datetime "image_updated_at"
+    t.integer  "school_id",              limit: 4
   end
 
   add_index "employees", ["country_id"], name: "index_employees_on_country_id", using: :btree
@@ -480,6 +535,7 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
   add_index "employees", ["employee_department_id"], name: "index_employees_on_employee_department_id", using: :btree
   add_index "employees", ["employee_grade_id"], name: "index_employees_on_employee_grade_id", using: :btree
   add_index "employees", ["employee_position_id"], name: "index_employees_on_employee_position_id", using: :btree
+  add_index "employees", ["school_id"], name: "index_employees_on_school_id", using: :btree
 
   create_table "events", force: :cascade do |t|
     t.string   "title",       limit: 255
@@ -492,7 +548,10 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.boolean  "is_due",                  default: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "school_id",   limit: 4
   end
+
+  add_index "events", ["school_id"], name: "index_events_on_school_id", using: :btree
 
   create_table "exam_groups", force: :cascade do |t|
     t.string   "name",             limit: 255
@@ -606,11 +665,13 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.boolean  "is_deleted",                                         default: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "school_id",               limit: 4
   end
 
   add_index "fee_discounts", ["batch_id"], name: "index_fee_discounts_on_batch_id", using: :btree
   add_index "fee_discounts", ["category_id"], name: "index_fee_discounts_on_category_id", using: :btree
   add_index "fee_discounts", ["finance_fee_category_id"], name: "index_fee_discounts_on_finance_fee_category_id", using: :btree
+  add_index "fee_discounts", ["school_id"], name: "index_fee_discounts_on_school_id", using: :btree
 
   create_table "finance_donations", force: :cascade do |t|
     t.string   "donor",                  limit: 255
@@ -620,9 +681,11 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.integer  "finance_transaction_id", limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "school_id",              limit: 4
   end
 
   add_index "finance_donations", ["finance_transaction_id"], name: "index_finance_donations_on_finance_transaction_id", using: :btree
+  add_index "finance_donations", ["school_id"], name: "index_finance_donations_on_school_id", using: :btree
 
   create_table "finance_fee_categories", force: :cascade do |t|
     t.string   "name",        limit: 255
@@ -631,7 +694,10 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.boolean  "is_master",                 default: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "school_id",   limit: 4
   end
+
+  add_index "finance_fee_categories", ["school_id"], name: "index_finance_fee_categories_on_school_id", using: :btree
 
   create_table "finance_fee_collections", force: :cascade do |t|
     t.string   "name",                    limit: 255
@@ -643,10 +709,12 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.boolean  "is_deleted",                          default: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "school_id",               limit: 4
   end
 
   add_index "finance_fee_collections", ["batch_id"], name: "index_finance_fee_collections_on_batch_id", using: :btree
   add_index "finance_fee_collections", ["finance_fee_category_id"], name: "index_finance_fee_collections_on_finance_fee_category_id", using: :btree
+  add_index "finance_fee_collections", ["school_id"], name: "index_finance_fee_collections_on_school_id", using: :btree
 
   create_table "finance_fee_particulars", force: :cascade do |t|
     t.string   "name",                    limit: 255
@@ -659,11 +727,13 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.boolean  "is_deleted",                                           default: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "school_id",               limit: 4
   end
 
   add_index "finance_fee_particulars", ["batch_id"], name: "index_finance_fee_particulars_on_batch_id", using: :btree
   add_index "finance_fee_particulars", ["category_id"], name: "index_finance_fee_particulars_on_category_id", using: :btree
   add_index "finance_fee_particulars", ["finance_fee_category_id"], name: "index_finance_fee_particulars_on_finance_fee_category_id", using: :btree
+  add_index "finance_fee_particulars", ["school_id"], name: "index_finance_fee_particulars_on_school_id", using: :btree
 
   create_table "finance_fee_structure_elements", force: :cascade do |t|
     t.decimal  "amount",                        precision: 10
@@ -713,7 +783,10 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.boolean  "is_deleted",              default: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "school_id",   limit: 4
   end
+
+  add_index "finance_transaction_categories", ["school_id"], name: "index_finance_transaction_categories_on_school_id", using: :btree
 
   create_table "finance_transaction_triggers", force: :cascade do |t|
     t.string   "title",       limit: 255
@@ -722,9 +795,11 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.integer  "category_id", limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "school_id",   limit: 4
   end
 
   add_index "finance_transaction_triggers", ["category_id"], name: "index_finance_transaction_triggers_on_category_id", using: :btree
+  add_index "finance_transaction_triggers", ["school_id"], name: "index_finance_transaction_triggers_on_school_id", using: :btree
 
   create_table "finance_transactions", force: :cascade do |t|
     t.string   "title",                           limit: 255
@@ -737,10 +812,12 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.integer  "finance_transaction_category_id", limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "school_id",                       limit: 4
   end
 
   add_index "finance_transactions", ["finance_fee_id"], name: "index_finance_transactions_on_finance_fee_id", using: :btree
   add_index "finance_transactions", ["finance_transaction_category_id"], name: "index_finance_transactions_on_finance_transaction_category_id", using: :btree
+  add_index "finance_transactions", ["school_id"], name: "index_finance_transactions_on_school_id", using: :btree
   add_index "finance_transactions", ["student_id"], name: "index_finance_transactions_on_student_id", using: :btree
 
   create_table "general_settings", force: :cascade do |t|
@@ -762,7 +839,10 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.datetime "image_updated_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "school_id",                         limit: 4
   end
+
+  add_index "general_settings", ["school_id"], name: "index_general_settings_on_school_id", using: :btree
 
   create_table "grading_levels", force: :cascade do |t|
     t.string   "name",        limit: 255
@@ -773,9 +853,11 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.boolean  "is_deleted",              default: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "school_id",   limit: 4
   end
 
   add_index "grading_levels", ["batch_id"], name: "index_grading_levels_on_batch_id", using: :btree
+  add_index "grading_levels", ["school_id"], name: "index_grading_levels_on_school_id", using: :btree
 
   create_table "group_batches", force: :cascade do |t|
     t.integer  "batch_group_id", limit: 4
@@ -823,9 +905,11 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.string   "education",            limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "school_id",            limit: 4
   end
 
   add_index "guardians", ["country_id"], name: "index_guardians_on_country_id", using: :btree
+  add_index "guardians", ["school_id"], name: "index_guardians_on_school_id", using: :btree
   add_index "guardians", ["student_id"], name: "index_guardians_on_student_id", using: :btree
 
   create_table "individual_payslip_categories", force: :cascade do |t|
@@ -855,17 +939,10 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.boolean  "is_deleted",                               default: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "school_id",   limit: 4
   end
 
-  create_table "messages", force: :cascade do |t|
-    t.text     "body",       limit: 65535
-    t.integer  "student_id", limit: 4
-    t.string   "numbers",    limit: 255
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
-  end
-
-  add_index "messages", ["student_id"], name: "index_messages_on_student_id", using: :btree
+  add_index "liabilities", ["school_id"], name: "index_liabilities_on_school_id", using: :btree
 
   create_table "monthly_payslips", force: :cascade do |t|
     t.date     "salary_date"
@@ -876,11 +953,13 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.integer  "approver_id",         limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "school_id",           limit: 4
   end
 
   add_index "monthly_payslips", ["approver_id"], name: "index_monthly_payslips_on_approver_id", using: :btree
   add_index "monthly_payslips", ["employee_id"], name: "index_monthly_payslips_on_employee_id", using: :btree
   add_index "monthly_payslips", ["payroll_category_id"], name: "index_monthly_payslips_on_payroll_category_id", using: :btree
+  add_index "monthly_payslips", ["school_id"], name: "index_monthly_payslips_on_school_id", using: :btree
 
   create_table "newscasts", force: :cascade do |t|
     t.string   "title",      limit: 255
@@ -888,8 +967,10 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.integer  "user_id",    limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "school_id",  limit: 4
   end
 
+  add_index "newscasts", ["school_id"], name: "index_newscasts_on_school_id", using: :btree
   add_index "newscasts", ["user_id"], name: "index_newscasts_on_user_id", using: :btree
 
   create_table "online_exam_questions", force: :cascade do |t|
@@ -933,9 +1014,11 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.boolean  "status"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "school_id",           limit: 4
   end
 
   add_index "payroll_categories", ["payroll_category_id"], name: "index_payroll_categories_on_payroll_category_id", using: :btree
+  add_index "payroll_categories", ["school_id"], name: "index_payroll_categories_on_school_id", using: :btree
 
   create_table "placement_exams", force: :cascade do |t|
     t.string   "question_count", limit: 255
@@ -945,9 +1028,11 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.integer  "company_id",     limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "school_id",      limit: 4
   end
 
   add_index "placement_exams", ["company_id"], name: "index_placement_exams_on_company_id", using: :btree
+  add_index "placement_exams", ["school_id"], name: "index_placement_exams_on_school_id", using: :btree
 
   create_table "placement_news", force: :cascade do |t|
     t.string   "title",      limit: 255
@@ -955,7 +1040,10 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "islink"
+    t.integer  "school_id",  limit: 4
   end
+
+  add_index "placement_news", ["school_id"], name: "index_placement_news_on_school_id", using: :btree
 
   create_table "privilege_tags", force: :cascade do |t|
     t.string   "name_tag",   limit: 255
@@ -990,15 +1078,20 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.integer  "no_of_option",     limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "school_id",        limit: 4
   end
 
   add_index "question_databases", ["question_type_id"], name: "index_question_databases_on_question_type_id", using: :btree
+  add_index "question_databases", ["school_id"], name: "index_question_databases_on_school_id", using: :btree
 
   create_table "question_types", force: :cascade do |t|
     t.string   "que_type",   limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "school_id",  limit: 4
   end
+
+  add_index "question_types", ["school_id"], name: "index_question_types_on_school_id", using: :btree
 
   create_table "qusetion_types", force: :cascade do |t|
     t.string   "que_type",   limit: 255
@@ -1028,9 +1121,11 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.string   "marks_limit_type",   limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "school_id",          limit: 4
   end
 
   add_index "ranking_levels", ["course_id"], name: "index_ranking_levels_on_course_id", using: :btree
+  add_index "ranking_levels", ["school_id"], name: "index_ranking_levels_on_school_id", using: :btree
 
   create_table "reports", force: :cascade do |t|
     t.string   "name",        limit: 255
@@ -1041,10 +1136,12 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.integer  "employee_id", limit: 4
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
+    t.integer  "school_id",   limit: 4
   end
 
   add_index "reports", ["employee_id"], name: "index_reports_on_employee_id", using: :btree
   add_index "reports", ["guardian_id"], name: "index_reports_on_guardian_id", using: :btree
+  add_index "reports", ["school_id"], name: "index_reports_on_school_id", using: :btree
   add_index "reports", ["student_id"], name: "index_reports_on_student_id", using: :btree
   add_index "reports", ["user_id"], name: "index_reports_on_user_id", using: :btree
 
@@ -1055,12 +1152,16 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.datetime "updated_at"
   end
 
-  create_table "sms_logs", force: :cascade do |t|
-    t.string   "mobile",           limit: 255
-    t.string   "gateway_response", limit: 255
-    t.string   "sms_message_id",   limit: 255
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
+  create_table "schools", force: :cascade do |t|
+    t.string   "name",         limit: 255
+    t.string   "username",     limit: 255
+    t.string   "password",     limit: 255
+    t.string   "contact",      limit: 255
+    t.string   "email",        limit: 255
+    t.string   "address",      limit: 255
+    t.string   "organization", limit: 255
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
   end
 
   create_table "student_answer_sheets", force: :cascade do |t|
@@ -1215,10 +1316,12 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.string   "image_content_type", limit: 255
     t.integer  "image_file_size",    limit: 4
     t.datetime "image_updated_at"
+    t.integer  "school_id",          limit: 4
   end
 
   add_index "students", ["batch_id"], name: "index_students_on_batch_id", using: :btree
   add_index "students", ["category_id"], name: "index_students_on_category_id", using: :btree
+  add_index "students", ["school_id"], name: "index_students_on_school_id", using: :btree
 
   create_table "subjects", force: :cascade do |t|
     t.string   "name",               limit: 255
@@ -1230,10 +1333,12 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.boolean  "is_deleted",                     default: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "school_id",          limit: 4
   end
 
   add_index "subjects", ["batch_id"], name: "index_subjects_on_batch_id", using: :btree
   add_index "subjects", ["elective_group_id"], name: "index_subjects_on_elective_group_id", using: :btree
+  add_index "subjects", ["school_id"], name: "index_subjects_on_school_id", using: :btree
 
   create_table "time_table_entries", force: :cascade do |t|
     t.integer  "batch_id",        limit: 4
@@ -1259,7 +1364,10 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.boolean  "is_active"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "school_id",  limit: 4
   end
+
+  add_index "time_tables", ["school_id"], name: "index_time_tables_on_school_id", using: :btree
 
   create_table "user_activities", force: :cascade do |t|
     t.integer  "user_id",    limit: 4
@@ -1289,6 +1397,14 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
 
   add_index "user_privileges", ["privilege_id"], name: "index_user_privileges_on_privilege_id", using: :btree
   add_index "user_privileges", ["user_id"], name: "index_user_privileges_on_user_id", using: :btree
+
+  create_table "user_schools", force: :cascade do |t|
+    t.integer "school_id", limit: 4
+    t.integer "user_id",   limit: 4
+  end
+
+  add_index "user_schools", ["school_id"], name: "index_user_schools_on_school_id", using: :btree
+  add_index "user_schools", ["user_id"], name: "index_user_schools_on_user_id", using: :btree
 
   create_table "user_students", force: :cascade do |t|
     t.integer "user_id",    limit: 4
@@ -1326,8 +1442,7 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.string   "authentication_token",   limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "message",                limit: 255
-    t.string   "numbers",                limit: 255
+    t.integer  "school_id",              limit: 4
   end
 
   add_index "users", ["authentication_token"], name: "index_users_on_authentication_token", unique: true, using: :btree
@@ -1335,6 +1450,7 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["general_setting_id"], name: "index_users_on_general_setting_id", using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+  add_index "users", ["school_id"], name: "index_users_on_school_id", using: :btree
   add_index "users", ["unlock_token"], name: "index_users_on_unlock_token", unique: true, using: :btree
 
   create_table "weekdays", force: :cascade do |t|
@@ -1343,9 +1459,11 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "day_of_week", limit: 4
+    t.integer  "school_id",   limit: 4
   end
 
   add_index "weekdays", ["batch_id"], name: "index_weekdays_on_batch_id", using: :btree
+  add_index "weekdays", ["school_id"], name: "index_weekdays_on_school_id", using: :btree
 
   create_table "weightages", force: :cascade do |t|
     t.integer  "percentage",        limit: 4
@@ -1358,26 +1476,74 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
   add_index "weightages", ["placement_exam_id"], name: "index_weightages_on_placement_exam_id", using: :btree
   add_index "weightages", ["question_type_id"], name: "index_weightages_on_question_type_id", using: :btree
 
+  add_foreign_key "archived_students", "schools", on_delete: :cascade
+  add_foreign_key "assets", "schools", on_delete: :cascade
   add_foreign_key "attendences", "batches"
+  add_foreign_key "attendences", "schools", on_delete: :cascade
   add_foreign_key "attendences", "students"
   add_foreign_key "attendences", "subjects"
   add_foreign_key "attendences", "time_table_entries"
-  add_foreign_key "messages", "students"
+  add_foreign_key "bank_fields", "schools", on_delete: :cascade
+  add_foreign_key "batches", "schools", on_delete: :cascade
+  add_foreign_key "batches_finance_fee_categories", "schools", on_delete: :cascade
+  add_foreign_key "categories", "schools", on_delete: :cascade
+  add_foreign_key "class_designations", "schools", on_delete: :cascade
+  add_foreign_key "class_timings", "schools", on_delete: :cascade
+  add_foreign_key "companies", "schools", on_delete: :cascade
+  add_foreign_key "courses", "schools", on_delete: :cascade
+  add_foreign_key "elective_groups", "schools", on_delete: :cascade
+  add_foreign_key "employee_attendances", "schools", on_delete: :cascade
+  add_foreign_key "employee_categories", "schools", on_delete: :cascade
+  add_foreign_key "employee_departments", "schools", on_delete: :cascade
+  add_foreign_key "employee_grades", "schools", on_delete: :cascade
+  add_foreign_key "employee_leave_types", "schools", on_delete: :cascade
+  add_foreign_key "employee_leaves", "schools", on_delete: :cascade
+  add_foreign_key "employee_positions", "schools", on_delete: :cascade
+  add_foreign_key "employees", "schools", on_delete: :cascade
+  add_foreign_key "events", "schools", on_delete: :cascade
+  add_foreign_key "fee_discounts", "schools", on_delete: :cascade
+  add_foreign_key "finance_donations", "schools", on_delete: :cascade
+  add_foreign_key "finance_fee_categories", "schools", on_delete: :cascade
+  add_foreign_key "finance_fee_collections", "schools", on_delete: :cascade
+  add_foreign_key "finance_fee_particulars", "schools", on_delete: :cascade
+  add_foreign_key "finance_transaction_categories", "schools", on_delete: :cascade
+  add_foreign_key "finance_transaction_triggers", "schools", on_delete: :cascade
+  add_foreign_key "finance_transactions", "schools", on_delete: :cascade
+  add_foreign_key "general_settings", "schools", on_delete: :cascade
+  add_foreign_key "grading_levels", "schools", on_delete: :cascade
+  add_foreign_key "guardians", "schools", on_delete: :cascade
+  add_foreign_key "liabilities", "schools", on_delete: :cascade
+  add_foreign_key "monthly_payslips", "schools", on_delete: :cascade
+  add_foreign_key "newscasts", "schools", on_delete: :cascade
+  add_foreign_key "payroll_categories", "schools", on_delete: :cascade
+  add_foreign_key "placement_exams", "schools", on_delete: :cascade
+  add_foreign_key "placement_news", "schools", on_delete: :cascade
   add_foreign_key "privilege_users", "privilege_tags"
   add_foreign_key "privilege_users", "privileges"
   add_foreign_key "privilege_users", "users"
+  add_foreign_key "question_databases", "schools", on_delete: :cascade
+  add_foreign_key "question_types", "schools", on_delete: :cascade
+  add_foreign_key "ranking_levels", "schools", on_delete: :cascade
   add_foreign_key "reports", "employees"
   add_foreign_key "reports", "guardians"
+  add_foreign_key "reports", "schools", on_delete: :cascade
   add_foreign_key "reports", "students"
   add_foreign_key "reports", "users"
   add_foreign_key "student_logs", "batches"
   add_foreign_key "student_logs", "exam_groups"
   add_foreign_key "student_logs", "students"
   add_foreign_key "student_logs", "subjects"
+  add_foreign_key "students", "schools", on_delete: :cascade
+  add_foreign_key "subjects", "schools", on_delete: :cascade
+  add_foreign_key "time_tables", "schools", on_delete: :cascade
   add_foreign_key "user_employees", "employees"
   add_foreign_key "user_employees", "users"
   add_foreign_key "user_privileges", "privileges"
   add_foreign_key "user_privileges", "users"
+  add_foreign_key "user_schools", "schools", on_delete: :cascade
+  add_foreign_key "user_schools", "users", on_delete: :cascade
   add_foreign_key "user_students", "students"
   add_foreign_key "user_students", "users"
+  add_foreign_key "users", "schools", on_delete: :cascade
+  add_foreign_key "weekdays", "schools", on_delete: :cascade
 end

@@ -1,0 +1,67 @@
+<div class="row">
+  <div class="col-md-2"></div>
+    <div class="box col-md-6">
+        <div class="box-inner">
+            <div class="box-header well" data-original-title="">
+                <h2>Configuration
+                </h2>
+            </div>
+            <div class="box-content">
+            <%= form_for :configurable,url:{action:'create',controller:'configurations'} do |b|%>
+            <fieldset> 
+        <div class="col-sm-7 col-sm-offset-1">
+                  <div class="form-group">
+                    <b>Name :</b>
+                    <%= b.select :name_tag,["Admission", "Student details", "Manage Users","Examinations","Settings","Human Resources","Finance","Timetable","Attendance","Calender","Manage News","Placement","Reports","Library","Campus News","Leaves","Remainders","Academics"],{prompt:'Select a Link'},{onchange:"$('#user_form2').submit();",class: "form-control",style:"width:300px"} %>
+                  </div>
+         <div class="col-sm-7">
+            <div class="form-group">
+                <b>Enable :</b>
+                <%= b.check_box :select, {}, "true", "false"%>
+            </div>    
+          </div>            
+          <div class="col-sm-7 col-sm-offset-6"> 
+              <div class="form-actions">               
+                <%= b.submit 'Create', class: "btn btn-primary"%>
+              </div>
+          </div>
+        </div>
+      </fieldset>
+  <% end %>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+  <div class="col-md-2"></div>
+    <div class="box col-md-6">
+        <div class="box-inner">
+      <div class="box-header well">
+        <h2>Model List</h2>
+      </div>
+    <div class="box-content" style="overflow-y: scroll; height:300px" >
+      <table id="datatable" class="table table-striped table-bordered responsive">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Enable</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+     <% @configures.each do |c| %>
+          <tr>
+            <td><%=c.name_tag%></td>
+            <td><%=c.select%></td>
+          <td><%= link_to 'Destroy', configuration_path(c),
+              method: :delete,
+              data: { confirm: 'Are you sure?' } %></td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    </div>
+  </div>
+</div>
+
