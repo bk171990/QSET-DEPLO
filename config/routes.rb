@@ -37,11 +37,20 @@
       get :selected_type
       get :new_email
       post :create_email
+      get :sms
     end
     member do 
       get :load_batch
     end
   end
+
+  resources :bulk_message_employees do
+    collection do
+       get :viewall_emp
+      get :allemp
+    end
+  end
+
   
   resources :reports do
     collection do 

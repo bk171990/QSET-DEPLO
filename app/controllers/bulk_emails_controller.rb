@@ -6,7 +6,7 @@ class BulkEmailsController < ApplicationController
   end
 
   def index
-  	
+    @bulk_emails = BulkEmail.all  	
   end
 
   def show

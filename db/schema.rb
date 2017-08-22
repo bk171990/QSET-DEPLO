@@ -250,19 +250,34 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
   add_index "bulk_emails", ["batch_id"], name: "index_bulk_emails_on_batch_id", using: :btree
   add_index "bulk_emails", ["student_id"], name: "index_bulk_emails_on_student_id", using: :btree
 
+  create_table "bulk_message_employees", force: :cascade do |t|
+    t.string   "body",                   limit: 255
+    t.integer  "employee_id",            limit: 4
+    t.integer  "employee_department_id", limit: 4
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
+  end
+
+  add_index "bulk_message_employees", ["employee_department_id"], name: "index_bulk_message_employees_on_employee_department_id", using: :btree
+  add_index "bulk_message_employees", ["employee_id"], name: "index_bulk_message_employees_on_employee_id", using: :btree
+
   create_table "bulk_messages", force: :cascade do |t|
-    t.string   "message_type", limit: 255
-    t.string   "body",         limit: 255
-    t.string   "email_body",   limit: 255
-    t.string   "email",        limit: 255
-    t.string   "subject",      limit: 255
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
-    t.integer  "student_id",   limit: 4
-    t.integer  "batch_id",     limit: 4
+    t.string   "message_type",           limit: 255
+    t.string   "body",                   limit: 255
+    t.string   "email_body",             limit: 255
+    t.string   "email",                  limit: 255
+    t.string   "subject",                limit: 255
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
+    t.integer  "student_id",             limit: 4
+    t.integer  "batch_id",               limit: 4
+    t.integer  "employee_department_id", limit: 4
+    t.integer  "employee_id",            limit: 4
   end
 
   add_index "bulk_messages", ["batch_id"], name: "index_bulk_messages_on_batch_id", using: :btree
+  add_index "bulk_messages", ["employee_department_id"], name: "index_bulk_messages_on_employee_department_id", using: :btree
+  add_index "bulk_messages", ["employee_id"], name: "index_bulk_messages_on_employee_id", using: :btree
   add_index "bulk_messages", ["student_id"], name: "index_bulk_messages_on_student_id", using: :btree
 
   create_table "categories", force: :cascade do |t|
@@ -1515,7 +1530,11 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
   add_foreign_key "batches_finance_fee_categories", "schools", on_delete: :cascade
   add_foreign_key "bulk_emails", "batches"
   add_foreign_key "bulk_emails", "students"
+  add_foreign_key "bulk_message_employees", "employee_departments"
+  add_foreign_key "bulk_message_employees", "employees"
   add_foreign_key "bulk_messages", "batches"
+  add_foreign_key "bulk_messages", "employee_departments"
+  add_foreign_key "bulk_messages", "employees"
   add_foreign_key "bulk_messages", "students"
   add_foreign_key "categories", "schools", on_delete: :cascade
   add_foreign_key "class_designations", "schools", on_delete: :cascade

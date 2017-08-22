@@ -6,6 +6,7 @@ class BulkMessagesController < ApplicationController
 		@batches = Batch.all
 	end
 
+  
 	 def create
     ids = []
     batch_id = Batch.find_by(id: params[:bulk_message][:batch_id])
@@ -14,8 +15,6 @@ class BulkMessagesController < ApplicationController
         ids << student_id
         bulk_message = BulkMessage.find_or_initialize_by(student_id: student_id.to_i, batch_id: params[:bulk_message][:batch_id])
         bulk_message.body = params[:bulk_message][:body]
-        bulk_message.message_type = params[:bulk_message][:message_type]
-        bulk_message.message_type = params[:bulk_message][:email]
         bulk_message.save
       end
     end
@@ -28,6 +27,10 @@ class BulkMessagesController < ApplicationController
   end
 
   def selected_type
+    
+  end
+
+  def sms
     
   end
 
