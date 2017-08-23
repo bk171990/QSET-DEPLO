@@ -6,7 +6,6 @@ class BulkMessagesController < ApplicationController
 		@batches = Batch.all
 	end
 
-  
 	 def create
     ids = []
     batch_id = Batch.find_by(id: params[:bulk_message][:batch_id])
@@ -31,20 +30,17 @@ class BulkMessagesController < ApplicationController
   end
 
   def sms
-    
   end
 
   def index
     @bulk_messages = BulkMessage.all
   end
 
-
 	private
 
 	 def load_batch
    	 @batch = Batch.find(params[:id])
    end
-
 
 	def params_bulk_message
 		params.require(:bulk_message).permit(:body,:message_type,:subject,:email_body,:student_id,:batch_id)

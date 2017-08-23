@@ -9,8 +9,7 @@ class BulkEmailsController < ApplicationController
     @bulk_emails = BulkEmail.all  	
   end
 
-  def show
-  	
+  def show	
   end
 
   def create
@@ -20,10 +19,13 @@ class BulkEmailsController < ApplicationController
       if Student.find(student_id.to_i)
         ids << student_id
        @bulk_email = BulkEmail.find_or_initialize_by(student_id: student_id.to_i, batch_id: params[:bulk_email][:batch_id],email_body: params[:bulk_email][:email_body],subject: params[:bulk_email][:subject]) 
+       binding.pry
         UserMailer.send_email_students(@bulk_email).deliver_now
         @bulk_email.save  
       end
      end
+     @students = Student.where(id: ids)
+    redirect_to bulk_emails_path
    end
    
    def selected_batched

@@ -13,6 +13,7 @@ class Employee < ActiveRecord::Base
     :image, content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
   has_many :employees_subjects
   has_many :bulk_messages
+  has_many :bulk_employee_emails
   has_many :subjects, through: :employees_subjects
   has_many :timetable_entries
   has_many :employee_bank_details

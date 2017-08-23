@@ -8,6 +8,7 @@
             <thead>
               <th>Sl no.</th>
               <th>Message Body</th>
+              <th>Student Name</th>
               <th>Contact</th>
               <th></th>
             </thead>
@@ -16,6 +17,7 @@
                 <tr>
                   <td><%= i+1 %></td>
                   <td><%= message.body %></td>
+                  <td><%= message.student.first_name+ " " +message.student.last_name%></td>
                   <td><%= message.student.phone1 %></td>
                 </tr>
             </tbody>

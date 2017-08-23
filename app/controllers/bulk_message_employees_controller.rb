@@ -29,6 +29,7 @@ class BulkMessageEmployeesController < ApplicationController
   end
 
 private
+
 def bulk_message_employee_params
     params.require(:bulk_message_employee).permit!
   end

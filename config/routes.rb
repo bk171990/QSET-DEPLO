@@ -51,6 +51,12 @@
     end
   end
 
+  resources :bulk_employee_emails do
+    collection do
+      get :selected_department
+    end
+  end
+
   
   resources :reports do
     collection do 

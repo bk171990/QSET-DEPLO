@@ -5,7 +5,6 @@ class BulkMessage < ActiveRecord::Base
   
 
   def send_bulk_message
-    binding.pry
   	require "rubygems"
     require "net/https"
     require "uri"

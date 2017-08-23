@@ -1,38 +1,43 @@
+<div>
+  <ul class="breadcrumb">
+    <li><%= link_to 'Home',dashboard_home_index_path %></li>
+    <li>Sms/Email</li>
+  </ul>
+</div>
+<div id="flash"><%= render 'layouts/messages'%></div>
+<br/>
+<div class="jumbotron">
 <div class="row">
-  <div class="box col-md-12">
-    <div class="box-inner">
-      <div class="box-header well"></div>
-<br/>   
-<div class="row">
-  <div class="col-lg-4 col-md-6">
+  <div class="col-lg-6 col-md-6">
     <div class="panel panel-primary">
       <div class="panel-heading">
          <div class="row">
           <div class="col-xs-4">
-             <span style="font-size:35px;" class="glyphicon glyphicon-star" ></span>
+             <span style="font-size:35px;" class="glyphicon glyphicon-comment" ></span>
           </div>
-         <div class="col-xs-9 text-right">
-        <div class="huge"><%=BulkMessage.all.count%></div>
-       <div>Student Message!</div>
-      </div>
+               <div class="col-xs-9 text-right">
+               <div class="huge"><%=BulkMessage.all.count%></div>
+               <div>Student Message!</div>
+          </div>
+        </div>
      </div>
+     <a href="/bulk_messages">
+       <div class="panel-footer">
+         <span class="pull-left">View Details</span>
+           <span class="pull-right"><i class="glyphicon glyphicon-chevron-right"></i></span>
+             <div class="clearfix"></div>
+        </div>
+      </a>
     </div>
-    <a href="/bulk_messages">
-      <div class="panel-footer">
-        <span class="pull-left">View Details</span>
-          <span class="pull-right"><i class="glyphicon glyphicon-chevron-right"></i></span>
-            <div class="clearfix"></div>
-            </div>
-    </a>
-     </div>
-  </div>
-  <div class="row">
-  <div class="col-lg-4 col-md-6">
+</div>
+
+<div class="row">
+  <div class="col-lg-6 col-md-6">
     <div class="panel panel-primary">
       <div class="panel-heading">
          <div class="row">
           <div class="col-xs-4">
-             <span style="font-size:35px;" class="glyphicon glyphicon-star" ></span>
+             <span style="font-size:35px;" class="glyphicon glyphicon-comment" ></span>
           </div>
          <div class="col-xs-9 text-right">
         <div class="huge"><%=BulkMessageEmployee.all.count%></div>
@@ -51,15 +56,14 @@
   </div>
 </div>
 </div>
-<br/>
-
+<br>
 <div class="row">
-  <div class="col-lg-4 col-md-6">
+  <div class="col-lg-6 col-md-6">
     <div class="panel panel-primary">
       <div class="panel-heading">
          <div class="row">
           <div class="col-xs-4">
-             <span style="font-size:35px;" class="glyphicon glyphicon-star" ></span>
+             <span style="font-size:35px;" class="glyphicon glyphicon-envelope" ></span>
           </div>
          <div class="col-xs-9 text-right">
         <div class="huge"><%=BulkEmail.all.count%></div>
@@ -76,6 +80,29 @@
     </a>
      </div>
   </div>
+
+  <div class="row">
+  <div class="col-lg-6 col-md-6">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+         <div class="row">
+          <div class="col-xs-4">
+             <span style="font-size:35px;" class="glyphicon glyphicon-envelope" ></span>
+          </div>
+         <div class="col-xs-9 text-right">
+        <div class="huge"><%=BulkEmployeeEmail.all.count%></div>
+       <div>Email Employees!</div>
+      </div>
+     </div>
+    </div>
+    <a href="/bulk_employee_emails">
+      <div class="panel-footer">
+        <span class="pull-left">View Details</span>
+          <span class="pull-right"><i class="glyphicon glyphicon-chevron-right"></i></span>
+            <div class="clearfix"></div>
+            </div>
+    </a>
+     </div>
+  </div>
 </div>
 </div>
-<br/>

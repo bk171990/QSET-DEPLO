@@ -250,6 +250,18 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
   add_index "bulk_emails", ["batch_id"], name: "index_bulk_emails_on_batch_id", using: :btree
   add_index "bulk_emails", ["student_id"], name: "index_bulk_emails_on_student_id", using: :btree
 
+  create_table "bulk_employee_emails", force: :cascade do |t|
+    t.string   "subject",                limit: 255
+    t.string   "body",                   limit: 255
+    t.integer  "employee_id",            limit: 4
+    t.integer  "employee_department_id", limit: 4
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
+  end
+
+  add_index "bulk_employee_emails", ["employee_department_id"], name: "index_bulk_employee_emails_on_employee_department_id", using: :btree
+  add_index "bulk_employee_emails", ["employee_id"], name: "index_bulk_employee_emails_on_employee_id", using: :btree
+
   create_table "bulk_message_employees", force: :cascade do |t|
     t.string   "body",                   limit: 255
     t.integer  "employee_id",            limit: 4
@@ -1530,6 +1542,8 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
   add_foreign_key "batches_finance_fee_categories", "schools", on_delete: :cascade
   add_foreign_key "bulk_emails", "batches"
   add_foreign_key "bulk_emails", "students"
+  add_foreign_key "bulk_employee_emails", "employee_departments"
+  add_foreign_key "bulk_employee_emails", "employees"
   add_foreign_key "bulk_message_employees", "employee_departments"
   add_foreign_key "bulk_message_employees", "employees"
   add_foreign_key "bulk_messages", "batches"

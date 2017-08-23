@@ -4,6 +4,7 @@ class EmployeeDepartment < ActiveRecord::Base
   has_many :employees
   has_many :employee_department_events
   has_many :bulk_messages
+  has_many :bulk_employee_emails
   has_many :events, through: :employee_department_events
   validates :name, presence: true, length: \
   { minimum: 1, maximum: 50 }, format: { with: /\A[a-zA-Z0-9#+_" "-]+\Z/ }
