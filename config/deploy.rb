@@ -1,5 +1,5 @@
 # config valid only for current version of Capistrano
-lock '3.7.1'
+lock '3.8.1'
 
 set :application, 'SchoolERP'
 set :repo_url, 'ssh://git@bitbucket.org/DhanshreeK/school.git' # Edit this to match your 
@@ -26,11 +26,10 @@ set :format, :pretty
  set :pty, true
 
 # Default value for :linked_files is []
- set :linked_files, fetch(:linked_files, []).push('config/database.yml')
+ set :linked_files, fetch(:linked_files, []).push('config/database.yml', 'config/secrets.yml', 'config/puma.rb')
 
 # Default value for linked_dirs is []
-  set :linked_dirs, fetch(:linked_dirs, []).push('bin', 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system')
-
+set :linked_dirs, fetch(:linked_dirs, []).push('bin', 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system', 'public/uploads')
 set :rvm_ruby_version, '2.3.3'
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
@@ -55,6 +54,9 @@ set :puma_preload_app, false
 
 
 namespace :deploy do
+	before 'check:linked_files', 'puma:config'
+	before 'check:linked_files', 'puma:nginx_config'
+	after 'puma:smart_restart', 'nginx:restart'
   after :restart, :clear_cache do
     on roles(:web), in: :groups, limit: 3, wait: 10 do
       # Here we can do anything such as:
