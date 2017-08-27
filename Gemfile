@@ -52,39 +52,26 @@ gem 'momentjs-rails', '>= 2.9.0'
 # gem 'bootstrap3-datetimepicker-rails', '~> 4.0.0'
 gem 'jquery-validation-rails', '~> 1.13.1'
 gem 'yard'
-
 gem 'figaro'
-gem 'puma'
 gem 'sass', '~> 3.4.23'
-
-# group :development, :test do
-#   gem 'pry-byebug'
-#   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-#   # gem 'spring'
-#   # gem 'brakeman'
-#   # gem 'capistrano3-puma'
-#   # gem 'capistrano-rails', require: false
-#   # gem 'capistrano-bundler', require: false
-#   # gem 'rvm-capistrano'
-# end
 
 group :development do
   gem 'pry-byebug'
-  gem 'capistrano', '~> 3.6'
-  gem 'capistrano-rails', '~> 1.1'
-  gem 'capistrano-rvm'
-  gem 'capistrano3-puma'
-  gem 'capistrano3-nginx'
-  gem 'capistrano-upload-config'
+  # gem 'spring'
+  # gem 'brakeman'
+  gem 'capistrano',         require: false
+  gem 'capistrano-rvm',     require: false
+  gem 'capistrano-rails',   require: false
+  gem 'capistrano-bundler', require: false
+  gem 'capistrano3-puma',   require: false
 end
+
+gem 'puma'
 
 group :production do
   gem 'rails_12factor'
-  gem 'unicorn'
- 
+  # gem 'unicorn'
   gem 'net-ssh'
-
-
   # gem 'pg'
 end
 
