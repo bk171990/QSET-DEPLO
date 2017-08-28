@@ -1,0 +1,67 @@
+<div class="row">
+  <div class="box col-md-12">
+    <div class="box-inner">
+      <div class="box-header well">
+        <h2>Create Message for all</h2>
+      </div>
+      <div class="box-content">
+      <%= form_for :message_to_all_batch ,url:{controller: 'message_to_all_batches',action: 'create'} do |f| %>
+    <fieldset>
+
+     <div class="col-md-4">
+           <div class="form-group">
+          <b>Select:</b> &nbsp;&nbsp; &nbsp;&nbsp;
+          <%= link_to "All",'#',{onclick:"$('.check_box').prop('checked',true);",remote:true,class: "btn btn-primary-link btn-xs"}%>&nbsp;&nbsp;
+          <%= link_to  "None",'#',{onclick:"$('.check_box').prop('checked',false);",remote:true,class: "btn btn-primary-link btn-xs"}%>
+        </div>
+    </div>
+
+<div class="row">
+  <div class="box col-md-8">
+    <div class="box-inner">
+      <div class="box-content" style="overflow-y: auto;height: 350px;width:100%">
+        <div id="user_search">
+        <div id="">
+          <%= render 'batch_list'%>
+        </div></div></div></div>
+
+      
+    <div class="row">
+      <div class="col-sm-1"></div>
+      <div class="col-sm-4">
+
+    <div class="form-group">
+          
+  <br>
+        <div class="form-group">
+          <b>Message Body:</b>
+          <span style="color:red">*</span>
+          <%= f.text_area :body, placeholder: "Message", class: "form-control",required:true, style:"width:300px;height:200px"%>
+        </div>
+
+         
+          <br>
+
+
+    <div class="col-sm-2 col-sm-offset-2"> 
+      <div class="form-actions">               
+        <%= f.submit 'Send bulk_messages', class: "btn btn-primary"%>
+      </div>
+    </div>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+     
+      
+  </fieldset>        
+ <% end %>
+</div>
+</div>
+</div>
+</div>
+</div>
+      </div>

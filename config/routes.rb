@@ -38,6 +38,7 @@
       get :new_email
       post :create_email
       get :sms
+      get :reports
     end
     member do 
       get :load_batch
@@ -56,6 +57,11 @@
       get :selected_department
     end
   end
+
+  resources :sms_to_all_students
+  resources :sms_to_all_employees
+  resources :message_to_all_batches
+  resources :message_to_all_departments
 
   
   resources :reports do

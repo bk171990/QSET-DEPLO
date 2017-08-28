@@ -19,13 +19,13 @@ class BulkEmailsController < ApplicationController
       if Student.find(student_id.to_i)
         ids << student_id
        @bulk_email = BulkEmail.find_or_initialize_by(student_id: student_id.to_i, batch_id: params[:bulk_email][:batch_id],email_body: params[:bulk_email][:email_body],subject: params[:bulk_email][:subject]) 
-       binding.pry
         UserMailer.send_email_students(@bulk_email).deliver_now
         @bulk_email.save  
+         flash[:notice] = t('email_to_student_sent')
       end
      end
      @students = Student.where(id: ids)
-    redirect_to bulk_emails_path
+    redirect_to '/bulk_messages/sms'
    end
    
    def selected_batched

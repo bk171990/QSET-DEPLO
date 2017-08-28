@@ -17,10 +17,11 @@ class BulkEmployeeEmailsController < ApplicationController
        @bulk_employee_email =BulkEmployeeEmail.find_or_initialize_by(employee_id: employee_id.to_i, employee_department_id: params[:bulk_employee_email][:employee_department_id],body: params[:bulk_employee_email][:body],subject: params[:bulk_employee_email][:subject]) 
         UserMailer.send_email_to_employees(@bulk_employee_email).deliver_now
         @bulk_employee_email.save  
+        flash[:notice] = t('email_to_employee_sent')
       end
      end
      @employees = Employee.where(id: ids)
-    redirect_to bulk_employee_emails_path
+     redirect_to '/bulk_messages/sms'
   end
    
    def selected_department

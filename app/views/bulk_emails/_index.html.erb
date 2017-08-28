@@ -1,0 +1,32 @@
+<h3>Total Email Sent :<%= @bulk_emails.count %></h3>
+
+<div class="row">
+  <div class="box col-md-12">
+    <div class="box-inner">
+      <div class="box-header well"></div>
+      <div class="box-content">
+        <table id="datatable" class="table table-striped table-bordered responsive">
+            <thead>
+              <th>Sl no.</th>
+              <th>Subject</th>
+              <th>Email Message</th>
+              <th>Student Name </th>
+              <th>Student Email</th>
+              <th></th>
+            </thead>
+            <tbody>
+              <% @bulk_emails.each_with_index do |message,i| %>
+                <tr>
+                  <td><%= i+1 %></td>
+                  <td><%= message.subject %></td>
+                  <td><%= message.email_body %></td>
+                  <td><%= message.student.first_name+ " " +message.student.last_name%></td>
+                  <td><%= message.student.email %></td>
+                </tr>
+            </tbody>
+          <%end%>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

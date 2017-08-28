@@ -17,8 +17,9 @@ class BulkMessagesController < ApplicationController
         bulk_message.save
       end
     end
+    flash[:notice] = t('message_to_student_sent')
     @students = Student.where(id: ids)
-    redirect_to bulk_messages_path
+    redirect_to '/bulk_messages/sms'
   end
 
   def selected_batch
@@ -26,6 +27,10 @@ class BulkMessagesController < ApplicationController
   end
 
   def selected_type
+    
+  end
+
+  def reports
     
   end
 
@@ -43,6 +48,6 @@ class BulkMessagesController < ApplicationController
    end
 
 	def params_bulk_message
-		params.require(:bulk_message).permit(:body,:message_type,:subject,:email_body,:student_id,:batch_id)
+		params.require(:bulk_message).permit!
 	end
 end

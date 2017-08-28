@@ -1,4 +1,5 @@
- <%= link_to 'New Email', new_bulk_email_path, class: "btn btn-primary-link btn-xs" %>
+<h3>Total Email Sent :<%= @bulk_employee_emails.count %></h3>
+
 <div class="row">
   <div class="box col-md-12">
     <div class="box-inner">
@@ -9,18 +10,18 @@
               <th>Sl no.</th>
               <th>Subject</th>
               <th>Email Message</th>
-              <th>Student Name </th>
-              <th>Student Email</th>
+              <th>Employee Name </th>
+              <th>Employee Email</th>
               <th></th>
             </thead>
             <tbody>
-              <% @bulk_emails.each_with_index do |message,i| %>
+              <% @bulk_employee_emails.each_with_index do |message,i| %>
                 <tr>
                   <td><%= i+1 %></td>
                   <td><%= message.subject %></td>
-                  <td><%= message.email_body %></td>
-                  <td><%= message.student.first_name+ " " +message.student.last_name%></td>
-                  <td><%= message.student.email %></td>
+                  <td><%= message.body %></td>
+                  <td><%= message.employee.first_name+ " " +message.employee.last_name%></td>
+                  <td><%= message.employee.email %></td>
                 </tr>
             </tbody>
           <%end%>

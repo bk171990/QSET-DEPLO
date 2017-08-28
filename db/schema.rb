@@ -998,6 +998,26 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
 
   add_index "liabilities", ["school_id"], name: "index_liabilities_on_school_id", using: :btree
 
+  create_table "message_to_all_batches", force: :cascade do |t|
+    t.string   "body",       limit: 255
+    t.integer  "batch_id",   limit: 4
+    t.integer  "course_id",  limit: 4
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  add_index "message_to_all_batches", ["batch_id"], name: "index_message_to_all_batches_on_batch_id", using: :btree
+  add_index "message_to_all_batches", ["course_id"], name: "index_message_to_all_batches_on_course_id", using: :btree
+
+  create_table "message_to_all_departments", force: :cascade do |t|
+    t.string   "body",                   limit: 255
+    t.integer  "employee_department_id", limit: 4
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
+  end
+
+  add_index "message_to_all_departments", ["employee_department_id"], name: "index_message_to_all_departments_on_employee_department_id", using: :btree
+
   create_table "monthly_payslips", force: :cascade do |t|
     t.date     "salary_date"
     t.integer  "employee_id",         limit: 4
@@ -1217,6 +1237,24 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
   end
+
+  create_table "sms_to_all_employees", force: :cascade do |t|
+    t.string   "body",        limit: 255
+    t.integer  "employee_id", limit: 4
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
+  add_index "sms_to_all_employees", ["employee_id"], name: "index_sms_to_all_employees_on_employee_id", using: :btree
+
+  create_table "sms_to_all_students", force: :cascade do |t|
+    t.string   "body",       limit: 255
+    t.integer  "student_id", limit: 4
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  add_index "sms_to_all_students", ["student_id"], name: "index_sms_to_all_students_on_student_id", using: :btree
 
   create_table "student_answer_sheets", force: :cascade do |t|
     t.integer  "student_exams_id",      limit: 4
@@ -1577,6 +1615,9 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
   add_foreign_key "grading_levels", "schools", on_delete: :cascade
   add_foreign_key "guardians", "schools", on_delete: :cascade
   add_foreign_key "liabilities", "schools", on_delete: :cascade
+  add_foreign_key "message_to_all_batches", "batches"
+  add_foreign_key "message_to_all_batches", "courses"
+  add_foreign_key "message_to_all_departments", "employee_departments"
   add_foreign_key "monthly_payslips", "schools", on_delete: :cascade
   add_foreign_key "newscasts", "schools", on_delete: :cascade
   add_foreign_key "payroll_categories", "schools", on_delete: :cascade
@@ -1593,6 +1634,8 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
   add_foreign_key "reports", "schools", on_delete: :cascade
   add_foreign_key "reports", "students"
   add_foreign_key "reports", "users"
+  add_foreign_key "sms_to_all_employees", "employees"
+  add_foreign_key "sms_to_all_students", "students"
   add_foreign_key "student_logs", "batches"
   add_foreign_key "student_logs", "exam_groups"
   add_foreign_key "student_logs", "students"

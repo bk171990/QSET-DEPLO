@@ -1,0 +1,9 @@
+<%unless @employee_departments.nil?%>
+  <% @employee_departments.each do |b|%>
+    <div>
+    <br>
+    <%= check_box_tag "employee_department_ids[]", b.id,false,class: 'check_box'%>&nbsp;&nbsp;<b><%= b.name%></b>
+    </div>
+  <%end%>
+<%end%>
+</div>

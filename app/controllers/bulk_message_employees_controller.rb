@@ -22,10 +22,11 @@ class BulkMessageEmployeesController < ApplicationController
          bulk_message = BulkMessageEmployee.find_or_initialize_by(employee_id: employee_id.to_i, employee_department_id: params[:bulk_message_employee][:employee_department_id])
          bulk_message.body = params[:bulk_message_employee][:body]
          bulk_message.save
+         flash[:notice] = t('message_to_employee_sent')
        end
      end
      @employees = Employee.where(id: ids)
-     redirect_to bulk_message_employees_path
+      redirect_to '/bulk_messages/sms'
   end
 
 private

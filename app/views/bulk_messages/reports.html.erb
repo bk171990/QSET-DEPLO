@@ -1,0 +1,45 @@
+<div>
+  <ul class="breadcrumb">
+    <li><%= link_to 'Home',dashboard_home_index_path %></li>
+    
+    <li>Sms/Email</li>
+  </ul>
+</div><div id="flash"><%= render 'layouts/messages'%></div>
+<div class="row">
+
+  <div class="dropdown pull-right">
+   <%= link_to 'Click To Logs','#',class: "btn dropdown-toggle btn-primary-link btn-xs", id: "dropdownMenu1", :"data-toggle"=>"dropdown"%>
+
+    <%= link_to 'Back','/bulk_messages/sms',class: 'btn btn-primary-link btn-xs'%>
+
+   <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+    <li role="presentation">
+     
+     <%=link_to "Sms To Students",bulk_messages_path,remote:true%>
+   </li>
+   <li role="presentation">
+     
+     <%=link_to "Sms To Employee",bulk_message_employees_path,remote:true%>
+   </li>
+   <li role="presentation">
+    <%=link_to "Email To Student",bulk_emails_path,remote:true%>
+  </li>
+  <li role="presentation">
+    <%=link_to "Email To Employee",bulk_employee_emails_path,remote:true%>
+  </li> 
+    <li role="presentation">
+    <%=link_to "Sms all Students",sms_to_all_students_path,remote:true%>
+  </li> 
+    <li role="presentation">
+    <%=link_to "Sms all Employee",sms_to_all_employees_path,remote:true%>
+  </li>  
+   <li role="presentation">
+    <%=link_to "Sms all Batch",message_to_all_batches_path,remote:true%>
+  </li>  
+   <li role="presentation">
+    <%=link_to "Sms all Department",message_to_all_departments_path,remote:true%>
+  </li>  
+</ul>
+</div>
+ <div id="message_index"></div>
+
