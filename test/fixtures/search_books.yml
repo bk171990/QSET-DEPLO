@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  search: MyString
+  search_by: MyString
+
+two:
+  search: MyString
+  search_by: MyString

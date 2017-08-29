@@ -1,0 +1,78 @@
+<div>
+  <ul class="breadcrumb">
+    <li><%= link_to 'Home',dashboard_home_index_path %></li>
+    <li><%= link_to 'Library Management',main_page_books_path %></li>
+    <li><%= link_to 'Library Settings',setting_book_movements_path %></li>
+    <li>Library Settings </li>
+  </ul>
+</div>
+
+
+<div class="row">
+  <div class="col-md-2"></div>
+  <div class="box col-md-4">
+    <div class="box-inner">
+      <div class="box-header well">
+        <h2>Interval Durations</h2>
+      </div>
+      <div class="box-content">
+        <%= form_for @setting ,url:{action: 'create',controller: 'library_settings'} do |l|%>
+          <div class="errors"><ul class="errors"></ul></div>
+          <fieldset>
+
+            <div class="form-group">
+              <div class="col-md-3"><b>Durations</b></div>
+              <%= l.select :interval,["0","1","2","3","4","5","6","7","8","9","10",:selected => @setting.interval],{prompt: 'select Interval'},class: "form-control",style:"width:250px" %>
+            </div>
+
+            <div class="form-group">
+              <div class="col-md-3"><b>Per Day Fine</b></div>
+              <%=l.select :per_day_fine,["1","2","4","6","8","10",:selected => @setting.per_day_fine],{prompt: 'select Interval'},class: "form-control",style:"width:250px" %>
+            </div>
+   
+            <div class="col-sm-4 col-sm-offset-4"> 
+              <div class="form-actions">  
+              <%if LibrarySetting.first.interval.present?%>
+              <%else%>             
+                <%= l.submit 'Create', class: "btn btn-primary"%>
+                <%end%>
+              </div>
+            </div>
+          </fieldset>
+       <%end%>  
+      </div>
+    </div>
+  </div>
+</div>
+<br><br><br>
+
+ <div class="col-md-2"></div>
+ <div class="box col-md-6">
+ <div class="box-inner">
+    <div class="box-header well" data-original-title="">
+    <h2>Edit Library Settings</h2>
+  </div>
+
+  <div class="box-content">
+  <table id="datatable" class="table table-striped table-bordered responsive">
+    <tr class="tr-head">
+     <thead>
+      <tr>     
+        <th>Interval</th>
+        <th>Fine Per Day</th>
+        <th colspan="3"></th>
+      </tr>
+     </thead>
+
+    <tbody>
+      <% @settings.each do |s| %>
+        <tr>  
+          <td><%= s.interval %></td>
+          <td><%= s.per_day_fine %></td>
+          <td><div class="label-success label label-default">
+         <i class="glyphicon glyphicon-pencil icon-white"></i> <%= link_to 'Edit',edit_library_setting_path(s),class: "a-action"%></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+   

@@ -1,0 +1,4 @@
+
+   <% unless @students.nil? %>
+     <%=select :student,:id,@students.collect {|b| [b.first_name+' '+b.last_name,b.id]},{prompt:true},{:style =>"width: 250px",class: "form-control"}%>
+   <%end%>

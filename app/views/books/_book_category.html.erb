@@ -1,0 +1,72 @@
+<div>
+  <ul class="breadcrumb">
+    <li><%= link_to 'Home',dashboard_home_index_path %></li>
+    <li><%= link_to 'Library Management',main_page_books_path %></li>
+    <li><%= link_to 'Library Setting',setting_book_movements_path %></li>
+    <li>Books Category</li>
+  </ul>
+</div>
+
+<div class="row">
+  <div class="col-md-3"></div>
+  <div class="box col-md-6">
+    <div class="box-inner">
+      <div class="box-header well">
+        <h2>Book Category</h2>
+      </div>
+      <div class="box-content">
+        <%= form_for @bookcat, url:{controller: 'books',action:'add_category'} do |c|%>
+          <div class="errors"><ul class="errors"></ul></div>
+          <fieldset>
+            <div class="form-group">
+              <div class="col-md-3"><b>Category No:</b></div>
+              <%=c.text_field :barcode, placeholder: "Category No", class: "form-control",style:"width:250px"%>
+            </div>
+
+            <div class="form-group">
+              <div class="col-md-3"><b>Book Category:</b></div>
+              <%=c.text_field :book_type, placeholder: "Book Category", class: "form-control",style:"width:250px"%>
+            </div>
+   
+            <div class="col-sm-4 col-sm-offset-4"> 
+              <div class="form-actions">               
+                <%= c.submit 'Create', class: "btn btn-primary"%>
+              </div>
+            </div>
+          </fieldset>
+        <%end%>  
+      </div>
+    </div>
+  </div>
+</div>
+
+ <div class="col-md-2"></div>
+ <div class="box col-md-12">
+<div class="box-inner">
+    <div class="box-header well" data-original-title="">
+    <h2>View All Book Categories</h2>
+  </div>
+
+<div class="box-content" style="overflow-y: auto;height: 230px;width: 100%;">
+  <table id="datatable" class="table table-striped table-bordered responsive">
+    <tr class="tr-head">
+     <thead>
+      <tr>
+         <th>Sr.No</th>
+         <th>Book Category</th>
+         <th>Actions</th>
+        <th colspan="3"></th>
+      </tr>
+     </thead>
+
+    <tbody>
+      <%@bookcats.each do |c| %>
+        <tr>
+          <td><%= c.barcode%></td>
+          <td><%= c.book_type %></td>
+          <td><%= link_to 'Edit',edit_category_book_path(c), class: "btn btn-success btn-sm" %></td>
+          <td><%= link_to 'Destroy',destroy_category_book_path(c), method: :delete, data: { confirm: 'Are you sure?' },class: "btn btn-danger btn-sm" %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>

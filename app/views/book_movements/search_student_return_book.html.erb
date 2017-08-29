@@ -1,0 +1,16 @@
+<div class="row">
+<div class="col-sm-8 col-sm-offset-1">
+<div class="form-group">
+   <%= form_for :book_movement, url:{action:'search_student_return_book'}, method: :get,remote:true,html:{id: "search_form"} do |f|%>
+       <b>Search Students:</b>
+       <br>
+          <%= text_field_tag :search,"",placeholder:'Search Students',oninput:"$('#search_form').submit();",class:"form-control",style: "width: 300px"%>
+         
+   <% end %>
+   <br><br><br>
+   <div id="search_return_book"></div>
+ </div>
+</div>
+</div>
+
+       

@@ -1,0 +1,68 @@
+<div>
+  <ul class="breadcrumb">
+    <li><%= link_to 'Home',dashboard_home_index_path %></li>
+    <li><%= link_to 'Library Management',main_page_books_path %></li>
+    <li><%= link_to 'Book Details',book_path %></li>
+    <li>Issue Books</li>
+  </ul>
+</div>
+
+<div class="row">
+  <div class="col-md-2"></div>
+  <div class="box col-md-6">
+    <div class="box-inner">
+      <div class="box-header well">
+        <h2>Issue Book</h2>
+      </div>
+
+       <div class="box-content">
+
+       <%= form_for :book_movement ,url:{controller:'book_movements',action:'create'} do |c|%>
+      
+          <div class="form-group">
+            <div class="col-md-3"><b>Book No:</b></div>
+              <%= text_field :book,:book_number, :disabled=>true %>
+          </div>
+         
+          <%=hidden_field_tag 'book_id', @book.id  %>
+          
+          <div class="form-group">
+            <div class="col-md-3"><b>Book Title:</b></div>
+              <%= text_field :book,:title, :disabled=>true %>
+          </div>
+
+          <div class="form-group">
+            <div class="col-md-3"><b>Select Batch:</b></div>
+            <%= c.select :batch_id, Batch.all.collect{|b| [b.full_name,b.id]}, {prompt:true}, {onclick:"var a={batch_id:$('#book_movement_batch_id').val()};$.get('selected_batch',a,function(response){});",:style =>"width: 250px",class: "form-control"} %>
+          </div>
+          <br>
+
+          <div class="form-group">
+              <div class="col-md-3"><b>Student Name</b></div>
+               <div id="batch_student"><%=c.select :student_id,Student.all.collect {|b| [b.first_name,b.id]},{prompt:true},{class:"form-control",style:"width:250px"}%>
+            </div>
+          </div>
+  
+            
+            <div class="form-group">
+              <div class="col-md-3"><b>Issue Date:</b></div>
+              <%= c.date_field :issue_date,:value => Time.now.strftime('%Y-%m-%d'),class: "form-control",style:"width:250px",readonly:true %>
+            </div>
+
+            <div class="form-group">
+              <div class="col-md-3"><b>Due Date:</b></div>
+              <%= c.date_field :due_date,:value => Date.today+7,class: "form-control",style:"width:250px",readonly:true %>
+            </div>
+
+            <div class="row">
+              <center><%= c.submit 'Submit', class: "btn btn-primary"%></center>
+            </div>
+          </fieldset>
+        <%end%> 
+       
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+

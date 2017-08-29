@@ -1,0 +1,39 @@
+<div class="row">
+  <div class="box col-md-12">
+    <div class="box-inner">
+      <div class="box-header well">
+        <h2></h2>
+      </div>
+<div class="box-content" style="overflow-y: scroll; height:auto">
+<% if @fines.empty? %>
+  <h4 align="center">No Record Found </h4>
+<% else %>
+  <table class="datatable table table-striped table-bordered responsive">
+    <thead>
+     <tr>
+      <th>Sr. No.</th>
+      <th>Student Name</th>
+      <th>Admission No</th>
+      <th>Batch and Course</th>
+      <th>Book No</th>
+      <th>Book Title</th>
+      <th>Fine</th>
+      <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @fines.each_with_index do |fine,i| %>
+        <tr>
+          <td><%= i+1 %></td>
+          <td><%= fine.student.first_name+" "+last_name %></td>
+          <td><%= fine.student.admission_no%></td>
+          <td><%= fine.student.batch.course.course_name%></td>
+          <td><%= fine.book.book_number%></td>
+          <td><%= fine.book.title%></td>
+          <td><%= fine.amount%></td>
+          
+        </tr>
+      <% end %>   
+    </tbody>
+  </table>
+<% end %>

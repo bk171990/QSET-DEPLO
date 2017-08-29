@@ -7,6 +7,7 @@ class Employee < ActiveRecord::Base
   belongs_to :employee_department
   belongs_to :nationality, class_name: 'Country'
   belongs_to :user
+  belongs_to :book_movement
   belongs_to :reporting_manager, class_name: 'Employee'
   has_attached_file :image
   validates_attachment_content_type \
@@ -167,20 +168,12 @@ class Employee < ActiveRecord::Base
 
   # This methd is used to search employee on dept,category,position,grade.
   # find employee by combining all parameter
-  def self.search2(a, s)
-    if s.present?
-      dep_id = a[:employee_department_id]
-      cat_id = a[:employee_category_id]
-      pos_id = a[:employee_position_id]
-      grd_id = a[:employee_grade_id]
-      other_conditions = ''
-      other_conditions += " AND employee_department_id = '#{dep_id}'" unless dep_id == ''
-      other_conditions += " AND employee_category_id = '#{cat_id}'" unless cat_id == ''
-      other_conditions += " AND employee_position_id = '#{pos_id}'" unless pos_id == ''
-      other_conditions += " AND employee_grade_id = '#{grd_id}'" unless grd_id == ''
-      Employee.search1(other_conditions, s).order('id ASC')
-    end
+  def self.search2(input)
+      where("concat_ws(' ',first_name,last_name)like '#{input}%' \
+        OR concat_ws(' ',last_name,first_name)like '#{input}%' \
+        OR employee_number like '#{input}%' COLLATE utf8_bin")
   end
+   
 
   # This method used for adv search user ,user can search employee with
   # multiple options combine all required parameter and pass to sql query

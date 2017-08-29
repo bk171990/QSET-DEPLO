@@ -1,7 +1,7 @@
 # Subject model
 class Subject < ActiveRecord::Base
   include Activity
-  belongs_to :batch
+  has_many :books
   belongs_to :elective_group
   has_many :timetable_entries, foreign_key: 'subject_id'
   has_many :employee_subjects

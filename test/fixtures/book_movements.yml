@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  issue_date: 2016-12-06
+  due_date: 2016-12-06
+  status: MyString
+  book_id: 
+  student_id: 
+
+two:
+  issue_date: 2016-12-06
+  due_date: 2016-12-06
+  status: MyString
+  book_id: 
+  student_id: 

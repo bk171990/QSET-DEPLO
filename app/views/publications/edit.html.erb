@@ -1,0 +1,38 @@
+<div>
+  <ul class="breadcrumb">
+    <li><%= link_to 'Home',dashboard_home_index_path %></li>
+    <li><%= link_to 'Library Management',main_page_books_path %></li>
+    <li>Edit Book Publications</li>
+  </ul>
+</div>
+
+<div class="row">
+  <div class="col-md-3"></div>
+  <div class="box col-md-6">
+    <div class="box-inner">
+      <div class="box-header well">
+        <h2>Edit Book Publications</h2>
+      </div>
+
+  <div class="box-content">
+    <%= form_for @publication, url:{action:'update'},controller: 'publications' do |c|%>
+     <div class="errors"><ul class="errors"></ul></div>
+     <fieldset>
+
+           
+      <div class="form-group">
+        <div class="col-md-3"><b>Book Publication:</b></div>
+        <%=c.text_field :name, placeholder: "Name", class: "form-control",style:"width:250px"%>
+      </div>
+
+      <div class="col-sm-4 col-sm-offset-4"> 
+        <div class="form-actions">               
+          <%= c.submit 'Update', class: "btn btn-primary"%>
+        </div>
+      </div>
+    </fieldset>
+    <%end%>  
+  </div>
+ </div>
+</div>
+</div>

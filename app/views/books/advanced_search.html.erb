@@ -1,0 +1,39 @@
+<div>
+  <ul class="breadcrumb">
+    <li><%= link_to 'Home',dashboard_home_index_path %></li>
+	<li><%= link_to 'Library',main_page_books_path %></li>
+	<li>Search Book</li>
+  </ul>
+</div>
+
+</div><div id="flash"><%= render 'layouts/messages'%></div>
+<br/><br/>
+
+    <div class="row">
+	  <div class="col-md-1"></div>
+	  <div class="box col-md-10">
+	    <div class="box-inner">
+		  <div class="box-header well" data-original-title="">
+		</div>
+		
+		<div class="box-content">
+		  <%=form_for :search ,url:{action:'advanced_book_search'},method: :get do |f| %>
+			<fieldset>
+			
+			<div class="col-sm-6">
+			 <div class="form-group">
+			  <b>Student Name:</b>
+			    <%=f.text_field :name, placeholder:'Student Name', class: "form-control"%>
+			 </div>
+			</div>
+			
+		    <div class="form-group">
+			  <b>Search by:</b>
+			  <%=select :batch,:id,Batch.all.collect {|b| [b.name,b.id]},{prompt:true},{class:"form-control"}%>
+			</div>
+		
+			<div align="center"><%= f.submit 'Search', class: "btn btn-primary"%></div>
+		  <%end%>	
+		</fieldset>
+	  </div>
+	</div>

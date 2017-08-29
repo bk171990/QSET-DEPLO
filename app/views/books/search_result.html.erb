@@ -1,0 +1,37 @@
+<table id="datatable" class="table table-striped table-bordered responsive">
+  <tr class="tr-head">
+   <thead>
+    <tr>
+      
+      <th>Book No</th>
+      <th>Title</th>
+      <th>Author</th>
+      <th>Status</th>
+      <th>No of copies</th>
+      <th>Publication</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+
+
+ <tbody>
+    <% @books.each do |l| %>
+    
+     <tr>
+    
+        <td><%= l.book_number %></td>
+        <td><%= l.title%></td>
+        <td><%= l.author %></td>
+        <td><%= l.status %></td>
+        <td><%= l.no_of_copies %></td>
+        <td><%= l.publication %></td>
+         <td><%= link_to 'Edit',edit_book_book_path(l), class: "btn btn-success btn-sm" %></td>
+        <td><%= link_to 'Destroy', destroy_book_book_path(l), method: :delete, data: { confirm: 'Are you sure?' },class: "btn btn-danger btn-sm" %></td>
+      
+     </tr>
+  <% end %>
+ 
+  
+</tbody>
+</table>

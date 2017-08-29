@@ -1,0 +1,14 @@
+<div class="box-content">
+  <%=form_for :book_movement ,url:{action:'advanced_student_search'},method: :get do |f| %>
+   <fieldset>
+          <div class="col-sm-6">
+            <div class="form-group">
+              <b>Student Name:</b>
+              <%=f.text_field :name, placeholder:'Student Name', class: "form-control"%>
+            </div>
+
+            <div align="center"><%= f.submit 'Search', class: "btn btn-primary"%></div>
+  <%end%> 
+ </fieldset>
+</div>
+

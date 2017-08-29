@@ -1,0 +1,45 @@
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Add Books</h3>
+    </div>
+    <div class="modal-body">
+      <ul class="errors"></ul>
+      <%= form_for @dib, url:{action:'create'}, method: :post,remote:true do |c| %>
+
+
+      <table class="table" >
+	
+	    <div class="form-group">
+
+          <%=hidden_field_tag 'student_id',@student.id%>
+
+            <div class="form-group">
+              <div class="col-md-3"><b>Book Number</b></div>
+               <%=c.select :book_id,Book.all.collect {|b| [b.book_number,b.id]},{prompt:true},{class:"form-control",style:"width:250px"}%>
+              </div>
+            </div>
+
+
+
+            <div class="col-md-3"><b>Issue Date:</b></div>
+              <%= c.date_field :issue_date,:value => Time.now.strftime('%Y-%m-%d'),class: "form-control",style:"width:250px",readonly:true %>
+            </div>
+
+            <div class="form-group">
+              <div class="col-md-3"><b>Due Date:</b></div>
+              <%= c.date_field :due_date,:value => Date.today+7,class: "form-control",style:"width:250px",readonly:true %>
+            </div>
+            
+            <div class="row">
+              <center><%= c.submit 'Submit', class: "btn btn-primary"%></center>
+            </div>
+
+	
+	
+      </table>
+      <% end %>
+
+    </div>	
+  </div>
+</div>

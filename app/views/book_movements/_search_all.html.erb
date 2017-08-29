@@ -1,0 +1,49 @@
+<div>
+  <ul class="breadcrumb">
+    <li><%= link_to 'Home',dashboard_home_index_path %></li>
+    <li><%= link_to 'Library Management',main_page_books_path %></li>
+   
+    <li>Search Book</li>
+  </ul>
+</div>
+
+<div class="row">
+  <div class="box col-md-12">
+  <div class="box-inner">
+  
+  <div class="box-header well">
+    <h2>Search Books Details</h2>
+  </div>
+     
+  <div class="box-content">
+    <% if @books.empty? %>
+      <h4 align="center">No Record Found </h4>
+    <% else %>
+      <div class="box-content" style="overflow-y: auto;height: 230px;width: 100%;">
+      <table id="datatable" class="table table-striped table-bordered responsive">
+        <thead>
+          <tr>
+            <th>Book Number</th>
+            <th>Book Title</th>
+            <th>Book Author</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        
+        <tbody>
+        <% @books.each_with_index do |b| %>
+          <tr>
+            <td> <%= b.book_number %></td>
+            <td> <%= b.title%></td>
+            <td> <%= b.author %></td>
+            <td> <%= b.status%></td>
+            <td><%=link_to "View",show_book_details_book_path(b)%></td>
+          </tr>
+        <% end %>
+       </tbody>
+     </table>
+   </div>
+ </div>
+</div>
+</div>
+<% end %>

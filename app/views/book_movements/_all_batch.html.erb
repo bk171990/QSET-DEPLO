@@ -1,0 +1,3 @@
+<% unless @students.nil? %>
+<%=select :student,:id,@students.collect {|b| [b.first_name,b.id]},{prompt:true},{class:"form-control"}%>
+<%end%>

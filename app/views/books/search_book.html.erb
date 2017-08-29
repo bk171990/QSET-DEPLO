@@ -1,0 +1,21 @@
+<div>
+  <ul class="breadcrumb">
+    <li><%= link_to 'Home',dashboard_home_index_path %></li>
+    <li><%= link_to 'Library Management',main_page_books_path %></li>
+    <li>Search All Books</li>
+  </ul>
+</div>
+
+
+<div class="row">
+  <div class="col-sm-4 col-sm-offset-1">
+  <div class="form-group">
+    <%= form_for :book, url:{action:'search'}, method: :get,remote:true,html:{id: "search_form"} do |f|%>
+       <b>Search Book:</b>
+       <br>
+        <%= text_field_tag :search,"",placeholder:'Search book',oninput:"$('#search_form').submit();",class:"form-control",style: "width: 300px"%>
+    <% end %>
+  </div>
+  </div>
+</div>
+<div id="book_search"></div>

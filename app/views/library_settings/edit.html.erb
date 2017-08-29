@@ -1,0 +1,44 @@
+<div>
+  <ul class="breadcrumb">
+    <li><%= link_to 'Home',dashboard_home_index_path %></li>
+    <li><%= link_to 'Library Management',main_page_books_path %></li>
+    <li>Edit Library Settings </li>
+  </ul>
+</div>
+
+
+<div class="row">
+  <div class="col-md-2"></div>
+  <div class="box col-md-6">
+    <div class="box-inner">
+      <div class="box-header well">
+        <h2>Edit Library Setting</h2>
+      </div>
+      <div class="box-content">
+        <%= form_for @setting,url: {action: 'update', controller: 'library_settings'},method: :patch do |l|%>
+          <div class="errors"><ul class="errors"></ul></div>
+          <fieldset>
+
+            <div class="form-group">
+              <div class="col-md-3"><b>Interval</b></div>
+              <%=l.select :interval,["0","1","2","3","4","5","6","7","8","9","10",:selected => @setting.interval],{prompt: 'select Interval'},class: "form-control",style:"width:250px" %>
+            </div>
+
+            <div class="form-group">
+              <div class="col-md-3"><b>Per Day Fine</b></div>
+              <%=l.select :per_day_fine,["1","2","4","6","8","10",:selected => @setting.per_day_fine],{prompt: 'select Interval'},class: "form-control",style:"width:250px" %>
+            </div>
+   
+   
+            <div class="col-sm-4 col-sm-offset-4"> 
+              <div class="form-actions">               
+                <%= l.submit 'Update', class: "btn btn-primary"%>
+              </div>
+            </div>
+          </fieldset>
+        <%end%>  
+      </div>
+    </div>
+  </div>
+</div>
+<br><br><br>

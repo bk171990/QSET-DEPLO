@@ -1,0 +1,49 @@
+<div>
+  <ul class="breadcrumb">
+    <li><%= link_to 'Home',dashboard_home_index_path %></li>
+    <li><%= link_to 'Library',main_page_books_path %></li>
+    <li><%= link_to 'Manage Books',search_book_books_path %></li>
+    <li><%=@book.book_number%></li>
+  </ul>
+</div>
+
+    <div class="row">
+    <div class="box col-md-3"></div>
+     <div class="box col-md-6">
+      <div class="box-inner">
+        <div class="box-header well">
+          <h2>Books Detailed</h2>
+        </div>
+    <div class="box-content" style= "height:200px">
+      
+    <div class="col-md-6">
+      <div class="form-group">
+        <div class="col-md-6"><b>Book Title:</b> </div>
+         <div class="col-md-6"><%=@book.title%></div>
+      </div><br><br>
+
+      <div class="form-group">
+        <div class="col-md-6"><b>Book Number:</b></div>
+         <div class="col-md-6"><%=@book.book_number%></div>
+      </div><br><br>
+   </div>
+
+    <div class="col-md-6">
+     
+     <div class="form-group">
+      <div class="col-md-6"><b>Author:</b></div>
+        <div class="col-md-6"><%= @book.author %> </div>
+     </div><br><br>
+
+     <div class="form-group">
+      <div class="col-md-6"><b>Book Status:</b></div>
+       <div class="col-md-6"><%= @book.status%> </div>
+     </div><br><br>
+    </div>
+  </div>
+</div>
+
+</br>
+</br>
+</br>
+</br>

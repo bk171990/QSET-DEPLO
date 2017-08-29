@@ -1,0 +1,68 @@
+<div>
+  <ul class="breadcrumb">
+    <li><%= link_to 'Home',dashboard_home_index_path %></li>
+    <li><%= link_to 'Library',main_page_books_path %></li>
+    <li>Manage Books</li>
+  </ul>
+</div>
+
+  <%= form_tag(books_path, :method => "get", id: "search-form") do %> 
+    <%= text_field_tag :search, params[:search], placeholder: "Search" %>
+    <%= submit_tag "Filter" %>
+  <% end %>
+
+  <div class="col-md-12">
+    <div class="pull-right">
+     <%= link_to "Add Book",new_book_path,class: "btn btn-primary-link btn-xs" %>
+    </div>
+  </div>
+
+  <% if (@books) %>
+    <% if (@books.empty?) %>
+      <p>No Record found.</p>
+    <% else %>
+      <p> Search the book from library stuff.</p>
+    <% end %>
+  <%end%>
+
+  <div class="col-md-12">
+   <div class="pull-right">
+     <h4>Total Books: <%=Book.distinct.count('book_number')%></h4>
+   </div>
+  </div>
+ 
+  <hr><br>
+
+  <div class="box-inner">
+    <div class="box-header well" data-original-title="">
+    <h2>Book Details</h2>
+  </div>
+
+  <div class="box-content" style="overflow-y: auto;height: 230px;width: 100%;">
+  <table id="datatable" class="table table-striped table-bordered responsive">
+    <tr class="tr-head">
+     <thead>
+      <tr>     
+        <th>Book No</th>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Status</th>
+        <th colspan="3"></th>
+      </tr>
+     </thead>
+
+    <tbody>
+      <% @books.each do |l| %>
+        <tr>  
+          <td><%= l.book_number %></td>
+          <td><%= link_to "#{l.title}",book_path(l)%></td>
+          <td><%= l.author %></td>
+          <td><%= l.status %></td>
+          <td><div class="label-success label label-default">
+         <i class="glyphicon glyphicon-pencil icon-white"></i> <%= link_to 'Edit',edit_book_path(l),class: "a-action"%></td>
+          <td><div class="label-danger label label-default">
+         <i class="glyphicon glyphicon-trash icon-white"></i> <%= link_to 'Delete',book_path(l),method: :delete, data: { confirm: "Are you sure to delete ?" },class: "a-action"%></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>

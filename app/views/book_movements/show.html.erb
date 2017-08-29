@@ -1,0 +1,68 @@
+<div>
+  <ul class="breadcrumb">
+    <li><%= link_to 'Home',dashboard_home_index_path %></li>
+    <li><%= link_to 'Library',main_page_books_path %></li>
+    <li><%= link_to 'Manage Books',search_book_books_path %></li>
+    <li><%=@dib.book.title%></li>
+  </ul>
+</div>
+
+    <div class="row">
+      <div class="col-md-6">
+      
+      <div class="form-group">
+        <div class="col-md-6"><b>Book Title:</b> </div>
+         <div class="col-md-6"><%=@dib.book.title%></div>
+      </div><br>
+
+      <div class="form-group">
+        <div class="col-md-6"><b>Book Number:</b></div>
+         <div class="col-md-6"><%=@dib.book.book_number%></div>
+      </div><br>
+      
+      <div class="form-group">
+        <div class="col-md-6"><b>Issued By:</b></div>
+         <div class="col-md-6"><%=@dib.student.first_name+' '+@dib.student.last_name%></div>
+      </div><br>
+
+      <div class="form-group">
+        <div class="col-md-6"><b>Batch and Course:</b></div>
+         <div class="col-md-6"><%=%></div>
+      </div><br>
+
+       <div class="form-group">
+        <div class="col-md-6"><b>Issued Date:</b></div>
+         <div class="col-md-6"><%=@dib.issue_date%></div>
+      </div><br>
+
+    </div>
+
+    <div class="col-md-6">
+     
+     <div class="form-group">
+      <div class="col-md-6"><b>Author:</b></div>
+        <div class="col-md-6"><%= @dib.book.author %> </div>
+     </div><br>
+     
+     <div class="form-group">
+      <div class="col-md-6"><b>Book Status:</b></div>
+       <div class="col-md-6"><%= @dib.book.status%> </div>
+     </div><br>
+
+     <div class="form-group">
+      <div class="col-md-6"><b>Publisher:</b></div>
+       <div class="col-md-6"><%=@dib.book.publisher%></div>
+     </div><br>
+
+     <div class="form-group">
+      <div class="col-md-6"><b>Due Date:</b></div>
+       <div class="col-md-6"><%= @dib.due_date%> </div>
+     </div><br>
+    </div>
+  </div>
+</div>
+
+</br>
+</br>
+</br>
+</br>

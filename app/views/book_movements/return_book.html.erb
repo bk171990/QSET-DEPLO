@@ -1,0 +1,91 @@
+<div>
+  <ul class="breadcrumb">
+    <li><%= link_to 'Home',dashboard_home_index_path %></li>
+    <li><%= link_to 'Library Management',main_page_books_path %></li>
+    <li><%= link_to 'View Issued Books',issued_index_book_movement_path %></li>
+    <li>Return Book</li>
+  </ul>
+</div>
+<div class="row">
+  <div class="col-md-2"></div>
+  <div class="box col-md-6">
+    <div class="box-inner">
+      <div class="box-header well">
+        <h2>Return Books</h2>
+      </div>
+ <div class="box-content">
+  <%= form_for :return_book ,url:{controller:'book_movements',action:'create_return_book'} do |c|%>
+ 
+  <%=hidden_field_tag 'book_movement_id', @dib.id%>
+  <%=hidden_field_tag 'student_id', @dib.student.id%>
+  <%=hidden_field_tag 'book_id', @dib.book.id%>
+  
+
+    <div class="row">
+      <div class="col-md-6">
+      
+      <div class="form-group">
+        <div class="col-md-6"><b>Book Title:</b> </div>
+         <div class="col-md-6"><%=@dib.book.title%></div>
+      </div><br>
+
+      <div class="form-group">
+        <div class="col-md-6"><b>Book Number:</b></div>
+         <div class="col-md-6"><%=@dib.book.book_number%></div>
+      </div><br>
+
+      <div class="form-group">
+        <div class="col-md-6"><b>Batch:</b></div>
+         <div class="col-md-6"><%=@dib.student.batch.course.course_name+" "+@dib.student.batch.course.section_name+" "+@dib.student.batch.name%></div>
+      </div><br> <br>  
+      
+      <div class="form-group">
+        <div class="col-md-6"><b>Book Holder:</b></div>
+         <div class="col-md-6"><%=@dib.student.first_name+' '+@dib.student.last_name%></div>
+      </div><br>
+
+      <div class="form-group">
+        <div class="col-md-6"><b>Admission No:</b></div>
+         <div class="col-md-6"><%=@dib.student.admission_no%></div>
+      </div><br>
+
+      <div class="form-group">
+        <div class="col-md-6"><b>Issued Date:</b></div>
+         <div class="col-md-6"><%=@dib.issue_date%></div>
+      </div><br>
+
+       <div class="form-group">
+        <div class="col-md-6"><b>Due Date:</b></div>
+         <div class="col-md-6"><%=@dib.due_date%></div>
+      </div><br> 
+
+    <%if @dib.fine!=0%>
+
+      <%a=(Date.today- @dib.due_date).to_i%>
+
+      <%if @dib.due_date < Date.today%>
+
+       <%total_fine=0%>
+       <td><%total_fine = a * @dib.library_setting.per_day_fine%></td>
+        <%@dib.update(fine: total_fine)%>
+    <%end%>
+      <div class="form-group">
+
+        <div class="col-md-6"><b><font color="red">Fine:</font></b></div>
+         <div class="col-md-6"><%=@dib.fine%> Rs</div>
+      </div><br> 
+     <%end%>
+
+      <div class="col-sm-4 col-sm-offset-4"> 
+        <div class="form-actions">               
+          <%= c.submit 'Return', class: "btn btn-primary"%>
+        </div>
+      </div>       
+    </div>
+    <%end%>
+    </div>
+    </div>
+    </div>
+    </div>
+</br>
+</br>

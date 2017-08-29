@@ -1,0 +1,21 @@
+<div class="box-content" style="overflow-y: scroll; height:auto">
+<table id="datatable" class="table table-striped table-bordered responsive">
+  <tr class="tr-head">
+   <thead>
+    <tr>
+      <th>Book No</th>
+      <th>Title</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+ <tbody>
+   <% @books.each do |l| %>
+      <tr>  
+        <td><%= l.book_number %></td>
+        <td><%= l.title%></td>
+       
+      </tr>
+   <% end %>
+  </tbody>
+</table>

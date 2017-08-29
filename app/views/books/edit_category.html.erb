@@ -1,0 +1,32 @@
+<div class="row">
+  <div class="col-md-3"></div>
+  <div class="box col-md-6">
+    <div class="box-inner">
+      <div class="box-header well">
+        <h2>Books Category</h2>
+      </div>
+      <div class="box-content">
+        <%= form_for @bookcat, url:{controller: 'books',action:'update_category'} do |c|%>
+          <div class="errors"><ul class="errors"></ul></div>
+          <fieldset>
+            <div class="form-group">
+              <div class="col-md-3"><b>Barcode No:</b></div>
+              <%=c.text_field :barcode, placeholder: "No", class: "form-control",style:"width:250px"%>
+            </div>
+            <div class="form-group">
+              <div class="col-md-3"><b>Book Category:</b></div>
+              <%=c.text_field :book_category, placeholder: "Category", class: "form-control",style:"width:250px"%>
+            </div>
+  
+            <div class="col-sm-4 col-sm-offset-4"> 
+              <div class="form-actions">               
+                <%= c.submit 'Update', class: "btn btn-primary"%>
+              </div>
+            </div>
+          </fieldset>
+        <%end%>  
+      </div>
+    </div>
+  </div>
+</div>
+

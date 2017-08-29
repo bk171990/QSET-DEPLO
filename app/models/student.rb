@@ -1,8 +1,12 @@
 class Student < ActiveRecord::Base
   include Activity
+  belongs_to :book
   belongs_to :country
   belongs_to :batch
+  has_many :books
+  has_many :fines
   belongs_to :category
+  has_many :book_movements
   belongs_to :nationality, class_name: 'Country'
   has_one :student_previous_data
   has_many :student_previous_subject_marks
@@ -68,6 +72,10 @@ class Student < ActiveRecord::Base
     [batch.course.course_name, batch.course.section_name, batch.name].join(' ')
   end
 
+  def self.search_all(search)
+    Student.where("first_name LIKE ? OR admission_no LIKE ?", "%#{search}%","%#{search}%") 
+  end
+
   # return student name by concating first name and last name
   def student_name
     [first_name, last_name].join(' ')
@@ -119,16 +127,9 @@ class Student < ActiveRecord::Base
 
   # This action is used to search the student record.
   def self.search(input, status)
-    return if input.empty?
-    if status.eql? 'present'
-      Student.where("concat_ws(' ',first_name,last_name)like '#{input}%' \
+        Student.where("concat_ws(' ',first_name,last_name)like '#{input}%' \
         OR concat_ws(' ',last_name,first_name)like '#{input}%' \
         OR admission_no like '#{input}%' COLLATE utf8_bin")
-    else
-      ArchivedStudent.where("concat_ws(' ',first_name,last_name)like \
-        '#{input}%' OR concat_ws(' ',last_name,first_name)like '#{input}%' \
-        OR admission_no like '#{input}%' COLLATE utf8_bin")
-    end
   end
 
   # This action is used to search the student record on the advance basis.

@@ -47,6 +47,7 @@ en:
   grade_create: 'Grade created successfully'
   grade_update: 'Grade updated successfully'
   grade_delete: 'Grade deleted successfully'
+
   category_create: 'Student category created successfully'
   category_update: 'Student category updated successfully'
   category_delete: 'Student category deleted successfully'
@@ -163,3 +164,4 @@ en:
   placement_exam_error: 'Total percentages should be 100'
   placement_exam_created: 'Placement Exam created successfully'
   guardian_update: 'Parent details updated successfully'  
+  create_return_book: 'Successfully Return Book'

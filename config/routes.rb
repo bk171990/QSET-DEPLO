@@ -20,6 +20,94 @@ Rails.application.routes.draw do
 
     end
   end
+
+  resources :fines do
+    collection do
+      get :search_student
+      post :pay_amount
+    end
+    member do
+      get :pay_fine
+      get :student_fine
+    end
+  end
+
+resources :publications
+
+resources :library_settings
+
+resources :book_movements do
+  collection do
+    get :pay_fine
+    get :setting
+    get :book
+    post :create_return_book
+    post :create_pay_fine
+    get :user_search
+    get :load_book_data
+    get :renewal
+    get :search_book
+    get :search
+    get :search_student
+    get :search_all_student
+    get :search_student_return_and_renewal
+    get :search_student_return_book
+    get :view_all
+    get :advanced_search
+    get :select
+    get :advanced_student_search
+    get :user
+    get :search_user
+    get :edit_book_title
+    get :search_emp
+    get :advance_search
+    get :update_user
+    get :view_student
+    get :employee_detail
+    
+  end
+   member do
+    get :show_particular_student_details
+    get :return_book
+    get :show_student_details
+    get :load_batch
+    get :selected_batch
+    get :renewal_index
+    get :student_details
+    get :issue_book
+    patch :update_book
+    patch :update_book_title
+    get :book_detail
+    get :issued_index
+   end
+end
+
+  resources :books do
+   collection do
+    get :main_page
+    get :advance_search
+    get :advance_book_search
+    get 'new_category'
+    post 'add_category'
+    get :search_book
+    post :search_result
+    get :profile
+    get :search
+    get 'issue_book'
+    get 'issue_index_book'
+    post 'create_issue'
+   end
+  member do
+    get :show_book_details
+    get :select_subject
+    get :edit_category
+    patch :update_category
+    delete 'destroy_category'
+    get :book_detail
+   end
+   resources :book_movements
+ end
+
   resources :placement_news
 
   resources :options
