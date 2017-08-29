@@ -8,6 +8,7 @@ class Employee < ActiveRecord::Base
   belongs_to :nationality, class_name: 'Country'
   belongs_to :user
   belongs_to :book_movement
+  has_many :employee_book_movements
   belongs_to :reporting_manager, class_name: 'Employee'
   has_attached_file :image
   validates_attachment_content_type \

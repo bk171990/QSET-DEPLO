@@ -10,15 +10,21 @@
 <div class="col-sm-8 col-sm-offset-1">
 <div class="form-group">
    <%= form_for :book_movement, url:{action:'search_student_return_and_renewal'}, method: :get,remote:true,html:{id: "search_form"} do |f|%>
-       <b>Search Students:</b>
-       <br>
-          <%= text_field_tag :search,"",placeholder:'Search Students',oninput:"$('#search_form').submit();",class:"form-control",style: "width: 300px"%>
-         
+      <br>
+       <div class="form-group">
+        <div class="col-md-1"><b>Search Users:</b></div><br><br>
+          <%= radio_button_tag "nature", "Student", checked: "checked" %> <b>Students</b>
+          <%= radio_button_tag "nature", "Employee"%> <b>Employee</b>
+          <br><br>
+          <%= text_field_tag :search,"",placeholder:'Search Users',oninput:"$('#search_form').submit();",class:"form-control",style: "width: 300px"%>
+         </div>
    <% end %>
    <br><br><br>
    <div id="search_all_student"></div>
+ 
+
  </div>
 </div>
 </div>
 
-       
+ 

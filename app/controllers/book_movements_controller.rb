@@ -47,7 +47,7 @@ class BookMovementsController < ApplicationController
 
   def create
      @dibs = BookMovement.includes("book_id").where(student_id: params[:student_id]).count
-     if @dibs < 10
+     if @dibs < 3
        ids = []
        params[:book_ids].each do |book_id|
        if Book.find(book_id.to_i)
@@ -66,15 +66,14 @@ class BookMovementsController < ApplicationController
          Book.update(book,:status =>'Issued')
         end  
        end
-      redirect_to book_movements_path
+      redirect_to search_student_book_movements_path
      else
-     redirect_to book_movements_path
+     redirect_to search_student_book_movements_path
      flash[:notice] = 'Cannot Issue More then 3'
     end
   end  
 
   def create_return_book
-    binding.pry
     return_book_present = params[:book_movement_id] &&  params[:student_id] && params[:book_id].present?
     return_book = ReturnBook.find_or_create_by(book_movement_id: params[:book_movement_id],student_id: params[:student_id], book_id: params[:book_id])
     return_book.save
@@ -82,7 +81,7 @@ class BookMovementsController < ApplicationController
     book_movement = BookMovement.find(params[:book_movement_id])
     book_movement_update = book_movement.book_id
     Book.update(book_movement_update,:status => 'Available')
-    book_movement.destroy
+    book_movement.delete
     redirect_to search_all_student_book_movements_path
     flash[:notice] = 'Successfully Return Book'
   end
@@ -134,21 +133,25 @@ class BookMovementsController < ApplicationController
    @books = Book.all
   end
 
-  def enter_book_details
-    @student = Student.shod(params[:format])
-    @dib = BookMovement.new
-  end
 
   def search_student_return_book
     @dibs = BookMovement.search_all(params[:search])
   end
 
   def search_student
-    @students = Student.search_all(params[:search])
+      if params[:nature] =='Student'
+        @students = Student.search_all(params[:search])
+      else
+        @employees = Employee.search2(params[:search])
+     end
   end
 
   def search_student_return_and_renewal
-     @students = Student.search_all(params[:search])
+    if params[:nature] == 'Student'
+      @students = Student.search_all(params[:search])
+    else
+     @employees = Employee.search2(params[:search])
+    end
   end
 
   def advanced_student_search

@@ -263,15 +263,13 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.date     "due_date"
     t.integer  "book_id",            limit: 4
     t.integer  "student_id",         limit: 4
-    t.string   "book_information",   limit: 255
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
     t.integer  "library_setting_id", limit: 4
     t.integer  "fine",               limit: 4
-    t.integer  "batch_id",           limit: 4
+    t.boolean  "nature"
   end
 
-  add_index "book_movements", ["batch_id"], name: "index_book_movements_on_batch_id", using: :btree
   add_index "book_movements", ["book_id"], name: "index_book_movements_on_book_id", using: :btree
   add_index "book_movements", ["library_setting_id"], name: "index_book_movements_on_library_setting_id", using: :btree
   add_index "book_movements", ["student_id"], name: "index_book_movements_on_student_id", using: :btree
@@ -281,6 +279,7 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.string  "author",           limit: 255
     t.string  "book_number",      limit: 255
     t.string  "status",           limit: 255, default: "Available"
+    t.string  "publisher",        limit: 255
     t.integer "book_category_id", limit: 4
     t.integer "publication_id",   limit: 4
   end
@@ -403,6 +402,21 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
 
   add_index "employee_bank_details", ["bank_field_id"], name: "index_employee_bank_details_on_bank_field_id", using: :btree
   add_index "employee_bank_details", ["employee_id"], name: "index_employee_bank_details_on_employee_id", using: :btree
+
+  create_table "employee_book_movements", force: :cascade do |t|
+    t.date     "issue_date"
+    t.date     "due_date"
+    t.integer  "employee_id",        limit: 4
+    t.integer  "book_id",            limit: 4
+    t.string   "fine",               limit: 255
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+    t.integer  "library_setting_id", limit: 4
+  end
+
+  add_index "employee_book_movements", ["book_id"], name: "index_employee_book_movements_on_book_id", using: :btree
+  add_index "employee_book_movements", ["employee_id"], name: "index_employee_book_movements_on_employee_id", using: :btree
+  add_index "employee_book_movements", ["library_setting_id"], name: "index_employee_book_movements_on_library_setting_id", using: :btree
 
   create_table "employee_categories", force: :cascade do |t|
     t.string   "name",       limit: 255
@@ -826,6 +840,20 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
   add_index "finance_transactions", ["finance_transaction_category_id"], name: "index_finance_transactions_on_finance_transaction_category_id", using: :btree
   add_index "finance_transactions", ["student_id"], name: "index_finance_transactions_on_student_id", using: :btree
 
+  create_table "fine_collections", force: :cascade do |t|
+    t.date     "start_date"
+    t.date     "end_date"
+    t.integer  "student_id", limit: 4
+    t.integer  "book_id",    limit: 4
+    t.integer  "fine_id",    limit: 4
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+  end
+
+  add_index "fine_collections", ["book_id"], name: "index_fine_collections_on_book_id", using: :btree
+  add_index "fine_collections", ["fine_id"], name: "index_fine_collections_on_fine_id", using: :btree
+  add_index "fine_collections", ["student_id"], name: "index_fine_collections_on_student_id", using: :btree
+
   create_table "fines", force: :cascade do |t|
     t.string   "amount",           limit: 255
     t.integer  "book_movement_id", limit: 4
@@ -834,6 +862,8 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.boolean  "is_paid"
     t.integer  "student_id",       limit: 4
     t.integer  "book_id",          limit: 4
+    t.date     "date"
+    t.string   "total_fine",       limit: 255
   end
 
   add_index "fines", ["book_id"], name: "index_fines_on_book_id", using: :btree
@@ -940,8 +970,11 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
 
   create_table "inventory_store_items", force: :cascade do |t|
     t.string   "item_name",           limit: 255
+    t.string   "code",                limit: 255
     t.string   "quantity",            limit: 255
     t.string   "unit_price",          limit: 255
+    t.string   "tax",                 limit: 255
+    t.string   "batch_no",            limit: 255
     t.string   "invoice_grand_total", limit: 255
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
@@ -998,10 +1031,10 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
   end
 
   create_table "library_settings", force: :cascade do |t|
+    t.integer  "interval",     limit: 4
+    t.integer  "per_day_fine", limit: 4
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
-    t.integer  "per_day_fine", limit: 4
-    t.integer  "interval",     limit: 4
   end
 
   create_table "monthly_payslips", force: :cascade do |t|
@@ -1182,26 +1215,30 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.datetime "updated_at"
   end
 
+  create_table "return_book_details", force: :cascade do |t|
+    t.integer  "return_book_id", limit: 4
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+  end
+
+  add_index "return_book_details", ["return_book_id"], name: "index_return_book_details_on_return_book_id", using: :btree
+
   create_table "return_books", force: :cascade do |t|
-    t.integer  "book_movement_id", limit: 4
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
-    t.integer  "student_id",       limit: 4
-    t.integer  "student",          limit: 4
+    t.integer  "book_movement_id",          limit: 4
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
     t.boolean  "is_return"
-    t.integer  "book_id",          limit: 4
+    t.integer  "student_id",                limit: 4
+    t.integer  "book_id",                   limit: 4
+    t.integer  "employee_id",               limit: 4
+    t.integer  "employee_book_movement_id", limit: 4
   end
 
   add_index "return_books", ["book_id"], name: "index_return_books_on_book_id", using: :btree
   add_index "return_books", ["book_movement_id"], name: "index_return_books_on_book_movement_id", using: :btree
+  add_index "return_books", ["employee_book_movement_id"], name: "index_return_books_on_employee_book_movement_id", using: :btree
+  add_index "return_books", ["employee_id"], name: "index_return_books_on_employee_id", using: :btree
   add_index "return_books", ["student_id"], name: "index_return_books_on_student_id", using: :btree
-
-  create_table "search_books", force: :cascade do |t|
-    t.string   "search",     limit: 255
-    t.string   "search_by",  limit: 255
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
-  end
 
   create_table "student_answer_sheets", force: :cascade do |t|
     t.integer  "student_exams_id",      limit: 4
@@ -1423,6 +1460,20 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
     t.datetime "updated_at"
   end
 
+  create_table "total_amount_fines", force: :cascade do |t|
+    t.date     "start_date"
+    t.date     "end_date"
+    t.integer  "student_id", limit: 4
+    t.integer  "book_id",    limit: 4
+    t.integer  "fine_id",    limit: 4
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+  end
+
+  add_index "total_amount_fines", ["book_id"], name: "index_total_amount_fines_on_book_id", using: :btree
+  add_index "total_amount_fines", ["fine_id"], name: "index_total_amount_fines_on_fine_id", using: :btree
+  add_index "total_amount_fines", ["student_id"], name: "index_total_amount_fines_on_student_id", using: :btree
+
   create_table "user_activities", force: :cascade do |t|
     t.integer  "user_id",    limit: 4
     t.string   "modelname",  limit: 255
@@ -1525,13 +1576,17 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
   add_foreign_key "attendences", "students"
   add_foreign_key "attendences", "subjects"
   add_foreign_key "attendences", "time_table_entries"
-  add_foreign_key "book_movements", "batches"
   add_foreign_key "book_movements", "library_settings"
   add_foreign_key "books", "book_categories"
   add_foreign_key "books", "publications"
   add_foreign_key "claims", "batches"
   add_foreign_key "claims", "suppliers"
-  add_foreign_key "fines", "book_movements"
+  add_foreign_key "employee_book_movements", "books"
+  add_foreign_key "employee_book_movements", "employees"
+  add_foreign_key "employee_book_movements", "library_settings"
+  add_foreign_key "fine_collections", "books"
+  add_foreign_key "fine_collections", "fines"
+  add_foreign_key "fine_collections", "students"
   add_foreign_key "fines", "books"
   add_foreign_key "fines", "students"
   add_foreign_key "inventory_store_items", "batches"
@@ -1544,13 +1599,17 @@ ActiveRecord::Schema.define(version: 20150122072350078) do
   add_foreign_key "privilege_users", "privilege_tags"
   add_foreign_key "privilege_users", "privileges"
   add_foreign_key "privilege_users", "users"
-  add_foreign_key "return_books", "book_movements", on_delete: :cascade
+  add_foreign_key "return_book_details", "return_books"
   add_foreign_key "return_books", "books"
+  add_foreign_key "return_books", "employees"
   add_foreign_key "return_books", "students"
   add_foreign_key "student_logs", "batches"
   add_foreign_key "student_logs", "exam_groups"
   add_foreign_key "student_logs", "students"
   add_foreign_key "student_logs", "subjects"
+  add_foreign_key "total_amount_fines", "books"
+  add_foreign_key "total_amount_fines", "fines"
+  add_foreign_key "total_amount_fines", "students"
   add_foreign_key "user_employees", "employees"
   add_foreign_key "user_employees", "users"
   add_foreign_key "user_privileges", "privileges"

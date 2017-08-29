@@ -11,6 +11,7 @@ class User < ActiveRecord::Base
   belongs_to :user_employees
   belongs_to :user_students
   belongs_to :general_setting
+  belongs_to :library_setting
   devise :database_authenticatable, :registerable, :recoverable, :rememberable,
          :validatable, :timeoutable, :trackable
   validates :username, presence: true, uniqueness: true, format: \
@@ -30,10 +31,13 @@ class User < ActiveRecord::Base
   # create_general_setting action is saving our new general_setting
   # to the database.
   def create_general_setting
+    binding.pry
     role = 'Admin'
     role = 'SuperAdmin' if id == 1
     gs = GeneralSetting.create(school_or_college_name: 'Axenic School')
     update(general_setting_id: gs.id, role: role)
+    ls = LibrarySetting.create(interval: '7',per_day_fine: '2')
+    update(library_setting_id: ls.id, role: role)
   end
 
   # get institute name

@@ -2,7 +2,7 @@
   <ul class="breadcrumb">
     <li><%= link_to 'Home',dashboard_home_index_path %></li>
     <li><%= link_to 'Library Management',main_page_books_path %></li>
-    <li>Search Students</li>
+    <li>Search Users</li>
   </ul>
 </div>
 
@@ -10,16 +10,23 @@
 <div class="row">
 <div class="col-sm-8 col-sm-offset-1">
 <div class="form-group">
+
    <%= form_for :book_movement, url:{action:'search_student'}, method: :get,remote:true,html:{id: "search_form"} do |f|%>
-       <b>Search Students:</b>
+    
        <br>
-          <%= text_field_tag :search,"",placeholder:'Search Students',oninput:"$('#search_form').submit();",class:"form-control",style: "width: 300px"%>
-         
+       <div class="form-group">
+        <div class="col-md-1"><b>Search Users:</b></div><br>
+          <%= radio_button_tag "nature", "Student", checked: "checked" %> <b>Students</b>
+          <%= radio_button_tag "nature", "Employee"%> <b>Employees</b>
+          <br><br>
+          <%= text_field_tag :search,"",placeholder:'Search Users',oninput:"$('#search_form').submit();",class:"form-control",style: "width: 300px"%>
+         </div>
    <% end %>
    <br><br><br>
    <div id="div_search"></div>
+ 
+
  </div>
 </div>
 </div>
-
        

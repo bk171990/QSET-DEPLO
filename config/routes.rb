@@ -21,6 +21,24 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :fine_collections do
+    collection do
+      post :fine_list
+      get :fine_report
+    end
+  end
+
+  resources :employee_book_movements do
+    collection do
+      get :book
+      post :create_return_book
+    end
+    member do
+      get :issued_index
+      get :return_book
+    end
+  end
+
   resources :fines do
     collection do
       get :search_student

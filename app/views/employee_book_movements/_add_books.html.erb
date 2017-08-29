@@ -1,0 +1,30 @@
+<div class="row">
+  <div class="col-sm-4 ">
+    <div class="form-group">
+      <b>Select Book No:</b>
+      <span style="color:red">*</span>
+      <%= select_tag("book_ids[]",options_for_select([[t('select Book'),""]]+@books.collect { |c| [c.book_number, c.id] },:prompt=>"select"),class: "form-control" )%>
+      <!-- <div class="form-group">
+        <div class="col-md-3"><b>Book Title</b></div>
+        <input type="title" name="title" id="title"></td>
+     </div> -->
+      
+    </div>
+  </div>
+</div>
+
+<!--  <script type='text/javascript'>
+  $('#book_ids').on('change', function() {
+    var book_id;
+    a = $(this).val();
+    $.ajax({
+      url: '/book_movements/load_book_data',
+      type: 'GET',
+      data: {book_id: a },
+      dataType: 'json'
+    }).success(function(data) {
+      console.log(data);
+      $('#title').val(data[0]);      
+   });
+  });
+</script> -->

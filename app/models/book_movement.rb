@@ -7,9 +7,10 @@ class BookMovement < ActiveRecord::Base
   belongs_to :employee
   belongs_to :library_setting
   has_many :fines
-  has_many :return_books ,dependent: :destroy
+  has_many :return_books
   scope :shod, ->(id) { where(id: id).take }
   scope :particular_student_list, -> { where(book_movement: student_id)}
+
 
   def self.search_all(search)
     Student.where("first_name LIKE ? OR admission_no LIKE ?", "%#{search}%","%#{search}%") 

@@ -16,6 +16,7 @@ class FinesController < ApplicationController
   end
 
   def student_fine
+    @fine = Fine.new
   	@dib = BookMovement.find(params[:id])
   end
 
@@ -23,6 +24,8 @@ class FinesController < ApplicationController
   	binding.pry
      book_movement_present = params[:student_id] &&  params[:book_movement_id] && params[:book_id].present? 
     @fine = Fine.find_or_initialize_by(book_movement_id: params[:book_movement_id], student_id: params[:student_id], book_id: params[:book_id])
+    @today = Date.today
+    @fine.date = @today
     @fine.save
     @book_movement = BookMovement.find(params[:book_movement_id])
     @update_fine = @book_movement.fine
@@ -33,4 +36,5 @@ class FinesController < ApplicationController
     @book_movement.update(fine: 0)
     redirect_to search_student_fines_path
   end
+
 end

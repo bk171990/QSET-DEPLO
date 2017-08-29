@@ -1,0 +1,43 @@
+<div>
+  <ul class="breadcrumb">
+    <li><%= link_to 'Home',dashboard_home_index_path %></li>
+    <li><%= link_to 'Library Managemant',main_page_books_path %></li>
+    <li>View Monthly Fines</li>
+  </ul>
+</div>
+<div id="flash"><%= render 'layouts/messages'%></div>
+<div class="row">
+  <div class="box col-md-6 col-md-offset-2">
+    <div class="box-inner">
+      <div class="box-header well">
+        <h2>Select Date </h2>
+      </div>
+
+      <div class="box-content">
+      <%= form_for :fine_collection, url:{action: 'fine_list'} do |f| %>
+    <fieldset>
+      <div class="row">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-5">
+          <div class="form-group">
+            <b>Start Date:</b>
+            <%= f.text_field :start_date,class: "form-control datepicker" %>
+          </div>
+          <div class="form-group">
+            <b>End Date:</b>
+            <%= f.text_field :end_date,class: "form-control datepicker" %>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-5 col-sm-offset-5"> 
+        <div class="form-actions">               
+          <%= f.submit 'View', class: "btn btn-default"%>
+          
+        </div>
+      </div>
+    </fieldset>        
+  <% end %>
+</div>
+</div>
+</div>
+</div>

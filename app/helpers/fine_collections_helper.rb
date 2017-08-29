@@ -1,0 +1,2 @@
+module FineCollectionsHelper
+end

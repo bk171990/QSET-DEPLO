@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  issue_date: 2017-09-02
+  due_date: 2017-09-02
+  employee_id: 
+  book_id: 
+  fine: MyString
+
+two:
+  issue_date: 2017-09-02
+  due_date: 2017-09-02
+  employee_id: 
+  book_id: 
+  fine: MyString

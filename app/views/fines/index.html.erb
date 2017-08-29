@@ -1,8 +1,17 @@
+<div>
+  <ul class="breadcrumb">
+    <li><%= link_to 'Home',dashboard_home_index_path %></li>
+    <li><%= link_to 'Library Management',main_page_books_path %></li>
+    <li>View All Fines</li>
+  </ul>
+</div>
+
+
 <div class="row">
   <div class="box col-md-12">
     <div class="box-inner">
       <div class="box-header well">
-        <h2></h2>
+        <h2>View All Fines</h2>
       </div>
 <div class="box-content" style="overflow-y: scroll; height:auto">
 <% if @fines.empty? %>
@@ -22,18 +31,30 @@
       </tr>
     </thead>
     <tbody>
+     <%total_amount=0%>
       <% @fines.each_with_index do |fine,i| %>
         <tr>
           <td><%= i+1 %></td>
-          <td><%= fine.student.first_name+" "+last_name %></td>
+          <td><%= fine.student.first_name+" "+fine.student.last_name %></td>
           <td><%= fine.student.admission_no%></td>
-          <td><%= fine.student.batch.course.course_name%></td>
+          <td><%= fine.student.batch.course.course_name.capitalize+" "+fine.student.batch.course.section_name.capitalize+" "+fine.student.batch.name.capitalize%></td>
           <td><%= fine.book.book_number%></td>
           <td><%= fine.book.title%></td>
-          <td><%= fine.amount%></td>
-          
+          <td><%= fine.amount%> Rs</td>
         </tr>
-      <% end %>   
+      <%total_amount+= fine.amount.to_f%>
+      <@fine.update(total_fine: total_amount)>
+       <% end %>  
+        <tr align="right">
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th><b>Total:<%=total_amount%></b></th>
+        </tr>
+      
     </tbody>
   </table>
 <% end %>

@@ -1,8 +1,10 @@
+
+<% unless @students.nil? %>
 <div class="row">
   <div class="box col-md-12">
     <div class="box-inner">
       <div class="box-header well">
-        <h2></h2>
+          <h2>Student Details</h2>
       </div>
 <div class="box-content" style="overflow-y: scroll; height:auto">
 <% if @students.empty? %>
@@ -14,21 +16,63 @@
       <th>Sr. No.</th>
       <th>Student Name</th>
       <th>Admission No</th>
-      <th>Roll_no</th>
+      <th>Batch And Course</th>
       <th></th>
       </tr>
     </thead>
     <tbody>
-      <% @students.each_with_index do |student,i| %>
+      
+      <% @students.each_with_index do |student, i| %>
         <tr>
           <td><%= i+1 %></td>
           <td><%= link_to "#{student.first_name+' '+student.last_name}",issued_index_book_movement_path(student)%></td>
           <td><%= student.admission_no %></td>
-          <td><%= student.class_roll_no%>
-          
+          <td><%= student.batch.course.course_name.capitalize+" "+student.batch.course.section_name.capitalize+" "+student.batch.name.capitalize%>
         </tr>
+      <% end %>   
       <% end %>   
     </tbody>
   </table>
 <% end %>
+
+
+<% unless @employees.nil? %>
+<div class="row">
+  <div class="box col-md-12">
+    <div class="box-inner">
+      <div class="box-header well">
+          <h2>Employee Details</h2>
+      </div>
+<div class="box-content" style="overflow-y: scroll; height:auto">
+<% if @employees.empty? %>
+  <h4 align="center">No Record Found </h4>
+<% else %>
+  <table class="datatable table table-striped table-bordered responsive">
+    <thead>
+     <tr>
+      <th>Sr. No.</th>
+      <th>Employee Name</th>
+      <th>Employee No</th>
+      <th>Department Name</th>
+      <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      
+      <% @employees.each_with_index do |e, i| %>
+        <tr>
+          <td><%= i+1 %></td>
+          <td><%= link_to "#{e.first_name+' '+e.last_name}",issued_index_employee_book_movement_path(e)%></td>
+          <td><%= e.employee_number%></td>
+          <td><%=e.employee_department.name%></td>
+          
+        </tr>
+      <% end %>   
+      <% end %>   
+    </tbody>
+  </table>
+<% end %>
+
+
+
 

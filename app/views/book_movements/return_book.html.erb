@@ -70,10 +70,11 @@
         <%@dib.update(fine: total_fine)%>
     <%end%>
       <div class="form-group">
-
+      <%if @dib.fine.present?%>
         <div class="col-md-6"><b><font color="red">Fine:</font></b></div>
          <div class="col-md-6"><%=@dib.fine%> Rs</div>
       </div><br> 
+      <%end%>
      <%end%>
 
       <div class="col-sm-4 col-sm-offset-4"> 

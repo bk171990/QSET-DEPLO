@@ -1,0 +1,74 @@
+<div>
+  <ul class="breadcrumb">
+    <li><%= link_to 'Home',dashboard_home_index_path %></li>
+    <li><%= link_to 'Library Management',main_page_books_path %></li>
+    <li><%= link_to 'View Issued Books',issued_index_book_movement_path %></li>
+    <li>Employees Return Book</li>
+  </ul>
+</div>
+<div class="row">
+  <div class="col-md-2"></div>
+  <div class="box col-md-6">
+    <div class="box-inner">
+      <div class="box-header well">
+        <h2>Employees Return Books</h2>
+      </div>
+ <div class="box-content">
+  <%= form_for :return_book ,url:{controller:'employee_book_movements',action:'create_return_book'} do |c|%>
+ 
+  <%=hidden_field_tag 'employee_book_movement_id', @issue_book.id%>
+  <%=hidden_field_tag 'employee_id', @issue_book.employee.id%>
+  <%=hidden_field_tag 'book_id', @issue_book.book.id%>
+  
+
+    <div class="row">
+      <div class="col-md-6">
+      
+      <div class="form-group">
+        <div class="col-md-6"><b>Book Title:</b> </div>
+         <div class="col-md-6"><%=@issue_book.book.title%></div>
+      </div><br>
+
+      <div class="form-group">
+        <div class="col-md-6"><b>Book Number:</b></div>
+         <div class="col-md-6"><%=@issue_book.book.book_number%></div>
+      </div><br>
+
+      <div class="form-group">
+        <div class="col-md-6"><b>Department Name:</b></div>
+         <div class="col-md-6"><%=@issue_book.employee.employee_department.name%></div>
+      </div><br> <br>  
+      
+      <div class="form-group">
+        <div class="col-md-6"><b>Book Holder:</b></div>
+         <div class="col-md-6"><%=@issue_book.employee.first_name+' '+@issue_book.employee.last_name%></div>
+      </div><br>
+
+      <div class="form-group">
+        <div class="col-md-6"><b>Employee No:</b></div>
+         <div class="col-md-6"><%=@issue_book.employee.employee_number%></div>
+      </div><br>
+
+      <div class="form-group">
+        <div class="col-md-6"><b>Issued Date:</b></div>
+         <div class="col-md-6"><%=@issue_book.issue_date%></div>
+      </div><br>
+
+       <div class="form-group">
+        <div class="col-md-6"><b>Due Date:</b></div>
+         <div class="col-md-6"><%=@issue_book.due_date%></div>
+      </div><br> 
+
+      <div class="col-sm-4 col-sm-offset-4"> 
+        <div class="form-actions">               
+          <%= c.submit 'Return', class: "btn btn-primary"%>
+        </div>
+      </div>       
+    </div>
+    <%end%>
+    </div>
+    </div>
+    </div>
+    </div>
+</br>
+</br>
