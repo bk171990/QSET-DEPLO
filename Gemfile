@@ -77,3 +77,4 @@ group :test do
   gem 'mocha', :require => false
   gem 'simplecov'
 end
+
