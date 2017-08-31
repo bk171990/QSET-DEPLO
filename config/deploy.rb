@@ -1,9 +1,9 @@
 # # config valid only for current version of Capistrano
 # lock '3.8.1'
 
-set :application, 'school'
+set :application, 'QSET-DEPLO'
 
-set :repo_url, 'https://manoj-qset:Manoj87!@bitbucket.org/DhanshreeK/school.git'
+set :repo_url, 'git@github.com:bk171990/QSET-DEPLO.git'
 #set :repo_url, 'ssh://git@bitbucket.org/DhanshreeK/school.git' # Edit this to match your 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
@@ -11,7 +11,7 @@ set :repo_url, 'https://manoj-qset:Manoj87!@bitbucket.org/DhanshreeK/school.git'
 # Default deploy_to directory is /var/www/my_app_name
 set :branch, 'master'
 set :scm_username, 'dhanshree.j.kamble@gmail.com'
-set :deploy_to, '/var/www/school'
+set :deploy_to, '/var/www/QSET-DEPLO'
 # set :bundle_gemfile, 'vendor/bundle'
 set :bundle_flags, '--quiet'
 

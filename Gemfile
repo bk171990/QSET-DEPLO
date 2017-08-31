@@ -13,15 +13,7 @@ gem 'coffee-rails'
 # gem 'therubyracer',  platforms: :ruby
 gem 'paperclip'
 gem 'imagemagick-binaries'
-gem 'aws-sdk'gem 'figaro'
-gem 'puma'
-group :development do
-  gem 'capistrano'
-  gem 'capistrano3-puma'
-  gem 'capistrano-rails', require: false
-  gem 'capistrano-bundler', require: false
-  gem 'capistrano-rvm'
-end
+gem 'aws-sdk'
 gem 'devise'
 gem 'cancan'
 gem 'pdfkit'
@@ -60,7 +52,6 @@ gem 'momentjs-rails', '>= 2.9.0'
 # gem 'bootstrap3-datetimepicker-rails', '~> 4.0.0'
 gem 'jquery-validation-rails', '~> 1.13.1'
 gem 'yard'
-gem 'figaro'
 gem 'sass', '~> 3.4.23'
 
 gem 'figaro'
@@ -72,8 +63,6 @@ group :development do
   gem 'capistrano-bundler', require: false
   gem 'capistrano-rvm'
 end
-
-gem 'puma'
 
 group :production do
   gem 'rails_12factor'
