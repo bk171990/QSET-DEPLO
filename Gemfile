@@ -13,7 +13,15 @@ gem 'coffee-rails'
 # gem 'therubyracer',  platforms: :ruby
 gem 'paperclip'
 gem 'imagemagick-binaries'
-gem 'aws-sdk'
+gem 'aws-sdk'gem 'figaro'
+gem 'puma'
+group :development do
+  gem 'capistrano'
+  gem 'capistrano3-puma'
+  gem 'capistrano-rails', require: false
+  gem 'capistrano-bundler', require: false
+  gem 'capistrano-rvm'
+end
 gem 'devise'
 gem 'cancan'
 gem 'pdfkit'
@@ -55,15 +63,14 @@ gem 'yard'
 gem 'figaro'
 gem 'sass', '~> 3.4.23'
 
+gem 'figaro'
+gem 'puma'
 group :development do
-  gem 'pry-byebug'
-  # gem 'spring'
-  # gem 'brakeman'
-  gem 'capistrano',         require: false
-  gem 'capistrano-rvm',     require: false
-  gem 'capistrano-rails',   require: false
+  gem 'capistrano'
+  gem 'capistrano3-puma'
+  gem 'capistrano-rails', require: false
   gem 'capistrano-bundler', require: false
-  gem 'capistrano3-puma',   require: false
+  gem 'capistrano-rvm'
 end
 
 gem 'puma'
